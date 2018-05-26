@@ -30,19 +30,17 @@ export default class Dashboard extends Component {
 		        </div>
 
 		        <div className="main-section__separator" />
-		        	<Link to="/dashboard/create-test" className="create-test-link">
-		        		<h2 className="main-section__header">
-		        			Create/Edit a Test <i className="fas fa-arrow-right" />
-		        		</h2>
-		        	</Link>
+	        		<h2 className="main-section__header">
+	        			Create/Edit a Test
+	        		</h2>
 		        	<p className="main-section__sub-header">Choose a Course</p>
 
-		        	<Horizontal>
-						<Link to="/dashboard/create/civil"><CourseIcon course_title="Civil Litigation" /></Link>
-						<Link to="/dashboard/create/criminal"><CourseIcon course_title="Criminal Litigation" /></Link>
-						<Link to="/dashboard/create/corporate"><CourseIcon course_title="Corporate Law Practice" /></Link>
-						<Link to="/dashboard/create/property"><CourseIcon course_title="Property Law Practice" /></Link>
-						<Link to="/dashboard/create/professional"><CourseIcon course_title="Professional Skills and Ethics" /></Link>
+		        	<Horizontal className="course-home-icon">
+						<Link to="/dashboard/create-test/civil"><CourseIcon course_title="Civil Litigation" /></Link>
+						<Link to="/dashboard/create-test/criminal"><CourseIcon course_title="Criminal Litigation" /></Link>
+						<Link to="/dashboard/create-test/corporate"><CourseIcon course_title="Corporate Law Practice" /></Link>
+						<Link to="/dashboard/create-test/property"><CourseIcon course_title="Property Law Practice" /></Link>
+						<Link to="/dashboard/create-test/professional"><CourseIcon course_title="Professional Skills and Ethics" /></Link>
 		        	</Horizontal>
 		      	</div>
 

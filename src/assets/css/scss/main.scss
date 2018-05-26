@@ -2,7 +2,10 @@
 $primary: #1c2d41;
 $accent: #50e3c2;
 $gray: #f6f6f6;
+$light_gray: darken($gray, 40%);
 $white: #ffffff;
+$gradient_green: #00d4ba;
+$gradient_black: #193c4a;
 /* --- Mixins --- */
 @mixin setfont($size, $weight, $family) { font: { size: $size; weight: $weight; family: $family, helvetica, san-serif, arial; } }
 @mixin darken_hover($background) { background-color: $background; &:hover{ background-color: darken($background, 5%); } }
@@ -40,8 +43,27 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 }
 
 .create-test-link { text-decoration: none; color: $primary; }
+.course-home-icon { font-size: 16px; a { text-decoration: none; color: $primary; } }
+.back-arrow { background-color: #999; color: $white; height: 30px; width: 30px; border-radius: 15px; display: inline-block; vertical-align: middle; text-align: center; padding-top: 8px; font-size: 10px; margin-left: -40px; margin-right: 10px; }
+section.create-test { padding-left: 40px;
+	h1.heading { display: inline-block; vertical-align: middle; } 
+	.top-action { margin-top: 10px; padding: 20px 30px; border-radius: 5px; background: linear-gradient(60deg, $gradient_black 0%, $gradient_green 100%); max-width: 400px; width: 70%; .title { color: $white; margin-bottom: 5px; } .subtitle { font-weight: bold; color: $white; } }
+	.right-action { height: 100px; display: flex; justify-content: center; align-items: center; span { color: darken($gray, 40%); padding: 20px; } }
+	.test-list { .tbody { background-color: $white; border-radius: 5px; box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.15); li { padding: 10px 20px; } ul { border-bottom: 1px solid lighten($light_gray, 30%); margin: 0px; padding: 0px 20px; &:first-child { border-radius: 5px 5px 0px 0px; } &:last-child { border-radius: 0px 0px 5px 5px; border: 0px; } &:hover{ background-color: lighten($light_gray, 40%); } }  } .thead{ margin: 0px; color: $light_gray; padding: 0px 20px; li { padding: 5px 20px;} } }
+}
 
  /* --- globals --- */
 .hr { margin: 10px; }
 .no-decoration { text-decoration: none; text-color: inherit; }
 .card-button button { width: 100%; }
+
+
+ul.grid{clear:both;box-sizing: content-box;margin:auto -40px; list-style: none; padding-left: 0px; }
+ul.grid::after{visibility:hidden;display:block;content:" ";height:0;font-size:0;clear:both;}
+ul.grid > li{float:left;padding:0px 40px;}
+ul.grid.grid-2 > li{width:50%;}
+ul.grid.grid-3 > li{width:33.3333%;}
+ul.grid.grid-4 > li{width:25%;}
+ul.grid.grid-5 > li{width:20%;}
+ul.grid.separator > li{border-left:1px solid darken(white, 10%);}
+ul.grid.separator > li:first-child{border-left:0px;}

@@ -19,7 +19,7 @@ class ResetPassword extends Component {
 			              	<input className="form__input" type="email" placeholder="Email" />
 			            </div>
 			            <div style={{ marginTop: "15px", marginBottom: "35px" }}>
-			              	<a href="/" className="form__fpw">forgot password?</a>
+			              	<a href="/" className="form__fpw">Back to Login</a>
 			            </div>
 		            	<button className="form__btn">Reset</button>
 		          	</div>

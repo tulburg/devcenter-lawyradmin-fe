@@ -157,6 +157,76 @@ header {
   text-decoration: none;
   color: #1c2d41; }
 
+.course-home-icon {
+  font-size: 16px; }
+  .course-home-icon a {
+    text-decoration: none;
+    color: #1c2d41; }
+
+.back-arrow {
+  background-color: #999;
+  color: #ffffff;
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  padding-top: 8px;
+  font-size: 10px;
+  margin-left: -40px;
+  margin-right: 10px; }
+
+section.create-test {
+  padding-left: 40px; }
+  section.create-test h1.heading {
+    display: inline-block;
+    vertical-align: middle; }
+  section.create-test .top-action {
+    margin-top: 10px;
+    padding: 20px 30px;
+    border-radius: 5px;
+    background: linear-gradient(60deg, #193c4a 0%, #00d4ba 100%);
+    max-width: 400px;
+    width: 70%; }
+    section.create-test .top-action .title {
+      color: #ffffff;
+      margin-bottom: 5px; }
+    section.create-test .top-action .subtitle {
+      font-weight: bold;
+      color: #ffffff; }
+  section.create-test .right-action {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    section.create-test .right-action span {
+      color: #909090;
+      padding: 20px; }
+  section.create-test .test-list .tbody {
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.15); }
+    section.create-test .test-list .tbody li {
+      padding: 10px 20px; }
+    section.create-test .test-list .tbody ul {
+      border-bottom: 1px solid #dddddd;
+      margin: 0px;
+      padding: 0px 20px; }
+      section.create-test .test-list .tbody ul:first-child {
+        border-radius: 5px 5px 0px 0px; }
+      section.create-test .test-list .tbody ul:last-child {
+        border-radius: 0px 0px 5px 5px;
+        border: 0px; }
+      section.create-test .test-list .tbody ul:hover {
+        background-color: #f6f6f6; }
+  section.create-test .test-list .thead {
+    margin: 0px;
+    color: #909090;
+    padding: 0px 20px; }
+    section.create-test .test-list .thead li {
+      padding: 5px 20px; }
+
 /* --- globals --- */
 .hr {
   margin: 10px; }
@@ -167,5 +237,42 @@ header {
 
 .card-button button {
   width: 100%; }
+
+ul.grid {
+  clear: both;
+  box-sizing: content-box;
+  margin: auto -40px;
+  list-style: none;
+  padding-left: 0px; }
+
+ul.grid::after {
+  visibility: hidden;
+  display: block;
+  content: " ";
+  height: 0;
+  font-size: 0;
+  clear: both; }
+
+ul.grid > li {
+  float: left;
+  padding: 0px 40px; }
+
+ul.grid.grid-2 > li {
+  width: 50%; }
+
+ul.grid.grid-3 > li {
+  width: 33.3333%; }
+
+ul.grid.grid-4 > li {
+  width: 25%; }
+
+ul.grid.grid-5 > li {
+  width: 20%; }
+
+ul.grid.separator > li {
+  border-left: 1px solid #e6e6e6; }
+
+ul.grid.separator > li:first-child {
+  border-left: 0px; }
 
 /*# sourceMappingURL=main.css.map */

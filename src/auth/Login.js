@@ -12,7 +12,7 @@ class Login extends Component {
 			body: JSON.stringify({ email: email, password: password })
 		}).then(response => response.json()).then((res)=> {
 			this.setState({loading: false});
-			if(res.error === undefined) {
+			if(res.access_token) {
 				store.dispatch({ type: 'LOGIN_ACTION', payload: {}});
 				this.setState({ redirect: true });
 			}else {
