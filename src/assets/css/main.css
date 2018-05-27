@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* --- Variables --- */
 /* --- Mixins --- */
 /* --- Definitions --- */
@@ -8,10 +9,62 @@ html, body {
   font-size: 14px;
   font-family: 'Circular', 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f6f6f6; }
 
 * {
   outline: 0px; }
+
+#root {
+  height: 100vh;
+  width: 100vw; }
+
+.button, button {
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #1c2d41;
+  color: #ffffff;
+  border: 0px;
+  padding: 12px 50px;
+  border-radius: 10px; }
+  .button:hover, button:hover {
+    background-color: #14212f; }
+    .button:hover:active, button:hover:active {
+      background-color: #0d141d; }
+  .button.clear, button.clear {
+    background-color: transparent;
+    color: #909090; }
+    .button.clear:hover, button.clear:hover {
+      color: #5d5d5d; }
+    .button.clear:active, button.clear:active {
+      background-color: transparent; }
+  .button.bordered, button.bordered {
+    border: 2px solid #1c2d41;
+    background-color: #ffffff;
+    color: #14212f;
+    padding: 10px 50px; }
+    .button.bordered:hover, button.bordered:hover {
+      background-color: #f2f2f2; }
+      .button.bordered:hover:active, button.bordered:hover:active {
+        background-color: #e6e6e6; }
+  .button.long, button.long {
+    min-width: 220px; }
+  .button.bar, button.bar {
+    width: 100%; }
+  .button.small, button.small {
+    font-size: 13px;
+    padding: 8px 25px; }
+  .button.alt, button.alt {
+    background-color: #37e3c4;
+    color: #1c2d41; }
+    .button.alt:hover, button.alt:hover {
+      background-color: #21e0bd; }
+      .button.alt:hover:active, button.alt:hover:active {
+        background-color: #1ccbab; }
+  .button.sparse, button.sparse {
+    letter-spacing: 3px;
+    font-weight: bold;
+    text-transform: uppercase; }
 
 /* --- Login page, Reset Password, Forgot Password --- */
 .login-container {
@@ -130,6 +183,11 @@ nav {
       width: 55%; }
 
 header {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -146,12 +204,19 @@ header {
     font-size: 14px;
     letter-spacing: 0.9px;
     color: #000;
-    width: 131px;
     height: 50px;
     border-radius: 8px;
     border: 0;
     background-color: #f6f6f6;
     cursor: pointer; }
+    header .btn-signout:hover {
+      background-color: #e9e9e9; }
+      header .btn-signout:hover:active {
+        background-color: #dddddd; }
+
+div.navigation {
+  position: fixed;
+  width: 15%; }
 
 .create-test-link {
   text-decoration: none;
@@ -186,7 +251,7 @@ section.create-test {
     margin-top: 10px;
     padding: 20px 30px;
     border-radius: 5px;
-    background: linear-gradient(60deg, #193c4a 0%, #00d4ba 100%);
+    background: linear-gradient(60deg, #193c4a 0%, #37e3c4 100%);
     max-width: 400px;
     width: 70%; }
     section.create-test .top-action .title {
@@ -227,16 +292,151 @@ section.create-test {
     section.create-test .test-list .thead li {
       padding: 5px 20px; }
 
-/* --- globals --- */
+section.test-questions {
+  padding-left: 40px; }
+  section.test-questions h1.heading {
+    display: inline-block;
+    vertical-align: middle; }
+  section.test-questions .top-action {
+    margin-top: 10px; }
+    section.test-questions .top-action button {
+      float: right; }
+  section.test-questions .question-pane {
+    margin-top: 20px;
+    width: 100%; }
+    section.test-questions .question-pane .question {
+      width: 100%;
+      margin-bottom: 40px;
+      display: flex;
+      margin-top: 40px; }
+      section.test-questions .question-pane .question .details {
+        width: calc(100% - 50px);
+        margin-left: 20px; }
+        section.test-questions .question-pane .question .details .action-pane {
+          display: flex; }
+          section.test-questions .question-pane .question .details .action-pane .title {
+            width: 20%;
+            font-size: 16px;
+            font-weight: bold;
+            color: #909090;
+            padding-top: 2px; }
+          section.test-questions .question-pane .question .details .action-pane .actions {
+            width: 80%;
+            text-align: right; }
+            section.test-questions .question-pane .question .details .action-pane .actions .info-btn {
+              background-color: #999;
+              color: #ffffff;
+              height: 30px;
+              width: 30px;
+              border-radius: 15px;
+              display: inline-block;
+              vertical-align: middle;
+              text-align: center;
+              padding-top: 8px;
+              font-size: 10px;
+              margin-left: 20px; }
+        section.test-questions .question-pane .question .details .question-box {
+          padding: 20px;
+          border: 1px solid #999;
+          margin-top: 10px;
+          border-radius: 10px; }
+    section.test-questions .question-pane .number {
+      background-color: #2a2a2a;
+      text-align: center;
+      padding-top: 5px;
+      border-radius: 15px;
+      width: 30px;
+      height: 30px;
+      color: #ffffff; }
+      section.test-questions .question-pane .number.bordered {
+        border: 1px solid #1c2d41;
+        background-color: transparent;
+        color: #1c2d41;
+        font-weight: bold; }
+    section.test-questions .question-pane .option-heading {
+      padding-left: 50px; }
+      section.test-questions .question-pane .option-heading ul li {
+        font-weight: bold;
+        color: #909090; }
+    section.test-questions .question-pane .options {
+      display: flex;
+      margin-top: 15px; }
+      section.test-questions .question-pane .options .option-pane {
+        width: calc(100% - 50px);
+        margin-left: 20px; }
+        section.test-questions .question-pane .options .option-pane .option-box, section.test-questions .question-pane .options .option-pane .info-box {
+          background-color: #ffffff;
+          padding: 15px 20px;
+          border-radius: 8px;
+          box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.1);
+          color: #243953; }
+        section.test-questions .question-pane .options .option-pane ul li {
+          padding-right: 0px; }
+        section.test-questions .question-pane .options .option-pane ul {
+          margin-right: 0px; }
+  section.test-questions .answer-pane {
+    border-bottom: 1px solid #dddddd;
+    padding: 20px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px; }
+    section.test-questions .answer-pane .title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-right: 10px; }
+    section.test-questions .answer-pane button {
+      margin-left: 10px; }
+
+.question-nav {
+  float: right;
+  margin-top: 40px; }
+  .question-nav span {
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 10px;
+    display: block; }
+  .question-nav div {
+    float: right;
+    background-color: #ffffff;
+    width: 50px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px 0 rgba(153, 160, 169, 0.29); }
+    .question-nav div ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0px; }
+      .question-nav div ul li {
+        height: 24px;
+        width: 24px;
+        background-color: #f6f6f6;
+        border-radius: 12px;
+        margin: 4px 0px;
+        text-align: center;
+        padding-top: 3px;
+        cursor: pointer; }
+        .question-nav div ul li:hover {
+          background-color: #e9e9e9; }
+        .question-nav div ul li.active {
+          background-color: #1c2d41;
+          color: #ffffff;
+          cursor: default; }
+
+ 
 .hr {
   margin: 10px; }
 
 .no-decoration {
   text-decoration: none;
-  text-color: inherit; }
+  color: inherit; }
 
 .card-button button {
   width: 100%; }
+
+.sparse {
+  letter-spacing: 3px; }
 
 ul.grid {
   clear: both;

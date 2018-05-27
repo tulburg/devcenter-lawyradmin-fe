@@ -4,8 +4,8 @@ $accent: #50e3c2;
 $gray: #f6f6f6;
 $light_gray: darken($gray, 40%);
 $white: #ffffff;
-$gradient_green: #00d4ba;
-$gradient_black: #193c4a;
+$green: #37e3c4;
+$dark_green: #193c4a;
 /* --- Mixins --- */
 @mixin setfont($size, $weight, $family) { font: { size: $size; weight: $weight; family: $family, helvetica, san-serif, arial; } }
 @mixin darken_hover($background) { background-color: $background; &:hover{ background-color: darken($background, 5%); } }
@@ -14,8 +14,10 @@ $gradient_black: #193c4a;
 @mixin bg_darken($background) { background-color: $background; & .darken{ background-color:darken($background, 5%); } }
 @mixin darken_color_hover($color) { color: $color; &:hover{color:darken($color, 20%); } }
 /* --- Definitions --- */
-html, body { padding: 0px; margin: 0px; outline: 0px; font-size: 14px; font-family: 'Circular', 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html, body { padding: 0px; margin: 0px; outline: 0px; font-size: 14px; font-family: 'Circular', 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; background-color: $gray; }
 * { outline: 0px; }
+#root { height: 100vh; width: 100vw; }
+.button, button { cursor: pointer; font-size: 16px; @include darken_hover_active($primary); color: $white; border: 0px; padding: 12px 50px; border-radius: 10px; &.clear { background-color: transparent; @include darken_color_hover($light_gray); &:active { background-color: transparent; } } &.bordered { border: 2px solid $primary; @include darken_hover_active($white); color: darken($primary, 5%); padding: 10px 50px; } &.long { min-width: 220px; } &.bar { width: 100%; } &.small { font-size: 13px; padding: 8px 25px; } &.alt { @include darken_hover_active($green); color: $primary; } &.sparse { letter-spacing: 3px; font-weight: bold; text-transform: uppercase; } }
  /* --- Login page, Reset Password, Forgot Password --- */
 .login-container { height: 100vh; display: flex; justify-content: center; align-items: center; }
 .login-content { display: flex; flex-direction: column; justify-content: center; align-items: center; width: 60%; }
@@ -37,25 +39,48 @@ nav { border-radius: 8px; background-color: #ffffff; box-shadow: 0 2px 4px 0 rgb
  		.navigation__link-text { width: 55%; } 
  	}
 }
-header { display: flex; justify-content: space-between; align-items: center; padding-left: 90px; padding-right: 90px; height: 80px; background-color: #ffffff; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+header { position: fixed; top: 0px; left: 0px; width: 100%; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding-left: 90px; padding-right: 90px; height: 80px; background-color: #ffffff; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
  	.header__logo { font-size: 32px; font-weight: bold; color: #000; }
- 	.btn-signout { font-size: 14px; letter-spacing: 0.9px; color: #000; width: 131px; height: 50px; border-radius: 8px; border: 0; background-color: #f6f6f6; cursor: pointer; }
+ 	.btn-signout { font-size: 14px; letter-spacing: 0.9px; color: #000; height: 50px; border-radius: 8px; border: 0; @include darken_hover_active($gray); cursor: pointer; }
 }
+div.navigation { position: fixed; width: 15%; }
 
 .create-test-link { text-decoration: none; color: $primary; }
 .course-home-icon { font-size: 16px; a { text-decoration: none; color: $primary; } }
 .back-arrow { background-color: #999; color: $white; height: 30px; width: 30px; border-radius: 15px; display: inline-block; vertical-align: middle; text-align: center; padding-top: 8px; font-size: 10px; margin-left: -40px; margin-right: 10px; }
 section.create-test { padding-left: 40px;
 	h1.heading { display: inline-block; vertical-align: middle; } 
-	.top-action { margin-top: 10px; padding: 20px 30px; border-radius: 5px; background: linear-gradient(60deg, $gradient_black 0%, $gradient_green 100%); max-width: 400px; width: 70%; .title { color: $white; margin-bottom: 5px; } .subtitle { font-weight: bold; color: $white; } }
+	.top-action { margin-top: 10px; padding: 20px 30px; border-radius: 5px; background: linear-gradient(60deg, $dark_green 0%, $green 100%); max-width: 400px; width: 70%; .title { color: $white; margin-bottom: 5px; } .subtitle { font-weight: bold; color: $white; } }
 	.right-action { height: 100px; display: flex; justify-content: center; align-items: center; span { color: darken($gray, 40%); padding: 20px; } }
 	.test-list { .tbody { background-color: $white; border-radius: 5px; box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.15); li { padding: 10px 20px; } ul { border-bottom: 1px solid lighten($light_gray, 30%); margin: 0px; padding: 0px 20px; &:first-child { border-radius: 5px 5px 0px 0px; } &:last-child { border-radius: 0px 0px 5px 5px; border: 0px; } &:hover{ background-color: lighten($light_gray, 40%); } }  } .thead{ margin: 0px; color: $light_gray; padding: 0px 20px; li { padding: 5px 20px;} } }
 }
+section.test-questions { padding-left: 40px; 
+	h1.heading { display: inline-block; vertical-align: middle; } 
+	.top-action { margin-top: 10px; button { float: right; } }
+	.question-pane { margin-top: 20px; width: 100%;
+		.question { width: 100%; margin-bottom: 40px; display: flex; margin-top: 40px;
+			.details { width: calc(100% - 50px); margin-left: 20px;  
+				.action-pane { display: flex; .title { width: 20%; font-size: 16px; font-weight: bold; color: $light_gray; padding-top: 2px; } .actions { width: 80%; text-align: right; 
+					.info-btn { background-color: #999; color: $white; height: 30px; width: 30px; border-radius: 15px; display: inline-block; vertical-align: middle; text-align: center; padding-top: 8px; font-size: 10px; margin-left: 20px; }
+				} }
+				.question-box { padding: 20px; border: 1px solid #999; margin-top: 10px; border-radius: 10px; }
+			}
+		}
+		.number { background-color: darken($light_gray, 40%); text-align: center; padding-top: 5px; border-radius: 15px; width: 30px; height: 30px; color: $white;  &.bordered { border: 1px solid $primary; background-color: transparent; color: $primary; font-weight: bold; }} 
+		.option-heading { padding-left: 50px; ul li { font-weight: bold; color: $light_gray; } }
+		.options { display: flex; margin-top: 15px; .option-pane { width: calc(100% - 50px); margin-left: 20px; .option-box, .info-box { background-color: $white; padding: 15px 20px; border-radius: 8px; box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.1); color: lighten($primary, 5%); } ul li { padding-right: 0px; } ul { margin-right: 0px; } } }
+	}
+	.answer-pane { border-bottom: 1px solid darken($gray, 10%); padding: 20px 0px; display: flex; align-items: center; justify-content: center; margin-top: 20px; .title { font-weight: bold; font-size: 18px; margin-right: 10px; } button { margin-left: 10px; } }
+}
 
+.question-nav { float: right; margin-top: 40px; span { font-weight: bold; font-size: 12px; margin-bottom: 10px; display: block; } div { float: right; background-color: $white; width: 50px; border-radius: 10px; box-shadow: 0 2px 4px 0 rgba(153, 160, 169, 0.29); ul { list-style: none; display: flex; flex-direction: column; align-items: center; padding: 0px; li { height: 24px; width: 24px; @include darken_hover($gray); border-radius: 12px; margin: 4px 0px; text-align: center; padding-top: 3px; cursor: pointer; &.active { background-color: $primary; color: $white; cursor: default; } } } } }
+ 
  /* --- globals --- */
+
 .hr { margin: 10px; }
-.no-decoration { text-decoration: none; text-color: inherit; }
+.no-decoration { text-decoration: none; color: inherit; }
 .card-button button { width: 100%; }
+.sparse { letter-spacing: 3px; }
 
 
 ul.grid{clear:both;box-sizing: content-box;margin:auto -40px; list-style: none; padding-left: 0px; }

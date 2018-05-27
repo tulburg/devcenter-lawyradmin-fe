@@ -26,7 +26,7 @@ export default class Nav extends Component {
 		});
 		return (
 			<nav>
-			  { Menu }
+			  	{ Menu }
 			</nav>
 		)
 	}

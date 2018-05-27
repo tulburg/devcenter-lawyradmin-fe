@@ -10,15 +10,17 @@ export const Content = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 78px 94px;
-  min-height: 100vh;
+  height: calc(100% - 80px);
+  position: relative;
+  top: 80px;
 
   .navigation {
-    width: 20%;
+    width: 17.5%;
   }
 
   .main-section {
     width: 75%;
-
+	margin-left: 25%;
     .main-section__header {
       margin-bottom: 25px;
     }

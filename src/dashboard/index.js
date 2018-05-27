@@ -10,12 +10,33 @@ import Nav from '../components/Nav';
 import Tests from './Tests';
 import OngoingTests from './OngoingTests';
 import CreateTest from './CreateTest';
+import Test from './Test';
 import store from '../store';
 
+
+
+function QuestionNav(props) {
+	if(!props.showQuestionNav) return null;
+	const questions = (num) => {
+		let all = [];
+		for (var i=0;i<num;i++) {
+			all.push(<li key={i}>{i+1}</li>);
+		}
+		return all;
+	};
+	return (<div className="question-nav">
+    	<span>Jump to Question</span>
+    	<div>
+			<ul>{ questions(props.questions) }</ul>
+    	</div>
+    </div>);
+}
 export default class Dashboard extends Component {
   state = {
     showModal: true,
-    showDoneModal: false
+    showDoneModal: false,
+    showQuestionNav: false,
+    questions: 0
   };
 
   onCloseModal = () => {
@@ -24,6 +45,7 @@ export default class Dashboard extends Component {
       showDoneModal: false
     });
   };
+
   render() {
   	const nav = [
   		{ url: "", title: "Home", icon: "fa-home" },
@@ -34,12 +56,21 @@ export default class Dashboard extends Component {
   		{ url: "users", title: "All Users", icon: "fa-user" }
   	]
   	if(!store.getState().state.session.active) { return (<Redirect to="/"/>); }
+  	let self = this;
+  	store.subscribe(function() {
+  		if(store.getState().main.show_question_nav !== undefined) {
+  			self.setState({showQuestionNav: store.getState().main.show_question_nav, questions: store.getState().main.questions});
+  		}
+  	});
+  	
     return (
       <div>
         <Header />
         <Content>
           <div className="navigation">
             <Nav items={ nav } url={this.props.match.url}/>
+
+            <QuestionNav questions={this.state.questions} showQuestionNav={this.state.showQuestionNav} />
           </div>
 
           <Route
@@ -165,6 +196,7 @@ export default class Dashboard extends Component {
             component={OngoingTests}
           />
           <Route path={`${this.props.match.url}/create-test`} component={CreateTest} />
+          <Route path={`${this.props.match.url}/test`} component={Test} />
         </Content>
       </div>
     );

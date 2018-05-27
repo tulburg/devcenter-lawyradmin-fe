@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Modal from '../components/Modal';
 
 export default class CreateTest extends Component {
@@ -41,8 +42,8 @@ export default class CreateTest extends Component {
 							<li>NAME</li><li>YEAR</li><li>CREATED</li><li>EDITED</li><li>TIMES TAKEN</li>
 						</ul>
 						<div className="tbody">
-							<ul className="grid grid-5"><li>Criminal Law</li><li>2012</li><li>22-Nov-2018</li><li>22-Nov-2018</li><li><b>57</b></li></ul>
-							<ul className="grid grid-5"><li>Criminal Law</li><li>2012</li><li>22-Nov-2018</li><li>22-Nov-2018</li><li><b>57</b></li></ul>
+							<ul className="grid grid-5"><li><Link to="/dashboard/test/1" className="no-decoration">Criminal Law</Link></li><li>2012</li><li>22-Nov-2018</li><li>22-Nov-2018</li><li><b>57</b></li></ul>
+							<ul className="grid grid-5"><li><Link to="/dashboard/test/2" className="no-decoration">Criminal Law</Link></li><li>2012</li><li>22-Nov-2018</li><li>22-Nov-2018</li><li><b>57</b></li></ul>
 						</div>
 					</div>
 				</section>
