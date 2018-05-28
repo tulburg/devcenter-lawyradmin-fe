@@ -11,6 +11,7 @@ import Tests from './Tests';
 import OngoingTests from './OngoingTests';
 import CreateTest from './CreateTest';
 import Test from './Test';
+import FlashCards from './FlashCards';
 import store from '../store';
 
 
@@ -135,7 +136,7 @@ export default class Dashboard extends Component {
                     />
                   </Card>
                   <Card icon="users" number={400} title="Active users">
-                    <Button text="View Ongoing Tests" bg="#1c2d41" />
+                    <Button text="View Ongoing Tests" bg="#1c2d41" className="card-button" />
                   </Card>
                   <Card icon="file-alt" number={1000} title="Paid users">
                     <Button text="View purchases" bg="#1c2d41" />
@@ -197,6 +198,7 @@ export default class Dashboard extends Component {
           />
           <Route path={`${this.props.match.url}/create-test`} component={CreateTest} />
           <Route path={`${this.props.match.url}/test`} component={Test} />
+          <Route path={`${this.props.match.url}/flashcards`} component={FlashCards} />
         </Content>
       </div>
     );

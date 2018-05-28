@@ -30,5 +30,10 @@ export default class Nav extends Component {
 			</nav>
 		)
 	}
+	componentDidMount() {
+		var loc = window.location.href.split("/")
+		if(loc.length > 4) this.setState({active : loc[loc.length-1]});
+		else this.setState({active: ""});
+	}
 }
 

@@ -54,6 +54,7 @@ section.create-test { padding-left: 40px;
 	.right-action { height: 100px; display: flex; justify-content: center; align-items: center; span { color: darken($gray, 40%); padding: 20px; } }
 	.test-list { .tbody { background-color: $white; border-radius: 5px; box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.15); li { padding: 10px 20px; } ul { border-bottom: 1px solid lighten($light_gray, 30%); margin: 0px; padding: 0px 20px; &:first-child { border-radius: 5px 5px 0px 0px; } &:last-child { border-radius: 0px 0px 5px 5px; border: 0px; } &:hover{ background-color: lighten($light_gray, 40%); } }  } .thead{ margin: 0px; color: $light_gray; padding: 0px 20px; li { padding: 5px 20px;} } }
 }
+/* Test questions definition  */
 section.test-questions { padding-left: 40px; 
 	h1.heading { display: inline-block; vertical-align: middle; } 
 	.top-action { margin-top: 10px; button { float: right; } }
@@ -72,15 +73,21 @@ section.test-questions { padding-left: 40px;
 	}
 	.answer-pane { border-bottom: 1px solid darken($gray, 10%); padding: 20px 0px; display: flex; align-items: center; justify-content: center; margin-top: 20px; .title { font-weight: bold; font-size: 18px; margin-right: 10px; } button { margin-left: 10px; } }
 }
-
 .question-nav { float: right; margin-top: 40px; span { font-weight: bold; font-size: 12px; margin-bottom: 10px; display: block; } div { float: right; background-color: $white; width: 50px; border-radius: 10px; box-shadow: 0 2px 4px 0 rgba(153, 160, 169, 0.29); ul { list-style: none; display: flex; flex-direction: column; align-items: center; padding: 0px; li { height: 24px; width: 24px; @include darken_hover($gray); border-radius: 12px; margin: 4px 0px; text-align: center; padding-top: 3px; cursor: pointer; &.active { background-color: $primary; color: $white; cursor: default; } } } } }
- 
+/*  Flashcards definition */
+section.flashcards {
+	.card-holder { padding-bottom: 50px; border-bottom: 1px solid lighten($light_gray, 30%); li { padding-right: 0px; } } .card { svg { color: $green; font-size: 28px; } .content { display: inline-block; width: calc(100% - 40px); padding-left: 30px; vertical-align: top; p { margin-top: 15px; font-size: 13px; } h2 { font-size: 30px; line-height: 0.8; } } } 
+	.courses { padding-top: 50px; padding-left: 20px; ul.grid { margin-left: -60px; } li { padding-right: 0px; display: flex; align-items: center; flex-direction: column; } li .ball { height: 120px; width: 120px; background-color: $primary; border-radius: 60px; display: flex; justify-content: center; align-items: center; color: $white; svg { font-size: 60px; } }  h2.title { font-size: 16px; text-align: center; margin-top: 10px; } }
+}
+
+
  /* --- globals --- */
 
 .hr { margin: 10px; }
 .no-decoration { text-decoration: none; color: inherit; }
-.card-button button { width: 100%; }
+.card-button button { width: 100%; padding: 0px; }
 .sparse { letter-spacing: 3px; }
+.card { background-color: $white; box-shadow: 0px 20px 25px 5px rgba(0, 0, 0, 0.1); border-radius: 10px; border: 1px solid lighten($light_gray, 33%); padding: 30px; }
 
 
 ul.grid{clear:both;box-sizing: content-box;margin:auto -40px; list-style: none; padding-left: 0px; }

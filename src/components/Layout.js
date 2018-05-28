@@ -22,13 +22,13 @@ export const Content = styled.div`
     width: 75%;
 	margin-left: 25%;
     .main-section__header {
-      margin-bottom: 25px;
+      margin-bottom: 10px;
     }
 
     .main-section__sub-header {
       margin-bottom: 25px;
       color: #9b9b9b;
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .card-wrap {
@@ -92,10 +92,12 @@ export const Content = styled.div`
           box-shadow: 0 8px 17px 0 rgba(153, 160, 169, 0.23);
           background-color: #ffffff;
           border: solid 1px rgba(179, 179, 179, 0.3);
+          font-size: 20px;
+          padding-left: 40px;
+          font-family: inherit;
         }
 
         button {
-          width: 115px;
           height: 53px;
           border: 0;
           border-radius: 9px;
@@ -108,6 +110,8 @@ export const Content = styled.div`
           letter-spacing: 3px;
           text-transform: uppercase;
           color: #1c2d41;
+          padding-right: 15px;
+          padding-left: 15px;
         }
       }
 

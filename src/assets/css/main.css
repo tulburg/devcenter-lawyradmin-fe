@@ -292,6 +292,7 @@ section.create-test {
     section.create-test .test-list .thead li {
       padding: 5px 20px; }
 
+/* Test questions definition  */
 section.test-questions {
   padding-left: 40px; }
   section.test-questions h1.heading {
@@ -424,7 +425,53 @@ section.test-questions {
           color: #ffffff;
           cursor: default; }
 
- 
+/*  Flashcards definition */
+section.flashcards .card-holder {
+  padding-bottom: 50px;
+  border-bottom: 1px solid #dddddd; }
+  section.flashcards .card-holder li {
+    padding-right: 0px; }
+section.flashcards .card svg {
+  color: #37e3c4;
+  font-size: 28px; }
+section.flashcards .card .content {
+  display: inline-block;
+  width: calc(100% - 40px);
+  padding-left: 30px;
+  vertical-align: top; }
+  section.flashcards .card .content p {
+    margin-top: 15px;
+    font-size: 13px; }
+  section.flashcards .card .content h2 {
+    font-size: 30px;
+    line-height: 0.8; }
+section.flashcards .courses {
+  padding-top: 50px;
+  padding-left: 20px; }
+  section.flashcards .courses ul.grid {
+    margin-left: -60px; }
+  section.flashcards .courses li {
+    padding-right: 0px;
+    display: flex;
+    align-items: center;
+    flex-direction: column; }
+  section.flashcards .courses li .ball {
+    height: 120px;
+    width: 120px;
+    background-color: #1c2d41;
+    border-radius: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff; }
+    section.flashcards .courses li .ball svg {
+      font-size: 60px; }
+  section.flashcards .courses h2.title {
+    font-size: 16px;
+    text-align: center;
+    margin-top: 10px; }
+
+/* --- globals --- */
 .hr {
   margin: 10px; }
 
@@ -433,10 +480,18 @@ section.test-questions {
   color: inherit; }
 
 .card-button button {
-  width: 100%; }
+  width: 100%;
+  padding: 0px; }
 
 .sparse {
   letter-spacing: 3px; }
+
+.card {
+  background-color: #ffffff;
+  box-shadow: 0px 20px 25px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px solid #e4e4e4;
+  padding: 30px; }
 
 ul.grid {
   clear: both;

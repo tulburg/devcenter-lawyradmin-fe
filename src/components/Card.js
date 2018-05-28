@@ -21,11 +21,12 @@ const CardStyle = styled.div`
       color: #99a0a9;
     }
 
-    button {
-      background-color: #1c2d41;
-      color: #fff;
-    }
+
   } */
+  button {
+    width: 100%;
+    padding: 0px;
+  }
 
   .top {
     display: flex;
