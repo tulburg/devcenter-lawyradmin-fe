@@ -16,10 +16,9 @@ export default class CreateTest extends Component {
 			tests.sort(function(a,b){ return (a.year > b.year) ? 1 : (b.year > a.year) ? -1 : 0; });
 		}else if(type === 'time') { 
 		}else if(type === 'date') {
-			tests.sort(function(a,b){ let c = new Date(a.created_at), d = new Date(b.created_at); return (c > d) ? 1 : (d > c) ? -1 : 0; });
+			tests.sort(function(a,b){ let c = new Date(a.created_at.replace(" ", "T")), d = new Date(b.created_at.replace(" ", "T")); return (c > d) ? 1 : (d > c) ? -1 : 0; });
 		}
 		this.setState({ tests: tests });
-		console.log("sorted", tests);
 	}
 	getCourse() {
 		fetch(store.getState().state.api.dev+"courses/"+this.props.match.params.course_id+"/quizs", {
@@ -87,7 +86,7 @@ export default class CreateTest extends Component {
 			let id = this.props.match.params.course_id;
 			var self = this;
 			const renderedTests = this.state.tests.map(function(test) {
-				return (<ul className="grid grid-5" key={test.id}><li><Link to={`/dashboard/test/${test.id}`} className="no-decoration">{ self.state.course.title }</Link></li><li>{ test.year }</li><li>{ self.simpleDate(test.created_at) }</li><li>{ self.simpleDate(test.updated_at) }</li><li><b>{test.choice}</b></li></ul>);
+				return (<ul className="grid grid-5" key={test.id}><li><Link to={`/dashboard/test/${id}/${test.id}`} className="no-decoration">{ self.state.course.title }</Link></li><li>{ test.year }</li><li>{ self.simpleDate(test.created_at) }</li><li>{ self.simpleDate(test.updated_at) }</li><li><b>{test.choice}</b></li></ul>);
 			})
 			return(
 			<div className="main-section">
@@ -140,7 +139,7 @@ export default class CreateTest extends Component {
 							<br/>
 							<div className="filepicker" onClick={(e) => { document.getElementById("file").click(); e.preventDefault(); }}><i className="ic-folder"></i></div>
 							<div className="filepicker-label">{ (this.state.file) ? this.state.file.name : "UPLOAD FROM COMPUTER" }</div>
-							{ (this.state.uploadError != undefined) ? this.state.uploadError : (this.state.uploading) ? <i className="ic-spinner animate-spin"></i> : <button className="clear">SUBMIT</button> }
+							{ (this.state.uploadError !== undefined) ? this.state.uploadError : (this.state.uploading) ? <i className="ic-spinner animate-spin"></i> : <button className="clear">SUBMIT</button> }
 						</form>
 						
 					</div>

@@ -12,6 +12,7 @@ class Login extends Component {
 			headers : { 'accept': 'application/json', 'content-type': 'application/json' },
 			body: JSON.stringify({ email: email, password: password })
 		}).then(response => response.json()).then((res)=> {
+			console.log(res);
 			this.setState({loading: false});
 			if(res.access_token) {
 				store.dispatch({ type: 'LOGIN_ACTION', payload: { token: res.access_token }});

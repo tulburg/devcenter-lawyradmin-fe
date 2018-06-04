@@ -162,7 +162,7 @@ export default class Dashboard extends Component {
 	      		<Route path={`${this.props.match.url}/tests`} component={Tests} />
 	      		<Route path={`${this.props.match.url}/ongoing`} component={OngoingTests} />
 				<Route path={`${this.props.match.url}/create-test/:course_id`} component={CreateTest} />
-				<Route exact path={`${this.props.match.url}/test/:id`} component={TestView} />
+				<Route exact path={`${this.props.match.url}/test/:course_id/:test_id`} component={TestView} />
 				<Route path={`${this.props.match.url}/test/:id/edit`} component={Test} />
 				<Route path={`${this.props.match.url}/flashcards`} component={FlashCards} />
 	    	</Content>
