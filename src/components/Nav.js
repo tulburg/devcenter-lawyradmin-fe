@@ -13,7 +13,7 @@ export default class Nav extends Component {
 				    <Link to={`${url}${item.url!=="" ? '/':''}${item.url}`} className={`navigation__link ${self.state.active===item.url ? 'active' : ''}`}
 				    	onClick={() => self.setState({active: item.url}) }>
 				      	<span className="navigation__link-icon">
-				        	<i className={`fas ${item.icon}`} />
+				        	<i className={`${item.icon}`} />
 				      	</span>
 				      	<span className="navigation__link-text">{item.title}</span>
 				    </Link>
@@ -31,9 +31,10 @@ export default class Nav extends Component {
 		)
 	}
 	componentDidMount() {
-		var loc = window.location.href.split("/")
-		if(loc.length > 4) this.setState({active : loc[loc.length-1]});
-		else this.setState({active: ""});
+		this.setState({active: window.localStorage.getItem("la_active_nav")});
+	}
+	componentDidUpdate() {
+		window.localStorage.setItem("la_active_nav", this.state.active);
 	}
 }
 

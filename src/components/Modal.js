@@ -56,7 +56,6 @@ export default class ModalComponent extends Component {
   }
 
   handleClick = e => {
-    console.dir(e.target);
     if (e.target.dataset.name === 'modal') {
       this.props.closeModal();
     }

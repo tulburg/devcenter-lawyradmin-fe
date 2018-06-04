@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, Redirect } from 'react-router-dom';
 import store from '../store';
+import logo from '../assets/logo.svg';
 
 class Login extends Component {
 	state = { email: '', password: '', loading: false, hasError: false, error: '', redirect: false };
@@ -13,7 +14,7 @@ class Login extends Component {
 		}).then(response => response.json()).then((res)=> {
 			this.setState({loading: false});
 			if(res.access_token) {
-				store.dispatch({ type: 'LOGIN_ACTION', payload: {}});
+				store.dispatch({ type: 'LOGIN_ACTION', payload: { token: res.access_token }});
 				this.setState({ redirect: true });
 			}else {
 				this.setState({error: 'Invalid Email or Password', hasError: true});
@@ -30,6 +31,7 @@ class Login extends Component {
 	  		<div className="login-container">
 	    		<div className="login-content">
 	          		<div className="header-wrap">
+	          			<img src={logo} alt="logo" width="80px" />
 				        <h1>Lawyr</h1>
 				        <h6>Learning Resource for Law Students</h6>
 	          		</div>

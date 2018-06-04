@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import logo from '../assets/logo.svg';
 
 class ResetPassword extends Component {
 	render() {
@@ -6,6 +7,7 @@ class ResetPassword extends Component {
 	      	<div className="login-container">
 		        <div className="login-content">
 		          	<div className="header-wrap">
+		          		<img src={logo} alt="logo" width="80px" />
 			            <h1>Lawyr</h1>
 			            <h6>Learning Resource for Law Students</h6>
 		          	</div>

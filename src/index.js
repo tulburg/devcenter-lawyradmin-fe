@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import './index.css';
 import './assets/css/main.css';
+import './assets/fonts/lawyr/stylesheet.css';
 import './assets/fonts/circular/stylesheet.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';

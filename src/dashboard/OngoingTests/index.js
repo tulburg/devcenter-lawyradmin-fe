@@ -82,6 +82,9 @@ class OngoingTests extends React.Component {
     const { group, individual } = this.state;
     return (
       <div className="main-section">
+		<span className="back-arrow" onClick={() => window.history.go(-1) }>
+			<i className="fas fa-arrow-left fa-lg" />
+		</span>
         <h2 className="main-section__header">Ongoing Tests</h2>
         <OTContent>
           <div className="test-tab">

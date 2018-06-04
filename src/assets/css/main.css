@@ -84,7 +84,8 @@ html, body {
   text-align: center; }
   .header-wrap h1 {
     font-size: 54px;
-    margin-bottom: 22px; }
+    margin-bottom: 22px;
+    letter-spacing: -4px; }
   .header-wrap h6 {
     font-size: 16px;
     font-weight: 100; }
@@ -189,7 +190,6 @@ header {
   width: 100%;
   z-index: 100;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding-left: 90px;
   padding-right: 90px;
@@ -199,7 +199,8 @@ header {
   header .header__logo {
     font-size: 32px;
     font-weight: bold;
-    color: #000; }
+    color: #000;
+    margin-left: 10px; }
   header .btn-signout {
     font-size: 14px;
     letter-spacing: 0.9px;
@@ -208,11 +209,14 @@ header {
     border-radius: 8px;
     border: 0;
     background-color: #f6f6f6;
-    cursor: pointer; }
+    cursor: pointer;
+    float: right; }
     header .btn-signout:hover {
       background-color: #e9e9e9; }
       header .btn-signout:hover:active {
         background-color: #dddddd; }
+  header div.right-action {
+    flex-grow: 1; }
 
 div.navigation {
   position: fixed;
@@ -265,9 +269,11 @@ section.create-test {
     display: flex;
     justify-content: center;
     align-items: center; }
-    section.create-test .right-action span {
+    section.create-test .right-action span.light {
       color: #909090;
       padding: 20px; }
+    section.create-test .right-action .cs-select {
+      width: 140px; }
   section.create-test .test-list .tbody {
     background-color: #ffffff;
     border-radius: 5px;
@@ -291,6 +297,48 @@ section.create-test {
     padding: 0px 20px; }
     section.create-test .test-list .thead li {
       padding: 5px 20px; }
+
+.excel-upload {
+  text-align: center;
+  padding: 40px; }
+  .excel-upload p {
+    text-align: center; }
+  .excel-upload input[type="file"] {
+    display: none; }
+  .excel-upload .filepicker {
+    height: 100px;
+    width: 100px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    padding-top: 15px;
+    border-radius: 5px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    cursor: pointer; }
+    .excel-upload .filepicker:hover {
+      background-color: #f2f2f2; }
+      .excel-upload .filepicker:hover:active {
+        background-color: #e6e6e6; }
+    .excel-upload .filepicker i {
+      color: #37e3c4;
+      font-size: 56px; }
+  .excel-upload .filepicker-label {
+    font-weight: bold;
+    color: #909090;
+    text-align: center; }
+  .excel-upload .select {
+    width: 140px;
+    margin: 5px auto; }
+    .excel-upload .select .cs-options {
+      max-height: 400px;
+      overflow-y: auto; }
+  .excel-upload button, .excel-upload i.ic-spinner {
+    margin: 0px auto;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #444444; }
+  .excel-upload i.ic-spinner {
+    font-size: 30px; }
 
 /* Test questions definition  */
 section.test-questions {
@@ -337,10 +385,16 @@ section.test-questions {
               font-size: 10px;
               margin-left: 20px; }
         section.test-questions .question-pane .question .details .question-box {
+          background-color: #ffffff;
           padding: 20px;
-          border: 1px solid #999;
+          border-radius: 10px;
           margin-top: 10px;
-          border-radius: 10px; }
+          box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.1);
+          color: #243953; }
+    section.test-questions .question-pane .tab {
+      content: "";
+      width: 30px;
+      height: 30px; }
     section.test-questions .question-pane .number {
       background-color: #2a2a2a;
       text-align: center;
@@ -365,16 +419,32 @@ section.test-questions {
       section.test-questions .question-pane .options .option-pane {
         width: calc(100% - 50px);
         margin-left: 20px; }
-        section.test-questions .question-pane .options .option-pane .option-box, section.test-questions .question-pane .options .option-pane .info-box {
+        section.test-questions .question-pane .options .option-pane .option-box, section.test-questions .question-pane .options .option-pane .info-box, section.test-questions .question-pane .options .option-pane .answer-box {
           background-color: #ffffff;
           padding: 15px 20px;
           border-radius: 8px;
           box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.1);
           color: #243953; }
+          section.test-questions .question-pane .options .option-pane .option-box.active, section.test-questions .question-pane .options .option-pane .info-box.active, section.test-questions .question-pane .options .option-pane .answer-box.active {
+            border: 1px solid #1c2d41; }
         section.test-questions .question-pane .options .option-pane ul li {
           padding-right: 0px; }
         section.test-questions .question-pane .options .option-pane ul {
           margin-right: 0px; }
+    section.test-questions .question-pane .answer-title {
+      margin-bottom: 15px;
+      display: flex;
+      font-weight: bold;
+      align-items: center; }
+      section.test-questions .question-pane .answer-title .number {
+        height: 24px;
+        width: 24px;
+        padding-top: 2px;
+        margin-right: 15px; }
+  section.test-questions .edit-question {
+    border-bottom: 1px solid #c3c3c3;
+    padding-bottom: 50px;
+    margin-bottom: 50px; }
   section.test-questions .answer-pane {
     border-bottom: 1px solid #dddddd;
     padding: 20px 0px;
@@ -425,26 +495,82 @@ section.test-questions {
           color: #ffffff;
           cursor: default; }
 
+/* Test View Definitions */
+section.test-edit textarea {
+  resize: none;
+  border: 0px;
+  background-color: transparent;
+  font-size: inherit;
+  color: inherit;
+  font-family: inherit;
+  width: 100%;
+  height: 100%;
+  height: 1em; }
+section.test-edit .edit-question-box {
+  padding: 20px;
+  border: 1px solid #999;
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: transparent; }
+
+div.test-courses ul.grid {
+  color: #1c2d41;
+  padding-left: 20px; }
+div.test-courses li {
+  padding-right: 0px;
+  display: flex;
+  align-items: center;
+  flex-direction: column; }
+div.test-courses li .ball {
+  height: 140px;
+  width: 140px;
+  background-color: #1c2d41;
+  border-radius: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff; }
+  div.test-courses li .ball i {
+    font-size: 60px; }
+div.test-courses h2.title {
+  font-size: 16px;
+  text-align: center;
+  margin-top: 10px; }
+div.test-courses a {
+  text-decoration: none;
+  color: #1c2d41; }
+
+div.load-pane {
+  width: 100%;
+  height: 400px;
+  text-align: center;
+  padding-top: 150px; }
+  div.load-pane i {
+    font-size: 80px;
+    color: #1c2d41; }
+
 /*  Flashcards definition */
 section.flashcards .card-holder {
   padding-bottom: 50px;
   border-bottom: 1px solid #dddddd; }
   section.flashcards .card-holder li {
     padding-right: 0px; }
-section.flashcards .card svg {
-  color: #37e3c4;
-  font-size: 28px; }
-section.flashcards .card .content {
-  display: inline-block;
-  width: calc(100% - 40px);
-  padding-left: 30px;
-  vertical-align: top; }
-  section.flashcards .card .content p {
-    margin-top: 15px;
-    font-size: 13px; }
-  section.flashcards .card .content h2 {
-    font-size: 30px;
-    line-height: 0.8; }
+section.flashcards .card {
+  display: table-cell; }
+  section.flashcards .card svg {
+    color: #37e3c4;
+    font-size: 28px; }
+  section.flashcards .card .content {
+    display: inline-block;
+    width: calc(100% - 40px);
+    padding-left: 30px;
+    vertical-align: top; }
+    section.flashcards .card .content p {
+      margin-top: 15px;
+      font-size: 13px; }
+    section.flashcards .card .content h2 {
+      font-size: 30px;
+      line-height: 0.8; }
 section.flashcards .courses {
   padding-top: 50px;
   padding-left: 20px; }
@@ -456,20 +582,26 @@ section.flashcards .courses {
     align-items: center;
     flex-direction: column; }
   section.flashcards .courses li .ball {
-    height: 120px;
-    width: 120px;
+    height: 140px;
+    width: 140px;
     background-color: #1c2d41;
-    border-radius: 60px;
+    border-radius: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #ffffff; }
-    section.flashcards .courses li .ball svg {
+    section.flashcards .courses li .ball i {
       font-size: 60px; }
   section.flashcards .courses h2.title {
     font-size: 16px;
     text-align: center;
     margin-top: 10px; }
+  section.flashcards .courses a {
+    text-decoration: none;
+    color: #1c2d41; }
+
+.back-arrow {
+  cursor: pointer; }
 
 /* --- globals --- */
 .hr {
@@ -491,7 +623,8 @@ section.flashcards .courses {
   box-shadow: 0px 20px 25px 5px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   border: 1px solid #e4e4e4;
-  padding: 30px; }
+  padding: 30px;
+  height: 100%; }
 
 ul.grid {
   clear: both;
@@ -529,5 +662,130 @@ ul.grid.separator > li {
 
 ul.grid.separator > li:first-child {
   border-left: 0px; }
+
+/* Select customization */
+div.cs-select {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  text-align: left;
+  background: #fff;
+  z-index: 100;
+  width: 100%;
+  max-width: 500px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+div.cs-select:focus {
+  outline: 0; }
+
+.cs-select select {
+  display: none; }
+
+.cs-select span {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  padding: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
+.cs-select > span {
+  padding-right: 3em; }
+
+.cs-select .cs-selected span::after, .cs-select > span::after {
+  speak: none;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.cs-select > span::after {
+  font-family: ttv;
+  content: '\eb1c';
+  right: 1em; }
+
+.cs-select .cs-selected span::after {
+  content: '\eb1c';
+  margin-left: 1em; }
+
+.cs-select.cs-active > span::after {
+  -webkit-transform: translateY(-50%) rotate(180deg);
+  transform: translateY(-50%) rotate(180deg); }
+
+.cs-select .cs-options {
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  background: #fff;
+  visibility: hidden; }
+
+.cs-select.cs-active .cs-options {
+  visibility: visible; }
+
+.cs-select ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%; }
+
+.cs-select ul span {
+  padding: 1em; }
+
+.cs-select ul li.cs-focus span {
+  background-color: #ddd; }
+
+.cs-select li.cs-optgroup ul {
+  padding-left: 1em; }
+
+.cs-select li.cs-optgroup > span {
+  cursor: default; }
+
+.cs-select {
+  color: #444444;
+  border: 1px solid #c8c8c8;
+  border-radius: 6px; }
+  .cs-select:focus {
+    border: 2px solid #1c2d41; }
+  .cs-select.alt {
+    border: 2px solid #1c2d41; }
+
+.cs-select .cs-placeholder {
+  padding: 8px 15px; }
+
+.cs-select.default ul li span::after {
+  display: none; }
+
+.cs-select.default .cs-options {
+  box-shadow: 2px 2px 4px 0 rgba(204, 204, 204, 0.5);
+  top: calc(100% + 2px);
+  border-radius: 0px 0px 2px 2px; }
+
+.cs-select.default ul li:last-child {
+  border-radius: 0px 0px 2px 2px; }
+
+.cs-select.default ul li:hover {
+  background-color: #1c2d41;
+  color: #ffffff; }
+
+.cs-select.default span, .cs-select.default ul span {
+  padding: 10px 15px; }
+
+.cs-select.default > span::after {
+  content: '\eb1c';
+  font-family: "lawyr"; }
+
+.cs-select.default.alt > span::after {
+  color: #1c2d41; }
+
+.cs-select.default:disabled {
+  background-color: #b6b6b6; }
 
 /*# sourceMappingURL=main.css.map */
