@@ -27,7 +27,7 @@ class Login extends Component {
 		this.login(this.state.email, this.state.password);
 	}
 	render() {
-		if(store.getState().state.session.active) { return (<Redirect to="/dashboard"/>) }
+		if(store.getState().state.session.active || this.state.redirect) { return (<Redirect to="/dashboard"/>) }
 	    return (
 	  		<div className="login-container">
 	    		<div className="login-content">
