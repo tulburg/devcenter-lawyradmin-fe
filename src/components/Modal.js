@@ -28,7 +28,7 @@ const Content = styled.main`
   flex-direction: column;
   z-index: 1050;
   padding: 30px;
-  width: 40%;
+  min-width: 40%;
   top: 50%;
   left: 50%;
   margin: 0;

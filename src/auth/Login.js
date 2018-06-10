@@ -14,8 +14,8 @@ class Login extends Component {
 		}).then(response => response.json()).then((res)=> {
 			console.log(res);
 			this.setState({loading: false});
-			if(res.access_token) {
-				store.dispatch({ type: 'LOGIN_ACTION', payload: { token: res.access_token }});
+			if(res.status) {
+				store.dispatch({ type: 'LOGIN_ACTION', payload: { token: res.data.access_token }});
 				this.setState({ redirect: true });
 			}else {
 				this.setState({error: 'Invalid Email or Password', hasError: true});
@@ -27,7 +27,8 @@ class Login extends Component {
 		this.login(this.state.email, this.state.password);
 	}
 	render() {
-		if(store.getState().state.session.active || this.state.redirect) { return (<Redirect to="/dashboard"/>) }
+		if(store.getState().state.session.active) { return (<Redirect to="/dashboard"/>) }
+		if(this.state.redirect) { return (<Redirect to="/dashboard"/>) }
 	    return (
 	  		<div className="login-container">
 	    		<div className="login-content">

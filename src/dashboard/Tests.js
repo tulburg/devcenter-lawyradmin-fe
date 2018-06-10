@@ -18,7 +18,7 @@ export default class Dashboard extends Component {
 				store.dispatch({type: 'SAVE_COURSES', payload: res.data });
 				this.setState({ loadComplete: true });
 			}else {
-				console.error("Unable to load courses "+res);
+				console.error("Unable to load courses ", res);
 			}
 		});
 	}

@@ -13,6 +13,7 @@ import CreateTest from './CreateTest';
 import Test, { TestView } from './Test';
 import FlashCards from './FlashCards';
 import store from '../store';
+import AnchorLink from 'react-anchor-link-smooth-scroll'
 
 
 
@@ -21,7 +22,7 @@ function QuestionNav(props) {
 	const questions = (num) => {
 		let all = [];
 		for (var i=0;i<num;i++) {
-			all.push(<li key={i}>{i+1}</li>);
+			all.push(<li key={i}><AnchorLink offset="80" href={`#question-${i+1}`}>{i+1}</AnchorLink></li>);
 		}
 		return all;
 	};
@@ -163,7 +164,7 @@ export default class Dashboard extends Component {
 	      		<Route path={`${this.props.match.url}/ongoing`} component={OngoingTests} />
 				<Route path={`${this.props.match.url}/create-test/:course_id`} component={CreateTest} />
 				<Route exact path={`${this.props.match.url}/test/:course_id/:test_id`} component={TestView} />
-				<Route path={`${this.props.match.url}/test/:id/edit`} component={Test} />
+				<Route path={`${this.props.match.url}/test/:course_id/:test_id/edit`} component={Test} />
 				<Route path={`${this.props.match.url}/flashcards`} component={FlashCards} />
 	    	</Content>
 	  	</div>
