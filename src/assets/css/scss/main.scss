@@ -2,7 +2,7 @@
 $primary: #1c2d41;
 $accent: #50e3c2;
 $gray: #f6f6f6;
-$light_gray: darken($gray, 40%);
+$light-color: darken($gray, 40%);
 $white: #ffffff;
 $green: #37e3c4;
 $dark_green: #193c4a;
@@ -17,7 +17,7 @@ $dark_green: #193c4a;
 html, body { padding: 0px; margin: 0px; outline: 0px; font-size: 14px; font-family: 'Circular', 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; background-color: $gray; }
 * { outline: 0px; }
 #root { height: 100vh; width: 100vw; }
-.button, button { cursor: pointer; font-size: 16px; @include darken_hover_active($primary); color: $white; border: 0px; padding: 12px 50px; border-radius: 10px; &.clear { background-color: transparent; @include darken_color_hover($light_gray); &:active { background-color: transparent; } } &.bordered { border: 2px solid $primary; @include darken_hover_active($white); color: darken($primary, 5%); padding: 10px 50px; } &.long { min-width: 220px; } &.bar { width: 100%; } &.small { font-size: 13px; padding: 8px 25px; } &.alt { @include darken_hover_active($green); color: $primary; } &.sparse { letter-spacing: 3px; font-weight: bold; text-transform: uppercase; } }
+.button, button { cursor: pointer; font-size: 16px; @include darken_hover_active($primary); color: $white; border: 0px; padding: 12px 50px; border-radius: 10px; &.clear { background-color: transparent; @include darken_color_hover($light-color); &:active { background-color: transparent; } } &.bordered { border: 2px solid $primary; @include darken_hover_active($white); color: darken($primary, 5%); padding: 10px 50px; } &.long { min-width: 220px; } &.bar { width: 100%; } &.small { font-size: 13px; padding: 8px 25px; } &.alt { @include darken_hover_active($green); color: $primary; } &.sparse { letter-spacing: 3px; font-weight: bold; text-transform: uppercase; } }
  /* --- Login page, Reset Password, Forgot Password --- */
 .login-container { height: 100vh; display: flex; justify-content: center; align-items: center; }
 .login-content { display: flex; flex-direction: column; justify-content: center; align-items: center; width: 60%; }
@@ -39,6 +39,7 @@ nav { border-radius: 8px; background-color: #ffffff; box-shadow: 0 2px 4px 0 rgb
  		.navigation__link-text { width: 55%; } 
  	}
 }
+.card-wrap { .signed-up { .icon { color: $green; } } .active-users { .icon { color: $green; } } .paid-users { .icon { color: $green; } } .ongoing-card { .icon { color: $green; } } button { font-weight: bold !important; font-size: 15px; font: inherit; } }
 header { position: fixed; top: 0px; left: 0px; width: 100%; z-index: 100; display: flex; align-items: center; padding-left: 90px; padding-right: 90px; height: 80px; background-color: #ffffff; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
  	.header__logo { font-size: 32px; font-weight: bold; color: #000; margin-left: 10px; }
  	.btn-signout { font-size: 14px; letter-spacing: 0.9px; color: #000; height: 50px; border-radius: 8px; border: 0; @include darken_hover_active($gray); cursor: pointer; float: right; }
@@ -53,9 +54,9 @@ section.create-test { padding-left: 40px;
 	h1.heading { display: inline-block; vertical-align: middle; } 
 	.top-action { margin-top: 10px; padding: 20px 30px; border-radius: 5px; background: linear-gradient(60deg, $dark_green 0%, $green 100%); max-width: 400px; width: 90%; .title { color: $white; margin-bottom: 5px; } .subtitle { font-weight: bold; color: $white; } }
 	.right-action { height: 100px; display: flex; justify-content: center; align-items: center; span.light { color: darken($gray, 40%); padding: 20px; } .cs-select { width: 140px; } }
-	.test-list { .tbody { background-color: $white; border-radius: 5px; box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.15); li { padding: 10px 20px; } ul { border-bottom: 1px solid lighten($light_gray, 30%); margin: 0px; padding: 0px 20px; &:first-child { border-radius: 5px 5px 0px 0px; } &:last-child { border-radius: 0px 0px 5px 5px; border: 0px; } &:hover{ background-color: lighten($light_gray, 40%); } }  } .thead{ margin: 0px; color: $light_gray; padding: 0px 20px; li { padding: 5px 20px;} } }
+	.test-list { .tbody { background-color: $white; border-radius: 5px; box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.15); li { padding: 10px 20px; } ul { border-bottom: 1px solid lighten($light-color, 30%); margin: 0px; padding: 0px 20px; &:first-child { border-radius: 5px 5px 0px 0px; } &:last-child { border-radius: 0px 0px 5px 5px; border: 0px; } &:hover{ background-color: lighten($light-color, 40%); } }  } .thead{ margin: 0px; color: $light-color; padding: 0px 20px; li { padding: 5px 20px;} } }
 }
-.excel-upload { text-align: center; padding: 40px; p { text-align: center; } input[type="file"] { display: none; } .filepicker { height: 100px; width: 100px; border: 1px solid #e0e0e0; text-align: center; padding-top: 15px; border-radius: 5px; margin: 20px auto; @include darken_hover_active($white); cursor: pointer; i { color: $green; font-size: 56px; } } .filepicker-label { font-weight: bold; color: $light_gray; text-align: center; } .select { width: 140px; margin: 5px auto; .cs-options { max-height: 400px; overflow-y: auto; } } button,i.ic-spinner { margin: 0px auto; margin-top: 20px; font-weight: bold; color: darken($light_gray, 30%); } i.ic-spinner { font-size: 30px; } }
+.excel-upload { text-align: center; padding: 40px; p { text-align: center; } input[type="file"] { display: none; } .filepicker { height: 100px; width: 100px; border: 1px solid #e0e0e0; text-align: center; padding-top: 15px; border-radius: 5px; margin: 20px auto; @include darken_hover_active($white); cursor: pointer; i { color: $green; font-size: 56px; } } .filepicker-label { font-weight: bold; color: $light-color; text-align: center; } .select { width: 140px; margin: 5px auto; .cs-options { max-height: 400px; overflow-y: auto; } } button,i.ic-spinner { margin: 0px auto; margin-top: 20px; font-weight: bold; color: darken($light-color, 30%); } i.ic-spinner { font-size: 30px; } }
 /* Test questions definition  */
 section.test-questions { padding-left: 40px; 
 	h1.heading { display: inline-block; vertical-align: middle; } 
@@ -63,26 +64,26 @@ section.test-questions { padding-left: 40px;
 	.question-pane { margin-top: 20px; width: 100%; position: relative;
 		.question { width: 100%; margin-bottom: 40px; display: flex; margin-top: 40px;
 			.details { width: calc(100% - 50px); margin-left: 20px;  
-				.action-pane { display: flex; .title { width: 20%; font-size: 16px; font-weight: bold; color: $light_gray; padding-top: 2px; } .actions { width: 80%; text-align: right; 
+				.action-pane { display: flex; .title { width: 20%; font-size: 16px; font-weight: bold; color: $light-color; padding-top: 2px; } .actions { width: 80%; text-align: right; 
 					.info-btn { position: relative; cursor: pointer; background-color: #999; color: $white; height: 30px; width: 30px; border-radius: 15px; display: inline-block; vertical-align: middle; text-align: center; padding-top: 8px; font-size: 10px; margin-left: 20px; }
 				} }
 				.question-box { background-color: $white; padding: 20px; border-radius: 10px; margin-top: 10px; box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.1); color: lighten($primary, 5%); }
 			}
 		}
 		.tab { content: ""; width: 30px; height: 30px; }
-		.number { background-color: darken($light_gray, 40%); text-align: center; padding-top: 5px; border-radius: 15px; width: 30px; height: 30px; color: $white;  &.bordered { border: 1px solid $primary; background-color: transparent; color: $primary; font-weight: bold; }} 
-		.option-heading { padding-left: 50px; ul li { font-weight: bold; color: $light_gray; } }
+		.number { background-color: darken($light-color, 40%); text-align: center; padding-top: 5px; border-radius: 15px; width: 30px; height: 30px; color: $white;  &.bordered { border: 1px solid $primary; background-color: transparent; color: $primary; font-weight: bold; }} 
+		.option-heading { padding-left: 50px; ul li { font-weight: bold; color: $light-color; } }
 		.options { display: flex; margin-top: 15px; .option-pane { width: calc(100% - 50px); margin-left: 20px; .option-box, .info-box, .answer-box { background-color: $white; padding: 15px 20px; border-radius: 8px; box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.1); color: lighten($primary, 5%); &.active { border: 1px solid $primary; } } ul li { padding-right: 0px; } ul { margin-right: 0px; } } }
 		.answer-title { margin-bottom: 15px; display: flex; font-weight: bold; align-items: center; .number { height: 24px; width: 24px; padding-top: 2px; margin-right: 15px; } }
 		.question-overlay { display: none; height: 100%; width: 100%; position: absolute; background-color: $gray; opacity: 0.5; text-align: center; i { font-size: 60px; margin-top:calc(50% - 50px); color: #000; } }
 	}
-	.edit-question { border-bottom: 1px solid lighten($light_gray, 20%); padding-bottom: 50px; margin-bottom: 50px; }
+	.edit-question { border-bottom: 1px solid lighten($light-color, 20%); padding-bottom: 50px; margin-bottom: 50px; }
 	.answer-pane { border-bottom: 1px solid darken($gray, 10%); padding: 20px 0px; display: flex; align-items: center; justify-content: center; margin-top: 20px; .title { font-weight: bold; font-size: 18px; margin-right: 10px; } button { margin-left: 10px; } }
 	div.empty { font-size: 34px; color: darken($gray, 15%); text-align: center; font-weight: bold; padding: 100px; }
-	.linked-modal { width: 600px; .question { width: 100%; display: flex; .details { width: calc(100% - 50px); margin-left: 20px; .action-pane { display: flex; .title { width: 20%; font-size: 16px; font-weight: bold; color: $light_gray; padding-top: 2px; margin-bottom: 20px; } .actions { width: 80%; text-align: right; 
+	.linked-modal { width: 600px; .question { width: 100%; display: flex; .details { width: calc(100% - 50px); margin-left: 20px; .action-pane { display: flex; .title { width: 20%; font-size: 16px; font-weight: bold; color: $light-color; padding-top: 2px; margin-bottom: 20px; } .actions { width: 80%; text-align: right; 
 				.info-btn { background-color: #999; color: $white; height: 30px; width: 30px; border-radius: 15px; display: inline-block; vertical-align: middle; text-align: center; padding-top: 8px; font-size: 10px; margin-left: 20px; } } }
 			.question-box { background-color: $white; padding: 20px; border-radius: 10px; margin-top: 10px; box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.1); color: lighten($primary, 5%); }}
-		} .number { background-color: darken($light_gray, 40%); text-align: center; padding-top: 5px; border-radius: 15px; width: 30px; height: 30px; color: $white;  &.bordered { border: 1px solid $primary; background-color: transparent; color: $primary; font-weight: bold; }} 
+		} .number { background-color: darken($light-color, 40%); text-align: center; padding-top: 5px; border-radius: 15px; width: 30px; height: 30px; color: $white;  &.bordered { border: 1px solid $primary; background-color: transparent; color: $primary; font-weight: bold; }} 
 		.link-options { margin-top: 40px; margin-bottom: 20px; label { display: inline-block; vertical-align: center; font-weight: bold; padding: 10px; padding-left: 0px; padding-right: 20px; cursor: pointer; } }}
 }
 .question-nav { float: right; margin-top: 40px; span { font-weight: bold; font-size: 12px; margin-bottom: 10px; display: block; } div { float: right; background-color: $white; width: 50px; border-radius: 10px; box-shadow: 0 2px 4px 0 rgba(153, 160, 169, 0.29); ul { list-style: none; display: flex; flex-direction: column; align-items: center; padding: 0px; li { height: 24px; width: 24px; @include darken_hover($gray); border-radius: 12px; margin: 4px 0px; text-align: center; padding-top: 3px; cursor: pointer; &.active { background-color: $primary; color: $white; cursor: default; } } } } a { text-decoration: none; color: $primary; } }
@@ -90,38 +91,42 @@ section.test-questions { padding-left: 40px;
 section.test-edit {
 	textarea { resize: none; border: 0px; background-color: transparent; font-size: inherit; color: inherit; font-family: inherit; width: 100%; height: 100%; height: 1em; }
 	.edit-question-box { padding: 20px; border: 1px solid #999; margin-top: 10px; border-radius: 10px; background-color: transparent; }
+	.answer-pane { .select { width: 80px; } }
 }
 
 div.test-courses { ul.grid { color: $primary; padding-left: 20px; } li { padding-right: 0px; display: flex; align-items: center; flex-direction: column; } li .ball { height: 140px; width: 140px; background-color: $primary; border-radius: 70px; display: flex; justify-content: center; align-items: center; color: $white; i { font-size: 60px; } }  h2.title { font-size: 16px; text-align: center; margin-top: 10px; } a { text-decoration: none; color: $primary; } }
 div.load-pane { width: 100%; height: 400px; text-align: center; padding-top: 150px; i { font-size: 80px; color: $primary; } }
 /*  Flashcards definition */
 section.flashcards {
-	.card-holder { padding-bottom: 50px; border-bottom: 1px solid lighten($light_gray, 30%); li { padding-right: 0px; } } .card { display: table-cell; svg { color: $green; font-size: 28px; } .content { display: inline-block; width: calc(100% - 40px); padding-left: 30px; vertical-align: top; p { margin-top: 15px; font-size: 13px; } h2 { font-size: 30px; line-height: 0.8; } } } 
+	.card-holder { padding-bottom: 50px; border-bottom: 1px solid lighten($light-color, 30%); li { padding-right: 0px; } } .card { display: table-cell; i { color: $green; font-size: 28px; } .content { display: inline-block; width: calc(100% - 40px); padding-left: 30px; vertical-align: top; p { margin-top: 15px; font-size: 13px; } h2 { font-size: 30px; line-height: 0.8; } } } 
 	.courses { padding-top: 50px; padding-left: 20px; ul.grid { margin-left: -60px; } li { padding-right: 0px; display: flex; align-items: center; flex-direction: column; } li .ball { height: 140px; width: 140px; background-color: $primary; border-radius: 70px; display: flex; justify-content: center; align-items: center; color: $white; i { font-size: 60px; } }  h2.title { font-size: 16px; text-align: center; margin-top: 10px; } a { text-decoration: none; color: $primary; } }
 	div.create-flashcard { padding-left: 40px; h1.heading { display: inline-block; vertical-align: middle; } .top-action { margin-top: 10px; padding: 20px 30px; border-radius: 5px; background: linear-gradient(60deg, $dark_green 0%, $green 100%); max-width: 400px; width: 90%; .title { color: $white; margin-bottom: 5px; } .subtitle { font-weight: bold; color: $white; } } .right-action { button { float: right; padding: 15px 20px; margin-top: 10px; } } 
 		div.question-pane {  }}
-	.question-pane { margin-top: 20px; width: 100%; position: relative; border-bottom: 1px solid lighten($light_gray, 25%); padding-bottom: 40px; ul { padding-left: 0px; }
+	.question-pane { margin-top: 20px; width: 100%; position: relative; border-bottom: 1px solid lighten($light-color, 25%); padding-bottom: 40px; ul { padding-left: 0px; }
 		.question { width: 100%; display: flex; margin-top: 40px;
 			.details { width: calc(100% - 50px); }
 		}
 		.tab { content: ""; width: 30px; height: 30px; }
-		.number { background-color: darken($light_gray, 40%); text-align: center; padding-top: 5px; border-radius: 15px; width: 30px; height: 30px; color: $white;  &.bordered { border: 1px solid $primary; background-color: transparent; color: $primary; font-weight: bold; }} 
-		.option-heading { padding-left: 20px; ul li { font-weight: bold; color: $light_gray; } }
+		.number { background-color: darken($light-color, 40%); text-align: center; padding-top: 5px; border-radius: 15px; width: 30px; height: 30px; color: $white;  &.bordered { border: 1px solid $primary; background-color: transparent; color: $primary; font-weight: bold; }} 
+		.option-heading { padding-left: 20px; ul li { font-weight: bold; color: $light-color; } }
 		.options { display: flex; .option-pane { width: calc(100% - 50px); margin-left: 20px; .option-box, .info-box, .answer-box { background-color: $white; padding: 15px 20px; border-radius: 8px; box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.1); color: lighten($primary, 5%); &.active { border: 1px solid $primary; } } ul li { padding-right: 0px; } ul { margin-right: 0px; } } }
 		.gray-box { background-color: darken($gray, 10%); border-radius: 5px; padding: 6px 8px; .title { font-weight: bold; margin-bottom: 10px; } }
 	}
-	.create-box { margin-top: 40px; button { font-weight: bold; font-size: 14px; } }
+	.create-box { margin-top: 40px; button { font-weight: bold; font-size: 14px; } textarea { resize: none; border: 0px; background-color: transparent; font-size: inherit; color: inherit; font-family: inherit; width: 100%; height: 100%; height: 1em; } .question-pane { border: 0px; text-align: left; } h3 { text-align: left; }}
+	.excel-upload { form { margin: auto 50px; } p { margin-bottom: 40px; color: $light-color; padding-bottom: 20px; border-bottom: 1px solid lighten($light-color, 30%); } }
 }
 .back-arrow { cursor: pointer; }
-.dropmenu { position: absolute; border-radius: 5px; background-color: $white; color: $primary; border: 1px solid $light_gray; top: calc(100% + 10px); &::after { content: ""; height: 10px; width: 10px; position: absolute; top: -7px; background-color: $white; left: calc(50% - 8px); border: 1px solid $light_gray; border-left: 0px; border-bottom: 0px; transform: rotate(-45deg); } &.hint { display: none; padding: 15px; width: 240px; right: 0px; top: calc(100% + 20px); box-shadow: 0px 10px 8px rgba(0,0,0,0.2); &::after { right: 10px; left: auto; } } }
+.dropmenu { position: absolute; border-radius: 5px; background-color: $white; color: $primary; border: 1px solid $light-color; top: calc(100% + 10px); &::after { content: ""; height: 10px; width: 10px; position: absolute; top: -7px; background-color: $white; left: calc(50% - 8px); border: 1px solid $light-color; border-left: 0px; border-bottom: 0px; transform: rotate(-45deg); } &.hint { display: none; padding: 15px; width: 240px; right: 0px; top: calc(100% + 20px); box-shadow: 0px 10px 8px rgba(0,0,0,0.2); &::after { right: 10px; left: auto; } } }
+div.input-wrapper { padding: 10px 0px; .wrapp { width: 100%; position: relative; display: inline-block; border: 1px solid lighten($light-color, 25%); border-radius: 5px; background-color: lighten($primary, 78%); color: $primary; input[type="text"],input[type="password"],span.placeholder { width: 100%; display: block; border: 0px; background: transparent; padding: 10px 20px; font: inherit; font-size: 14px; } div.button { display: inline-block; cursor: pointer; background-image: linear-gradient(-180deg, #F6F6F6 0%, #DCDCDC 99%); border: 1px solid lighten($light-color, 25%); border-radius: 5px; padding: 10px 10px; color: $primary; font-weight: bold; position: absolute; right: -1px; top: -1px; height: calc(100% + 2px); cursor: pointer; } } label { display: block; text-align: center; padding: 5px 0px; } input[type="file"] { display: none; } span.placeholder { margin-right: 80px; color: $light-color; text-align: left; width: calc(100% - 120px) !important; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; } }
+
 
  /* --- globals --- */
 
 .hr { margin: 10px; }
 .no-decoration { text-decoration: none; color: inherit; }
-.card-button button { width: 100%; padding: 0px; }
-.sparse { letter-spacing: 3px; }
-.card { background-color: $white; box-shadow: 0px 20px 25px 5px rgba(0, 0, 0, 0.1); border-radius: 10px; border: 1px solid lighten($light_gray, 33%); padding: 30px; height: 100%; }
+.card-button button { width: 100%; padding: 0px; min-height: 50px; font: inherit; border-radius: 8px; }
+.sparse { letter-spacing: 3px; &.mid-sparse { letter-spacing: 2px; } }
+.card { background-color: $white; box-shadow: 0px 20px 25px 5px rgba(0, 0, 0, 0.1); border-radius: 10px; border: 1px solid lighten($light-color, 33%); padding: 30px; height: 100%; }
 
 
 ul.grid{clear:both;box-sizing: content-box;margin:auto -40px; list-style: none; padding-left: 0px; }
@@ -136,7 +141,7 @@ ul.grid.separator > li:first-child{border-left:0px;}
 
 /* Select customization */
 div.cs-select{display:inline-block;vertical-align:middle;position:relative;text-align:left;background:#fff;z-index:100;width:100%;max-width:500px;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}div.cs-select:focus{outline:0}.cs-select select{display:none}.cs-select span{display:block;position:relative;cursor:pointer;padding:1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cs-select>span{padding-right:3em}.cs-select .cs-selected span::after,.cs-select>span::after{speak:none;position:absolute;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.cs-select>span::after{font-family:ttv;content:'\eb1c';right:1em}.cs-select .cs-selected span::after{content:'\eb1c';margin-left:1em}.cs-select.cs-active>span::after{-webkit-transform:translateY(-50%) rotate(180deg);transform:translateY(-50%) rotate(180deg)}.cs-select .cs-options{position:absolute;overflow:hidden;width:100%;background:#fff;visibility:hidden}.cs-select.cs-active .cs-options{visibility:visible}.cs-select ul{list-style:none;margin:0;padding:0;width:100%}.cs-select ul span{padding:1em}.cs-select ul li.cs-focus span{background-color:#ddd}.cs-select li.cs-optgroup ul{padding-left:1em}.cs-select li.cs-optgroup>span{cursor:default}
-.cs-select { color: darken($light_gray, 30%); border: 1px solid lighten($light_gray, 22%); border-radius: 6px; &:focus { border: 2px solid $primary; } &.alt { border: 2px solid $primary; } }
+.cs-select { color: darken($light-color, 30%); border: 1px solid lighten($light-color, 22%); border-radius: 6px; &:focus { border: 2px solid $primary; } &.alt { border: 2px solid $primary; } }
 .cs-select .cs-placeholder { padding: 8px 15px; }
 .cs-select.default ul li span::after { display: none; }
 .cs-select.default .cs-options { box-shadow: 2px 2px 4px 0 rgba(204, 204, 204, 0.5); top: calc(100% + 2px); border-radius: 0px 0px 2px 2px; }
@@ -145,4 +150,4 @@ div.cs-select{display:inline-block;vertical-align:middle;position:relative;text-
 .cs-select.default span, .cs-select.default ul span { padding: 10px 15px; }
 .cs-select.default > span::after { content: '\eb1c'; font-family: "lawyr"; }
 .cs-select.default.alt > span::after { color: $primary; }
-.cs-select.default:disabled { background-color: lighten($light_gray, 15%); }
+.cs-select.default:disabled { background-color: lighten($light-color, 15%); }

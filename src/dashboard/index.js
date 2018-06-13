@@ -94,7 +94,7 @@ export default class Dashboard extends Component {
 			                    <div className="input-wrap">
 			                      	<input className="textbox" placeholder="Email Address" />
 			                      	<div type="button" className="input-wrap__btn">
-			                        	<i className="fas fa-plus" />
+			                        	<i className="ic-plus" />
 			                      	</div>
 			                    </div>
 		                    	<span className="invite-sent">Invitation Email to user@devcenter.co sent{' '}</span>
@@ -102,13 +102,13 @@ export default class Dashboard extends Component {
 		                </Modal>
 	                	<h2 className="main-section__header">Overview</h2>
 	                	<div className="card-wrap">
-		                  	<Card bg="invert" icon="address-card" number={3600} title="signed up users">
+		                  	<Card bg="invert" icon="ic-uniF11E" number={3600} title="signed up users" classNames="signed-up">
 		                    	<Button onClick={() => this.setState({ showModal: true })} color="#000" text="Invite Users" bg="#50e3c2" />
 		                  	</Card>
-		                  	<Card icon="users" number={400} title="Active users">
+		                  	<Card icon="ic-group-2" number={400} title="Active users" classNames="active-users">
 		                    	<Button text="View Ongoing Tests" bg="#1c2d41" className="card-button" />
 		                  	</Card>
-		                  	<Card icon="file-alt" number={1000} title="Paid users">
+		                  	<Card icon="ic-card" number={1000} title="Paid users" classNames="paid-users">
 		                    	<Button text="View purchases" bg="#1c2d41" />
 		                  	</Card>
 	                	</div>
@@ -120,13 +120,13 @@ export default class Dashboard extends Component {
 		                  	<FlashCard>
 		                    	<p className="flashcard__text">Create a Flash card</p>
 			                    <span className="flashcard__icon">
-			                      	<i className="fas fa-arrow-right fa-lg" />
+			                      	<i className="ic-right" />
 			                    </span>
 		                  	</FlashCard>
 		                 	<FlashCard>
 		                    	<p className="flashcard__text">Create a Test</p>
 			                    <span className="flashcard__icon">
-			                      	<i className="fas fa-arrow-right fa-lg" />
+			                      	<i className="ic-right" />
 			                    </span>
 		                  	</FlashCard>
 		                  	<div className="quick-links">
@@ -134,13 +134,13 @@ export default class Dashboard extends Component {
 			                    <p className="quick-links__link">
 			                      	<span>Edit Flashcards</span>
 			                      	<span>
-			                        	<i className="fas fa-arrow-right" />
+			                        	<i className="ic-right" />
 			                      	</span>
 			                    </p>
 		                    	<p className="quick-links__link">
 			                      	<span>Edit Courses</span>
 			                      	<span>
-			                        	<i className="fas fa-arrow-right" />
+			                        	<i className="ic-right" />
 			                      	</span>
 		                    	</p>
 		                  	</div>

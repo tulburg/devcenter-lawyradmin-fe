@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import store from '../store';
 import Modal from '../components/Modal';
+import Select from '../components/Select';
 
 
 export class TestView extends Component {
@@ -106,7 +107,7 @@ export class TestView extends Component {
 			return(<div className="main-section">
 				<section className="test-questions">
 					<span className="back-arrow" onClick={() => window.history.go(-1) }>
-					  	<i className="fas fa-arrow-left fa-lg" />
+					  	<i className="ic-back" />
 					</span>
 					<h1 className="heading">{ this.state.course.title }</h1>
 					<div className="top-action">
@@ -165,7 +166,7 @@ export default class Test extends Component {
 	fetchQuestions() {
 		let id = this.props.match.params.test_id;
 		let course_id = this.props.match.params.course_id;
-		let tests = store.getState().state["course_tests_"+course_id];
+		let tests = store.getState().state["course_tests_"+course_id]; 
 		let courses = store.getState().state.courses;
 		if(tests !== undefined && courses !== undefined) {
 			for ( var i = 0; i<courses.length; i++ ) {
@@ -194,17 +195,23 @@ export default class Test extends Component {
 		console.log(this.values);
 	}
 	saveQuestion(id) {
-		let question = this.values[id];
+		var question = this.values[id];
 		document.getElementById("overlay-"+question.id).style = "display: block;";
 		if(question !== undefined) {
+			var param = {
+				quiz_id: question.quiz_id, serial_no: question.serial_no, 
+				question: question.question, option_a : question.option_a, option_b : question.option_b,
+				option_c: question.option_c, option_d: question.option_d, answer: question.answer, linked_to: question.linked_to 
+			}
 			fetch(store.getState().state.api.dev+"questions/"+id, {
 				method: 'PUT',
-				headers: { 'Authorization' : 'Bearer '+store.getState().state.token },
-				body: question
+				headers: { 'Authorization' : 'Bearer '+store.getState().state.token, 'content-type': 'application/json' },
+				body: JSON.stringify(param)
 			}).then(res => res.json()).then(res => {
-				document.getElementById("overlay-"+question.id).style = "display: none;";
-				console.log("here:", res);
-			});
+				document.getElementById("overlay-"+res.data.id).style = "display: none;";
+				this.values[id] = res.data;
+				this.updateStore(id);
+			}).catch(err => console.log(err));
 		}
 	}
 	linkedQuestion(id) {
@@ -224,6 +231,26 @@ export default class Test extends Component {
 		let question = this.values[id];
 		this.values[this.state.linkQuestion.id].linked_to.push(question.serial_no.toString());
 	}
+	setAnswer(value, id) {
+		this.values[id].answer.title = value;
+		// var question = this.state.test.questions.where({id: id});
+		this.setState({ test: this.state.test });
+	}
+	updateStore(id) {
+		let test_id = this.props.match.params.test_id;
+		let course_id = this.props.match.params.course_id;
+		let tests = store.getState().state["course_tests_"+course_id]; 
+		for (var j = 0; j<tests.length; j++) {
+			if(tests[j].id === test_id) { 
+				for(var k = 0; k<tests[j].questions.length; k++) {
+					if(tests[j].questions[k].id === undefined) {
+						tests[j].questions[k] = this.values[id];
+						store.dispatch({ type: "SAVE_COURSE_TESTS_"+course_id, payload: tests});
+					}else {  }
+				}
+			}
+		}
+	}
 	render() {
 		let course_id = this.props.match.params.course_id;
 		if(this.state.gotoEdit){ return (<Redirect to={`${this.props.match.url}/edit`} />); }
@@ -242,6 +269,10 @@ export default class Test extends Component {
 				return (<label id={`link-option-${question.serial_no}`} className="link-inputs" onClick={(e) =>{ self.chooseLink(question.id)}}><input type="checkbox" /> { question.serial_no }</label>);
 			})
 			const mappedQuestions = this.state.test.questions.map(function(question) {
+				// const mappedAnswerOptions = ["A", "B", "C", "D"].map(function(option) {
+				// 	if(option === question.answer.title) return (<option value={option} selected>{option}</option>);
+				// 	return (<option value={option}>{option}</option>);
+				// })
 				return (
 					<div key={question.id}>
 						<div className="question-pane" id={`question-${question.serial_no}`}>
@@ -252,8 +283,8 @@ export default class Test extends Component {
 									<div className="action-pane">
 										<div className="title sparse">QUESTION</div>
 										<div className="actions">
-											<button className="small" onClick={() => self.linkedQuestion(question.id)}><i className="fas fa-plus"></i> Link to Another Question</button>
-											<span className="info-btn" onClick={(e) => {var s = e.target.parentNode.getElementsByTagName("div")[0]; if(s !== undefined) { (s.style.display === 'block') ? s.style.display = 'none' : s.style.display ='block'; }} }><i className="fas fa-info"></i><div className="dropmenu hint">Linking a question enables you set multiple follow-up questions. This will appear in the format - "Use this question to answer Question 1, 2 & 3"</div></span>
+											<button className="small" onClick={() => self.linkedQuestion(question.id)}><i className="ic-plus"></i> Link to Another Question</button>
+											<span className="info-btn" onClick={(e) => {var s = e.target.parentNode.getElementsByTagName("div")[0]; if(s !== undefined) { (s.style.display === 'block') ? s.style.display = 'none' : s.style.display ='block'; }} }> i <div className="dropmenu hint">Linking a question enables you set multiple follow-up questions. This will appear in the format - "Use this question to answer Question 1, 2 & 3"</div></span>
 										</div>
 									</div>
 									<div className="edit-question-box">
@@ -265,7 +296,7 @@ export default class Test extends Component {
 								<ul className="grid grid-2"><li className="sparse">OPTIONS</li><li className="sparse">MORE INFO</li></ul>
 							</div>
 							<div className="options">
-								<div className="number bordered">A</div>
+								{ (question.answer.title === "A") ? <div className="number">A</div> : <div className="number bordered">A</div> }
 								<div className="option-pane">
 									<ul className="grid grid-2">
 										<li><div className="option-box"><textarea onChange={(e) => self.textAreaChange("option_a-"+question.id, e)} defaultValue={question.option_a.title} /></div></li>
@@ -274,7 +305,7 @@ export default class Test extends Component {
 								</div>
 							</div>
 							<div className="options">
-								<div className="number bordered">B</div>
+								{ (question.answer.title === "B") ? <div className="number">B</div> : <div className="number bordered">B</div> }
 								<div className="option-pane">
 									<ul className="grid grid-2">
 										<li><div className="option-box"><textarea onChange={(e) => self.textAreaChange("option_b-"+question.id, e)} defaultValue={question.option_b.title} /></div></li>
@@ -283,7 +314,7 @@ export default class Test extends Component {
 								</div>
 							</div>
 							<div className="options">
-								<div className="number bordered">C</div>
+								{ (question.answer.title === "C") ? <div className="number">C</div> : <div className="number bordered">C</div> }
 								<div className="option-pane">
 									<ul className="grid grid-2">
 										<li><div className="option-box"><textarea onChange={(e) => self.textAreaChange("option_c-"+question.id, e)} defaultValue={question.option_c.title} /></div></li>
@@ -292,7 +323,7 @@ export default class Test extends Component {
 								</div>
 							</div>
 							<div className="options">
-								<div className="number bordered">D</div>
+								{ (question.answer.title === "D") ? <div className="number">D</div> : <div className="number bordered">D</div> }
 								<div className="option-pane">
 									<ul className="grid grid-2">
 										<li><div className="option-box"><textarea onChange={(e) => self.textAreaChange("option_d-"+question.id, e)} defaultValue={question.option_d.title} /></div></li>
@@ -303,7 +334,13 @@ export default class Test extends Component {
 						</div>
 						<div className="answer-pane">
 							<div className="title">Set an Option</div>
-							<select><option value="">B</option><option value="">A</option></select>
+							{/*<select>{ mappedAnswerOptions }</select>*/}
+							<Select classNames="" name={'filter'+question.id} onChange={(v) => { self.setAnswer(v, question.id)}} options={[
+								{ title: "A", value: "A" },
+								{ title: "B", value: "B" },
+								{ title: "C", value: "C" },
+								{ title: "D", value: "D" }
+							]} selected={question.answer.title}/>
 							<button className="sparse" onClick={() => self.saveQuestion(question.id) }>save</button>
 						</div>
 					</div>
@@ -313,7 +350,7 @@ export default class Test extends Component {
 				<div className="main-section">
 					<section className="test-questions test-edit">
 						<span className="back-arrow" onClick={() => window.history.go(-1) }>
-						  	<i className="fas fa-arrow-left fa-lg" />
+						  	<i className="ic-back" />
 						</span>
 						<h1 className="heading">{this.state.course.title}</h1>
 						<div className="top-action">

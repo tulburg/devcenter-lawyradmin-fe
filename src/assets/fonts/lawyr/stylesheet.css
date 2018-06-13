@@ -55,7 +55,12 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
  
-
+/******
+	ONLY UPDATE THIS SECTION
+	WHENEVER YOU UPDATE THE ICONS
+	YOU CAN UPDATE THE ICONS ON FONTELLO BY JUST UPLOADING
+	THE CONFIG AND THE SVG
+******/
 
 .ic-spinner:before { content: '\e800'; } /* '' */
 .ic-plus:before { content: '\e801'; } /* '' */
@@ -105,6 +110,10 @@
 .ic-cancel:before { content: '\f136'; } /* '' */
 .ic-edit:before { content: '\f158'; } /* '' */
 
+/* Custom (DO NOT DELETE) */
+.ic-right::before { content: '\f100'; transform: rotate(180deg); }
+.ic-down::before { content: '\f100'; transform: rotate(-90deg); }
+.ic-up::before { content: '\f100'; transform: rotate(90deg); }
 
 .animate-spin {
   -moz-animation: spin 1s infinite linear;

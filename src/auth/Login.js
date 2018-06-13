@@ -17,6 +17,7 @@ class Login extends Component {
 			if(res.status) {
 				store.dispatch({ type: 'LOGIN_ACTION', payload: { token: res.data.access_token }});
 				this.setState({ redirect: true });
+				window.location.href = "/dashboard"
 			}else {
 				this.setState({error: 'Invalid Email or Password', hasError: true});
 			}

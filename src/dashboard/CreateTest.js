@@ -92,7 +92,7 @@ export default class CreateTest extends Component {
 			<div className="main-section">
 				<section className="create-test">
 					<span className="back-arrow" onClick={() => window.history.go(-1) }>
-					  	<i className="fas fa-arrow-left fa-lg" />
+					  	<i className="ic-back" />
 					</span>
 					<h1 className="heading">{ this.state.course.title }</h1>
 					<ul className="grid grid-2">

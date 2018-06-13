@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Card from '../components/Card';
-import Button from '../components/Button';
+// import Button from '../components/Button';
 import { Link } from 'react-router-dom';
 import store from '../store';
 
@@ -41,9 +41,9 @@ export default class Dashboard extends Component {
   			return (
 		      	<div className="main-section">
 			        <div className="card-wrap">
-			          	<Card number={20} icon="users" title="Ongoing Tests">
+			          	<Card number={20} icon="ic-cards" title="Ongoing Tests" classNames="ongoing-card">
 			            	<Link to="ongoing" className="card-button">
-			            		<Button bg="#50e3c2" text="View Ongoing Tests" />
+			            		<button className="alt">View Ongoing Tests <i className="ic-right"></i></button>
 			            	</Link>
 			          	</Card>
 

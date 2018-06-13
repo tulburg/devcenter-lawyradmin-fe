@@ -57,11 +57,11 @@ const CardStyle = styled.div`
  * @param {string} bg render inverted or white card
  * @param {string} icon font-awesome icon
  */
-const Card = ({ title, number, bg, children, icon }) => (
+const Card = ({ title, number, bg, children, icon, classNames }) => (
   <CardStyle bg={bg}>
-    <div className="top">
+    <div className={`top ${classNames}`}>
       <div className="icon">
-        <i className={`fas fa-${icon}`} />
+        <i className={icon} />
       </div>
       <div className="card__info">
         <h2>{number}</h2>

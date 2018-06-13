@@ -204,6 +204,7 @@ export const SendInvite = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
+      font-size: 24px;
 
       &:hover {
         cursor: pointer;

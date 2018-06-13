@@ -183,6 +183,19 @@ nav {
     nav .navigation__link .navigation__link-text {
       width: 55%; }
 
+.card-wrap .signed-up .icon {
+  color: #37e3c4; }
+.card-wrap .active-users .icon {
+  color: #37e3c4; }
+.card-wrap .paid-users .icon {
+  color: #37e3c4; }
+.card-wrap .ongoing-card .icon {
+  color: #37e3c4; }
+.card-wrap button {
+  font-weight: bold !important;
+  font-size: 15px;
+  font: inherit; }
+
 header {
   position: fixed;
   top: 0px;
@@ -599,6 +612,8 @@ section.test-edit .edit-question-box {
   margin-top: 10px;
   border-radius: 10px;
   background-color: transparent; }
+section.test-edit .answer-pane .select {
+  width: 80px; }
 
 div.test-courses ul.grid {
   color: #1c2d41;
@@ -644,7 +659,7 @@ section.flashcards .card-holder {
     padding-right: 0px; }
 section.flashcards .card {
   display: table-cell; }
-  section.flashcards .card svg {
+  section.flashcards .card i {
     color: #37e3c4;
     font-size: 28px; }
   section.flashcards .card .content {
@@ -773,6 +788,28 @@ section.flashcards .create-box {
   section.flashcards .create-box button {
     font-weight: bold;
     font-size: 14px; }
+  section.flashcards .create-box textarea {
+    resize: none;
+    border: 0px;
+    background-color: transparent;
+    font-size: inherit;
+    color: inherit;
+    font-family: inherit;
+    width: 100%;
+    height: 100%;
+    height: 1em; }
+  section.flashcards .create-box .question-pane {
+    border: 0px;
+    text-align: left; }
+  section.flashcards .create-box h3 {
+    text-align: left; }
+section.flashcards .excel-upload form {
+  margin: auto 50px; }
+section.flashcards .excel-upload p {
+  margin-bottom: 40px;
+  color: #909090;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dddddd; }
 
 .back-arrow {
   cursor: pointer; }
@@ -807,6 +844,53 @@ section.flashcards .create-box {
       right: 10px;
       left: auto; }
 
+div.input-wrapper {
+  padding: 10px 0px; }
+  div.input-wrapper .wrapp {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    background-color: #f2f5f9;
+    color: #1c2d41; }
+    div.input-wrapper .wrapp input[type="text"], div.input-wrapper .wrapp input[type="password"], div.input-wrapper .wrapp span.placeholder {
+      width: 100%;
+      display: block;
+      border: 0px;
+      background: transparent;
+      padding: 10px 20px;
+      font: inherit;
+      font-size: 14px; }
+    div.input-wrapper .wrapp div.button {
+      display: inline-block;
+      cursor: pointer;
+      background-image: linear-gradient(-180deg, #F6F6F6 0%, #DCDCDC 99%);
+      border: 1px solid #d0d0d0;
+      border-radius: 5px;
+      padding: 10px 10px;
+      color: #1c2d41;
+      font-weight: bold;
+      position: absolute;
+      right: -1px;
+      top: -1px;
+      height: calc(100% + 2px);
+      cursor: pointer; }
+  div.input-wrapper label {
+    display: block;
+    text-align: center;
+    padding: 5px 0px; }
+  div.input-wrapper input[type="file"] {
+    display: none; }
+  div.input-wrapper span.placeholder {
+    margin-right: 80px;
+    color: #909090;
+    text-align: left;
+    width: calc(100% - 120px) !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; }
+
 /* --- globals --- */
 .hr {
   margin: 10px; }
@@ -817,10 +901,15 @@ section.flashcards .create-box {
 
 .card-button button {
   width: 100%;
-  padding: 0px; }
+  padding: 0px;
+  min-height: 50px;
+  font: inherit;
+  border-radius: 8px; }
 
 .sparse {
   letter-spacing: 3px; }
+  .sparse.mid-sparse {
+    letter-spacing: 2px; }
 
 .card {
   background-color: #ffffff;
