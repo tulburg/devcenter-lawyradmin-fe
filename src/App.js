@@ -10,17 +10,17 @@ import Dashboard from './dashboard';
 class App extends Component {
 	render() {
 	    return (
-	      <Router>
-	        <div>
-	          <Route exact path="/" component={Login} />
-	          <Route path="/reset-password" component={ResetPassword} />
-	          <Route path="/forgot-password" component={ForgotPassword} />
-	          <Route path="/dashboard" component={Dashboard} />
-	        </div>
-	      </Router>
+	      	<Router>
+		        <div>
+					<Route exact path="/" component={Login} />
+					<Route path="/reset-password" component={ResetPassword} />
+					<Route path="/forgot-password" component={ForgotPassword} />
+					<Route path="/dashboard" component={Dashboard} />
+		        </div>
+	      	</Router>
 	    );
-	  }
 	}
+}
 
 
 export default App;

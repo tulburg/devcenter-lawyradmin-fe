@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, Redirect, Link } from 'react-router-dom';
 import Modal from '../components/Modal';
-// import Select from '../components/Select';
+import Select from '../components/Select';
 import store from '../store';
 
 export default class FlashCards extends Component {
@@ -10,7 +10,9 @@ export default class FlashCards extends Component {
 		return (
 			<div className="main-section">
 				<Route exact path={`${this.props.match.url}/`} component={FlashCardsIndex} />
-				<Route path={`${this.props.match.url}/:course_id`} component={CreateFlashCards} />
+				<Route exact path={`${this.props.match.url}/:course_id`} component={CourseFlashCards} />
+				<Route exact path={`${this.props.match.url}/:course_id/:flashcard_id`} component={CreateFlashCards} />
+				<Route path={`${this.props.match.url}/:course_id/:flashcard_id/edit`} component={EditFlashCards} />
 			</div>
 		);
 	}
@@ -93,15 +95,35 @@ class FlashCardsIndex extends Component {
 	}
 }
 
-class CreateFlashCards extends Component {
-	state = { loadComplete: false, goHome: false, showUploadModal: false, uploading: false, file: undefined,
-		course: { title: "Criminal Law"}, uploadError: undefined,
-		questions: ["h"],
-		uploadTitle: '', uploadDescription: '', uploadCost: ''
+class CourseFlashCards extends Component {
+
+	state = { showUploadModal: false, course: null, loadComplete: false, file: null, year: undefined, flashcards: [], uploading: false, uploadError: undefined };
+
+	sortBy(type) {
+		let tests = this.state.flashcards;
+		if(type === 'cost') {
+			tests.sort(function(a,b){ return (a.cost > b.cost) ? 1 : (b.cost > a.cost) ? -1 : 0; }); 
+		}else if(type === 'date') {
+			tests.sort(function(a,b){ let c = new Date(a.created_at.replace(" ", "T")), d = new Date(b.created_at.replace(" ", "T")); return (c > d) ? 1 : (d > c) ? -1 : 0; });
+		}
+		this.setState({ tests: tests });
 	}
-	textAreaChange(e) {
-		e.target.style.height = 'auto';
-		e.target.style.height = e.target.scrollHeight + 'px';
+	getFlashcards() {
+		let course_id = this.props.match.params.course_id;
+		fetch(store.getState().state.api.dev+"courses/"+course_id+"/flashcards", {
+			method: 'GET',
+			headers: { 'Authorization' : 'Bearer '+store.getState().state.token }
+		}).then(res => res.json()).then(res => {
+			console.log(res);
+			this.setState({ loadComplete: true, flashcards: res.data });
+			store.dispatch({ type: "SAVE_COURSE_FLASHCARD_"+course_id,  payload: res.data });
+		}).catch(err => console.log(err));
+	}
+	simpleDate(value) {
+		let date = value.split(" ")[0]
+		let year = date.split("-")[0], month = date.split("-")[1], day = date.split("-")[2];
+		let all_month = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEPT", "OCT", "NOV", "DEC"];
+		return day+"-"+all_month[parseInt(month, 10)]+"-"+year;
 	}
 	handleUpload(e) {
 		e.preventDefault();
@@ -112,18 +134,22 @@ class CreateFlashCards extends Component {
 		let formData = new FormData();
 		formData.append('file', this.state.file);
 		formData.append('course_id', this.state.course.id);
-		formData.append('year', this.state.year);
-		fetch(store.getState().state.api.dev+"quizs/upload", {
+		formData.append('title', this.state.uploadTitle);
+		formData.append('description', this.state.uploadDescription);
+		formData.append('cost', this.state.uploadCost);
+		fetch(store.getState().state.api.dev+"flashcards/upload", {
 			method: 'POST',
 			headers: { 'Authorization' : 'Bearer '+store.getState().state.token },
 			body: formData
 		}).then(res => res.json()).then(res => {
+			console.log(res);
 			if(res.data) { 
+				console.log(res.data);
 				this.setState({uploading: false, showUploadModal: false, loadComplete: false });
-				this.getCourse();
+				this.getFlashcards();
 			}else {
 				this.setState({uploading: false });
-				this.setUploadError(res.message);
+				// this.setUploadError(res.message);
 			}
 		});
 	}
@@ -132,11 +158,8 @@ class CreateFlashCards extends Component {
 		var files = (e.dataTransfer) ? e.dataTransfer.files : e.target.files;
 	    this.setState({file: files[0]});
 	}
-	setUploadError(error) {
-		this.setState({ uploadError: error})
-		setTimeout(()=>{ this.setState({uploadError: undefined}); }, 4000);
-	}
 	render() {
+		if(this.state.course === null) { console.log("Unable to find this course"); }
 		if(this.state.loadComplete === false) {
 			return (
 				<div className="main-section">
@@ -145,51 +168,19 @@ class CreateFlashCards extends Component {
 					</div>
 				</div>
 			);
-		}else {
-			const yearOptions =  [{title: "Select year", value: "" }]
-			"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20".split(",").forEach(function(num) {
-				yearOptions.push({title: 2000+parseInt(num,10), value: 2000+parseInt(num,10)}); return;
-			});
-			const renderedQuestions = this.state.questions.map(function(question) {
-				return (
-					<div className="question-pane edit-question" key={question}>
-						<div className="question">
-							<div className="number">1</div>
-							<div className="details">
-								<div className="option-heading">
-									<ul className="grid grid-2"><li className="sparse">QUESTION</li><li className="sparse">ANSWER</li></ul>
-								</div>
-							</div>
-						</div>
-						
-						<div className="options">
-							<div className="tab"></div>
-							<div className="option-pane">
-								<ul className="grid grid-2">
-									<li>
-										<div className="gray-box">
-											Some description you are
-										</div>
-									</li>
-									<li>
-										<div className="gray-box">
-											<div className="title">A. Shareholder interploader</div>
-											Some description you are
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				);
-			});
+		}else{
+			let id = this.props.match.params.course_id;
+			var self = this;
+			const renderedTests = this.state.flashcards.map(function(flashcard) {
+				return (<ul className="grid grid-5" key={flashcard.id}><li><Link to={`/dashboard/flashcards/${id}/${flashcard.id}`} className="no-decoration">{flashcard.title }</Link></li><li>{ flashcard.description }</li><li>{ self.simpleDate(flashcard.created_at) }</li><li>{ self.simpleDate(flashcard.updated_at) }</li><li><b>{flashcard.currency+" "+flashcard.cost}</b></li></ul>);
+			})
 			return(
-				<section className="flashcards">
-					<div className="create-flashcard">
+				<div>
+					<section className="create-test">
 						<span className="back-arrow" onClick={() => window.history.go(-1) }>
 						  	<i className="ic-back" />
 						</span>
-						<h1 className="heading">{ this.state.course.title } Flashcards</h1>
+						<h1 className="heading">{ this.state.course.title }</h1>
 						<ul className="grid grid-2">
 							<li>
 								<a href="" className="no-decoration" onClick={(e) => { e.preventDefault(); this.setState({ showUploadModal: true })}}>
@@ -201,48 +192,29 @@ class CreateFlashCards extends Component {
 							</li>
 							<li>
 								<div className="right-action">
-									<button className="btn-primary sparse" onClick={() => { this.setState({gotoEdit: true})}}>Edit</button>
+									<span className="light"> Displaying 7 of 7 Flashcards</span>
+									<div>
+										<div className="title">Sort by:</div>
+										<Select classNames="" name="filter" onChange={(v) => { this.sortBy(v)}} options={[
+											{ title: "Date Created", value: "date" },
+											{ title: "Cost", value: "time" }
+										]}/>
+									</div>
 								</div>
 							</li>
 						</ul>
-						<div>
-							{ renderedQuestions }
-						</div>
-
-						<div className="create-box" align="center">
-							<h3>Create a New Flashcard</h3>
-							<div className="question-pane edit-question">
-								<div className="question">
-									<div className="number bordered">1</div>
-									<div className="details">
-										<div className="option-heading">
-											<ul className="grid grid-2"><li className="sparse">QUESTION</li><li className="sparse">ANSWER</li></ul>
-										</div>
-									</div>
-								</div>
-								
-								<div className="options">
-									<div className="tab"></div>
-									<div className="option-pane">
-										<ul className="grid grid-2">
-											<li>
-												<div className="info-box">
-													<textarea onChange={(e) => this.textAreaChange(e) } defaultValue="Some description you are"></textarea>
-												</div>
-											</li>
-											<li>
-												<div className="info-box">
-													<div className="title">A. Shareholder interploader</div>
-													<textarea onChange={(e) => this.textAreaChange(e) } defaultValue="Some description you are"></textarea>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
+						<br/><br/>
+						<div>Click a Flashcard to View & Edit</div><br/>
+						<div className="table test-list">
+							<ul className="grid grid-5 thead">
+								<li>TITLE</li><li>DESCRIPTION</li><li>CREATED</li><li>EDITED</li><li>COST</li>
+							</ul>
+							<div className="tbody">
+								{ renderedTests }
 							</div>
-							<button className="alt">Create a new Flashcard</button>
 						</div>
-					</div>
+					</section>
+
 					<Modal visible={this.state.showUploadModal} closeModal={() => this.setState({showUploadModal: false})}>
 						<div className="excel-upload">
 							<h4 className="sparse mid-sparse" style={(this.state.uploadError !== undefined) ? { color: "#c00" } : {} }>{ (this.state.uploadError !== undefined) ? this.state.uploadError : (this.state.uploading) ? <i className="ic-spinner animate-spin"></i> : "UPLOAD A FLASHCARD" }</h4><br/>
@@ -273,29 +245,359 @@ class CreateFlashCards extends Component {
 							
 						</div>
 					</Modal>
+				</div>
+			)
+		}
+	}
+	componentWillMount() {
+		let courseId = this.props.match.params.course_id;
+		let courses = store.getState().state.courses;
+		for(var i = 0; i < courses.length; i++) {
+			if(courses[i].id === courseId) {
+				this.setState({ course: courses[i]});
+			}
+		}
+	}
+	componentDidMount() {
+		let id = this.props.match.params.course_id;
+		if(store.getState().state['course_flashcard_'+id] === undefined) {
+			this.getFlashcards();
+		}else { this.setState({ loadComplete: true, flashcards: store.getState().state['course_flashcard_'+id] })}
+	}
+}
+
+class CreateFlashCards extends Component {
+	state = { loadComplete: false, course: { title: "Criminal Law"}, questions: ["h"], flashcard: undefined,
+		question: '', answer: '' }
+	textAreaChange(e, type) {
+		e.target.style.height = 'auto';
+		e.target.style.height = e.target.scrollHeight + 'px';
+		if(type === 'question') this.setState({ question: e.target.value });
+		if(type === 'answer') this.setState({ answer: e.target.value });
+	}
+	getCards() {
+		let course_id = this.props.match.params.course_id;
+		let flashcard_id = this.props.match.params.flashcard_id;
+		let courseFlashcards = store.getState().state['course_flashcard_'+course_id];
+		let flashcard = courseFlashcards.where({ id: flashcard_id});
+		this.setState({ flashcard: flashcard, loadComplete: true })
+	}	
+	createCard(serial_no) {
+		this.setState({ loadComplete: false});
+		let flashcard_id = this.props.match.params.flashcard_id;
+		let course_id = this.props.match.params.course_id;
+		let courseFlashcards = store.getState().state['course_flashcard_'+course_id];
+		let param = JSON.stringify({ 
+			flashcard_id: flashcard_id, serial_no: serial_no, question: this.state.question,
+			answer: this.state.answer
+		});
+		fetch(store.getState().state.api.dev+"cards", {
+			method: 'POST',
+			headers: { 'Authorization': 'Bearer '+store.getState().state.token, 'content-type': 'application/json'},
+			body: param
+		}).then(res => res.json()).then(res => {
+			if(res.data) {
+				courseFlashcards.where({ id: flashcard_id}).cards.push(res.data);
+				store.dispatch({type: 'SAVE_COURSE_FLASHCARD_'+course_id, payload: courseFlashcards});
+				this.getCards();
+				this.setState({ loadComplete: true});
+			}
+		}).catch(err => { console.log(err); })
+	}
+	render() {
+		if(this.state.gotoEdit){ return (<Redirect to={`${this.props.match.url}/edit`} />); }
+		if(this.state.loadComplete === false) {
+			return (
+				<div className="load-pane">
+					<i className="ic-spinner animate-spin"></i>
+				</div>
+			);
+		}else {
+			var num = 0;
+			const renderedCards = this.state.flashcard.cards.map(function(card) {
+				num = card.serial_no;
+				return (
+					<div className="question-pane edit-question" key={card.id}>
+						<div className="question">
+							<div className="number">{ card.serial_no }</div>
+							<div className="details">
+								<div className="option-heading">
+									<ul className="grid grid-2"><li className="sparse">QUESTION</li><li className="sparse">ANSWER</li></ul>
+								</div>
+							</div>
+						</div>
+						
+						<div className="options">
+							<div className="tab"></div>
+							<div className="option-pane">
+								<ul className="grid grid-2">
+									<li>
+										<div className="gray-box"> { card.question} </div>
+									</li>
+									<li>
+										<div className="gray-box">
+											<div className="title">A. Shareholder interploader</div>
+											{ card.answer }
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				);
+			});
+			return(
+				<section className="flashcards">
+					<div className="create-flashcard">
+						<span className="back-arrow" onClick={() => window.history.go(-1) }>
+						  	<i className="ic-back" />
+						</span>
+						<h1 className="heading">{ this.state.flashcard.title } - { this.state.course.title }</h1>
+						<div className="heading-action"><p> { this.state.flashcard.description }</p> 
+							<button className="btn-primary sparse" onClick={() => { this.setState({gotoEdit: true})}}>Edit</button>
+						</div>
+							
+						<div>
+							{ renderedCards }
+						</div>
+
+						<div className="create-box" align="center">
+							<h3>Create a New Flashcard</h3>
+							<div className="question-pane edit-question">
+								<div className="question">
+									<div className="number bordered">{ num+1 }</div>
+									<div className="details">
+										<div className="option-heading">
+											<ul className="grid grid-2"><li className="sparse">QUESTION</li><li className="sparse">ANSWER</li></ul>
+										</div>
+									</div>
+								</div>
+								
+								<div className="options">
+									<div className="tab"></div>
+									<div className="option-pane">
+										<ul className="grid grid-2">
+											<li>
+												<div className="info-box">
+													<textarea onChange={(e) => this.textAreaChange(e, 'question') } defaultValue="Some description you are"></textarea>
+												</div>
+											</li>
+											<li>
+												<div className="info-box">
+													<div className="title">A. Shareholder interploader</div>
+													<textarea onChange={(e) => this.textAreaChange(e, 'answer') } defaultValue="Some description you are"></textarea>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<button className="alt" onClick={() => this.createCard(num+1)}>Create a new Flashcard</button>
+						</div>
+					</div>
 				</section>
 			);
 		}
 	}
+	componentWillMount() {
+		let courseId = this.props.match.params.course_id;
+		let courses = store.getState().state.courses;
+		for(var i = 0; i < courses.length; i++) {
+			if(courses[i].id === courseId) {
+				this.setState({ course: courses[i]});
+			}
+		}
+		this.$ = window.$;
+	}
 	componentDidMount() {
-		fetch(store.getState().state.api.dev+"flashcards", {
-			method: 'GET',
-			headers: { 'Authorization' : 'Bearer '+store.getState().state.token }
-		}).then(res => res.json()).then(res => {
-			console.log(res);
-		});
-		if(store.getState().state.courses !== undefined) {
-			let course_id = this.props.match.params.course_id;
-			let course = store.getState().state.courses.where({id: course_id})
-			if(course !== undefined) this.setState({ course: course, loadComplete: true});
-			setTimeout(() => { 
-				let textareas = document.getElementsByTagName("textarea");
-				for(var i=0;i<textareas.length;i++) { textareas[i].style.height = textareas[i].scrollHeight+"px"; }
-			}, 500);
-		}else { this.setState({ goHome: true }); }
+		this.getCards();
+		setTimeout(() => { 
+			let textareas = document.getElementsByTagName("textarea");
+			for(var i=0;i<textareas.length;i++) { textareas[i].style.height = textareas[i].scrollHeight+"px"; } 
+		}, 1000);
 	}
 }
 
+class EditFlashCards extends Component {
+	state = { loadComplete: false, course: undefined, values: [], flashcard: undefined }
+	textAreaChange(e, id) {
+		if(e.target.tagName.match('TEXTAREA')) {
+			e.target.style.height = 'auto';
+			e.target.style.height = e.target.scrollHeight + 'px';
+		}
+		let cardId = id.split("-")[1];
+		let type = id.split("-")[0];
+		if(type === 'question') { this.state.values.where({ id: cardId}).question = e.target.value; }
+		if(type === 'answer') { this.state.values.where({ id: cardId}).answer = e.target.value; }
+		if(type === 'title') { let f = this.state.flashcard; f.title = e.target.value; this.setState({flashcard: f}) }
+		if(type === 'description') { let f = this.state.flashcard; f.description = e.target.value; this.setState({flashcard: f}) }
+		if(type === 'cost') { let f = this.state.flashcard; f.cost = e.target.value; this.setState({flashcard: f}) }
+	}
+	getCards() {
+		let course_id = this.props.match.params.course_id;
+		let flashcard_id = this.props.match.params.flashcard_id;
+		let courseFlashcards = store.getState().state['course_flashcard_'+course_id];
+		let flashcard = courseFlashcards.where({ id: flashcard_id});
+		this.setState({ flashcard: flashcard, loadComplete: true, values: flashcard.cards })
+	}	
+	saveCard(id) {
+		this.$("#overlay-"+id).style = 'display: block';
+		let card = this.state.flashcard.cards.where({id: id});
+		let param = JSON.stringify({ serial_no: card.serial_no, question: card.question, answer: card.answer });
+		fetch(store.getState().state.api.dev+"cards/"+id, {
+			method: 'PUT',
+			headers: { 'Authorization' : 'Bearer '+store.getState().state.token, 'content-type': 'application/json' },
+			body: param
+		}).then(res => res.json()).then(res => {
+			this.$("#overlay-"+id).style = 'display: none';
+			console.log(res);
+		});
+	}
+	deleteCard(id) {
+		this.$("#overlay-"+id).style = 'display: block';
+		fetch(store.getState().state.api.dev+"cards/"+id, {
+			method: 'DELETE',
+			headers: { 'Authorization' : 'Bearer '+store.getState().state.token, 'content-type': 'application/json' }
+		}).then(res => {
+			this.$("#"+id).style = 'display:none';
+		})
+	}
+	saveFlashcard() {
+		let id = this.state.flashcard.id;
+		let course_id = this.props.match.params.course_id;
+		this.$("#overlay-"+id).style = 'display: block';
+		let f = this.state.flashcard;
+		let param = JSON.stringify({title: f.title, description: f.description, course_id: course_id, cost: f.cost});
+		fetch(store.getState().state.api.dev+"flashcards/"+id, {
+			method: 'PUT',
+			headers: { 'Authorization' : 'Bearer '+store.getState().state.token, 'content-type': 'application/json' },
+			body: param
+		}).then(res => res.json()).then(res => {
+			this.$("#overlay-"+id).style = 'display: none';
+			console.log(res);
+		});
+	}
+	render() {
+		if(this.state.loadComplete === false) {
+			return (
+				<div className="load-pane">
+					<i className="ic-spinner animate-spin"></i>
+				</div>
+			);
+		}else {
+			var self = this;
+			const renderedCards = this.state.flashcard.cards.map(function(card) {
+				return (
+					<div className="question-pane edit-question board" key={card.id} id={card.id}>
+						<div className="overlay" id={`overlay-${card.id}`}><i className="ic-spinner animate-spin"></i></div>
+						<div className="menu">
+							<i className="ic-menu" onClick={(e) => {var s = e.target.parentNode.getElementsByTagName("div")[0]; if(s !== undefined) { (s.style.display === 'block') ? s.style.display = 'none' : s.style.display ='block'; }} }></i>
+							<div className="dropmenu">
+								<a href="#more">Re-order</a>
+								<a href="#select" onClick={(e) => { e.preventDefault(); self.deleteCard(card.id); }} className="danger">Delete Flashcard</a>
+							</div>
+						</div>
+						<div className="question">
+							<div className="number">{ card.serial_no }</div>
+							<div className="details">
+								<div className="option-heading">
+									<ul className="grid grid-2"><li className="sparse">QUESTION</li><li className="sparse">ANSWER</li></ul>
+								</div>
+							</div>
+						</div>
+						
+						<div className="options">
+							<div className="tab"></div>
+							<div className="option-pane">
+								<ul className="grid grid-2">
+									<li>
+										<textarea defaultValue={ card.question} onChange={(e) => { self.textAreaChange(e, 'question-'+card.id) } } />
+									</li>
+									<li>
+										<textarea defaultValue={ card.answer } onChange={(e) => { self.textAreaChange(e, 'answer-'+card.id) }} />
+										<div align="right"><button className="sparse compact" onClick={ () => self.saveCard(card.id) }>SAVE</button></div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				);
+			});
+			return(
+				<section className="flashcards">
+					<div className="create-flashcard">
+						<span className="back-arrow" onClick={() => window.history.go(-1) }>
+						  	<i className="ic-back" />
+						</span>
+						<h1 className="heading">{ this.state.flashcard.title } - { this.state.course.title }</h1>
+						<div className="heading-action">
+							<p> { this.state.flashcard.description }</p> 
+						</div>
+						
+						<div className="question-pane edit-question board">
+							<div className="overlay" id={`overlay-${this.state.flashcard.id}`}><i className="ic-spinner animate-spin"></i></div>
+							<div className="question">
+								<div className="tab"></div>
+								<div className="details">
+									<div className="option-heading">
+										<ul className="grid"><li className="sparse">UPDATE FLASHCARD DETAILS</li></ul>
+									</div>
+								</div>
+							</div>
+							
+							<div className="options">
+								<div className="tab"></div>
+								<div className="option-pane">
+									<ul className="grid grid-2">
+										<li>
+											<div className="input-wrapper">
+												<label className="left sparse sm-title">TITLE</label>
+												<div className="wrapp"><input type="text" defaultValue={ this.state.flashcard.title} onChange={(e) => this.textAreaChange(e, "title-"+this.state.flashcard.id)} placeholder="Enter the bundle title" /></div> 
+											</div>
+											<div className="input-wrapper">
+												<label className="left sparse sm-title">PRICE</label>
+												<div className="wrapp"><input type="text" defaultValue={ this.state.flashcard.cost} onChange={(e) => this.textAreaChange(e, "cost-"+this.state.flashcard.id) } placeholder="Enter the bundle cost" /></div> 
+											</div>
+										</li>
+										<li>
+											<div className="input-wrapper">
+												<label className="left sparse sm-title">DESCRIPTION</label>
+												<div className="wrapp"><textarea className="except" type="text" defaultValue={ this.state.flashcard.description} onChange={(e) => this.textAreaChange(e, "description-"+this.state.flashcard.id) } placeholder="Enter the bundle description" /></div> 
+											</div>
+											<div align="right"><button className="sparse compact alt" onClick={ () => this.saveFlashcard() }>SAVE</button></div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div>
+							{ renderedCards }
+						</div>
+
+						<button className="alt bar compact create-btn" onClick={() => window.history.go(-1) }>Create a new Flashcard</button>
+					</div>
+				</section>
+			);
+		}
+	}
+	componentWillMount() {
+		let courseId = this.props.match.params.course_id;
+		let courses = store.getState().state.courses;
+		for(var i = 0; i < courses.length; i++) {
+			if(courses[i].id === courseId) {
+				this.setState({ course: courses[i]});
+			}
+		}
+		this.$ = window.$;
+	}
+	componentDidMount() {
+		this.getCards();
+		setTimeout(() => { 
+			let textareas = document.getElementsByTagName("textarea");
+			for(var i=0;i<textareas.length;i++) { textareas[i].style.height = textareas[i].scrollHeight+"px"; } 
+		}, 1000);
+	}
+}
 
 
 

@@ -227,6 +227,17 @@ export default class Test extends Component {
 			linkLabel.getElementsByTagName("input")[0].setAttribute('disabled', 'disabled');
 		}, 1000);
 	}
+	deleteQuestion(id) {
+		document.getElementById("overlay-"+id).style = "display: block;";
+		if(window.confirm("Are you sure you want to delete this question?\nYou cannot undo this action")) {
+			fetch(store.getState().state.api.dev+"questions/"+id, {
+				method: 'DELETE',
+				headers: { 'Authorization' : 'Bearer '+store.getState().state.token }
+			});
+			document.getElementById("overlay-"+id).style = "display: none;";
+			document.getElementById("question-"+id).style = "display: none;";
+		}else { document.getElementById("overlay-"+id).style = "display: none;"; }
+	}
 	chooseLink(id) {
 		let question = this.values[id];
 		this.values[this.state.linkQuestion.id].linked_to.push(question.serial_no.toString());
@@ -274,8 +285,8 @@ export default class Test extends Component {
 				// 	return (<option value={option}>{option}</option>);
 				// })
 				return (
-					<div key={question.id}>
-						<div className="question-pane" id={`question-${question.serial_no}`}>
+					<div key={question.id} id={`question-${question.id}`}>
+						<div className="question-pane">
 							<div className="question-overlay" id={`overlay-${question.id}`}><i className="ic-spinner animate-spin"></i></div>
 							<div className="question">
 								<div className="number">{question.serial_no}</div>
@@ -285,6 +296,7 @@ export default class Test extends Component {
 										<div className="actions">
 											<button className="small" onClick={() => self.linkedQuestion(question.id)}><i className="ic-plus"></i> Link to Another Question</button>
 											<span className="info-btn" onClick={(e) => {var s = e.target.parentNode.getElementsByTagName("div")[0]; if(s !== undefined) { (s.style.display === 'block') ? s.style.display = 'none' : s.style.display ='block'; }} }> i <div className="dropmenu hint">Linking a question enables you set multiple follow-up questions. This will appear in the format - "Use this question to answer Question 1, 2 & 3"</div></span>
+											<span className="delete-btn" onClick={() => self.deleteQuestion(question.id)}><i className="ic-trash"></i></span>
 										</div>
 									</div>
 									<div className="edit-question-box">

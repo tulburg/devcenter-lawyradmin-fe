@@ -65,6 +65,11 @@ html, body {
     letter-spacing: 3px;
     font-weight: bold;
     text-transform: uppercase; }
+  .button.compact, button.compact {
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold; }
 
 /* --- Login page, Reset Password, Forgot Password --- */
 .login-container {
@@ -399,7 +404,19 @@ section.test-questions {
               text-align: center;
               padding-top: 8px;
               font-size: 10px;
-              margin-left: 20px; }
+              margin-left: 10px; }
+            section.test-questions .question-pane .question .details .action-pane .actions .delete-btn {
+              background-color: #c00;
+              color: #ffffff;
+              cursor: pointer;
+              height: 30px;
+              width: 30px;
+              border-radius: 15px;
+              display: inline-block;
+              vertical-align: middle;
+              text-align: center;
+              padding-top: 5px;
+              margin-left: 10px; }
         section.test-questions .question-pane .question .details .question-box {
           background-color: #ffffff;
           padding: 20px;
@@ -723,6 +740,85 @@ section.flashcards div.create-flashcard {
     float: right;
     padding: 15px 20px;
     margin-top: 10px; }
+  section.flashcards div.create-flashcard div.question-pane.board {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.1);
+    border: 0px;
+    padding: 20px; }
+    section.flashcards div.create-flashcard div.question-pane.board .question {
+      margin-top: 0px; }
+    section.flashcards div.create-flashcard div.question-pane.board textarea {
+      padding: 10px;
+      font: inherit;
+      border: 1px solid #c3c3c3;
+      width: 100%;
+      color: #1c2d41;
+      resize: none;
+      border-radius: 4px;
+      background-color: #f6f6f6; }
+      section.flashcards div.create-flashcard div.question-pane.board textarea.except {
+        background-color: inherit;
+        border: 0px; }
+  section.flashcards div.create-flashcard div.question-pane .option-pane li button {
+    margin-top: 15px; }
+  section.flashcards div.create-flashcard div.question-pane .menu {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 15px;
+    right: 2px;
+    cursor: pointer; }
+    section.flashcards div.create-flashcard div.question-pane .menu .dropmenu {
+      display: none;
+      width: 120px;
+      padding: 10px;
+      background-color: #ffffff;
+      border: 0px;
+      box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.4);
+      right: calc(100% + 10px);
+      top: -5px; }
+      section.flashcards div.create-flashcard div.question-pane .menu .dropmenu::after {
+        left: calc(100% - 6px);
+        transform: rotate(45deg);
+        top: 10px;
+        border: 0px;
+        box-shadow: 2px -1px 2px rgba(40, 40, 40, 0.2); }
+      section.flashcards div.create-flashcard div.question-pane .menu .dropmenu a {
+        color: #838383;
+        display: block;
+        text-decoration: none;
+        font-size: 12px;
+        padding: 4px;
+        font-weight: bold; }
+        section.flashcards div.create-flashcard div.question-pane .menu .dropmenu a:hover {
+          color: #2a2a2a; }
+        section.flashcards div.create-flashcard div.question-pane .menu .dropmenu a.danger:hover {
+          color: #c00; }
+  section.flashcards div.create-flashcard div.question-pane .overlay {
+    display: none;
+    z-index: 5;
+    height: 100%;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    background-color: #f6f6f6;
+    opacity: 0.7;
+    text-align: center; }
+    section.flashcards div.create-flashcard div.question-pane .overlay i {
+      position: absolute;
+      font-size: 60px;
+      top: calc(50% - 40px);
+      left: calc(50% - 40px);
+      color: #000; }
+  section.flashcards div.create-flashcard .create-btn {
+    margin-top: 20px; }
+  section.flashcards div.create-flashcard .sm-title {
+    color: #777777;
+    font-size: 13px;
+    margin-bottom: 10px; }
 section.flashcards .question-pane {
   margin-top: 20px;
   width: 100%;
@@ -810,6 +906,11 @@ section.flashcards .excel-upload p {
   color: #909090;
   padding-bottom: 20px;
   border-bottom: 1px solid #dddddd; }
+section.flashcards .heading-action p {
+  color: #909090; }
+section.flashcards .heading-action button.sparse {
+  float: right;
+  margin-top: -40px; }
 
 .back-arrow {
   cursor: pointer; }
@@ -880,6 +981,8 @@ div.input-wrapper {
     display: block;
     text-align: center;
     padding: 5px 0px; }
+    div.input-wrapper label.left {
+      text-align: left; }
   div.input-wrapper input[type="file"] {
     display: none; }
   div.input-wrapper span.placeholder {
@@ -892,6 +995,9 @@ div.input-wrapper {
     overflow: hidden; }
 
 /* --- globals --- */
+textarea {
+  transition: all .3s ease-in-out; }
+
 .hr {
   margin: 10px; }
 
