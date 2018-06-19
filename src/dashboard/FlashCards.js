@@ -97,7 +97,7 @@ class FlashCardsIndex extends Component {
 
 class CourseFlashCards extends Component {
 
-	state = { showUploadModal: false, course: null, loadComplete: false, file: null, year: undefined, flashcards: [], uploading: false, uploadError: undefined };
+	state = { showUploadModal: false, course: null, loadComplete: false, file: null, year: undefined, flashcards: [], uploading: false, uploadError: undefined, gotoView: false, flashcard_id: undefined };
 
 	sortBy(type) {
 		let tests = this.state.flashcards;
@@ -108,7 +108,7 @@ class CourseFlashCards extends Component {
 		}
 		this.setState({ tests: tests });
 	}
-	getFlashcards() {
+	getFlashcards(complete) {
 		let course_id = this.props.match.params.course_id;
 		fetch(store.getState().state.api.dev+"courses/"+course_id+"/flashcards", {
 			method: 'GET',
@@ -117,6 +117,7 @@ class CourseFlashCards extends Component {
 			console.log(res);
 			this.setState({ loadComplete: true, flashcards: res.data });
 			store.dispatch({ type: "SAVE_COURSE_FLASHCARD_"+course_id,  payload: res.data });
+			if(complete) { complete() }
 		}).catch(err => console.log(err));
 	}
 	simpleDate(value) {
@@ -143,10 +144,13 @@ class CourseFlashCards extends Component {
 			body: formData
 		}).then(res => res.json()).then(res => {
 			console.log(res);
+			var self = this;
 			if(res.data) { 
 				console.log(res.data);
-				this.setState({uploading: false, showUploadModal: false, loadComplete: false });
-				this.getFlashcards();
+				this.setState({uploading: false, showUploadModal: false, loadComplete: false});
+				this.getFlashcards(() => {
+					self.setState({ flashcard_id: res.data.id, gotoView: true });
+				});
 			}else {
 				this.setState({uploading: false });
 				// this.setUploadError(res.message);
@@ -160,7 +164,8 @@ class CourseFlashCards extends Component {
 	}
 	render() {
 		if(this.state.course === null) { console.log("Unable to find this course"); }
-		if(this.state.loadComplete === false) {
+		if(this.state.gotoView) { return <Redirect to={`${this.props.match.url}/${this.state.flashcard_id}`} /> }
+		if(this.state.loadComplete === false) { 
 			return (
 				<div className="main-section">
 					<div className="load-pane">
