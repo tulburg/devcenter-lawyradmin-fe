@@ -41,7 +41,7 @@ export default class Dashboard extends Component {
   			return (
 		      	<div className="main-section">
 			        <div className="card-wrap">
-			          	<Card number={20} icon="ic-cards" title="Ongoing Tests" classNames="ongoing-card">
+			          	<Card number={20} icon="ic-grid" title="Ongoing Tests" classNames="ongoing-card">
 			            	<Link to="ongoing" className="card-button">
 			            		<button className="alt">View Ongoing Tests <i className="ic-right"></i></button>
 			            	</Link>

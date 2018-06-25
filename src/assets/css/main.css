@@ -632,6 +632,13 @@ section.test-edit .edit-question-box {
 section.test-edit .answer-pane .select {
   width: 80px; }
 
+section.ongoing-test {
+  padding-left: 40px;
+  padding-top: 0px; }
+  section.ongoing-test h1.heading {
+    display: inline-block;
+    vertical-align: middle; }
+
 div.test-courses ul.grid {
   color: #1c2d41;
   padding-left: 20px; }

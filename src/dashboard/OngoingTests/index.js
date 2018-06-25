@@ -82,65 +82,67 @@ class OngoingTests extends React.Component {
     const { group, individual } = this.state;
     return (
       <div className="main-section">
-		<span className="back-arrow" onClick={() => window.history.go(-1) }>
-			<i className="ic-back" />
-		</span>
-        <h2 className="main-section__header">Ongoing Tests</h2>
-        <OTContent>
-          <div className="test-tab">
-            <p
-              onClick={this.showIndividualTests}
-              className={`tab-item ${individual ? 'active' : ''}`}
-            >
-              individual tests
-            </p>
-            <p
-              onClick={this.showGroupTests}
-              className={`tab-item ${group ? 'active' : ''}`}
-            >
-              group tests
-            </p>
-          </div>
-          {/* <div className="card-wrap">
-            <TestCard
-              test="Criminal Law"
-              start_time="10:00 AM"
-              year={2012}
-              participants={6}
-            />
-            <TestCard
-              test="Criminal Law"
-              start_time="10:00 AM"
-              year={2012}
-              participants={6}
-            />
-            <TestCard
-              test="Criminal Law"
-              start_time="10:00 AM"
-              year={2012}
-              participants={6}
-            />
-            <TestCard
-              test="Criminal Law"
-              start_time="10:00 AM"
-              year={2012}
-              participants={6}
-            />
-            <TestCard
-              test="Criminal Law"
-              start_time="10:00 AM"
-              year={2012}
-              participants={6}
-            />
-            <TestCard
-              test="Criminal Law"
-              start_time="10:00 AM"
-              year={2012}
-              participants={6}
-            />
-          </div> */}
-          {this.renderCategory()}
-        </OTContent>
+			<section class="ongoing-test">
+				<span className="back-arrow" onClick={() => window.history.go(-1) }>
+				  	<i className="ic-back" />
+				</span>
+				<h1 className="heading">Ongoing Tests</h1>
+		        <OTContent>
+		          <div className="test-tab">
+		            <p
+		              onClick={this.showIndividualTests}
+		              className={`tab-item ${individual ? 'active' : ''}`}
+		            >
+		              individual tests
+		            </p>
+		            <p
+		              onClick={this.showGroupTests}
+		              className={`tab-item ${group ? 'active' : ''}`}
+		            >
+		              group tests
+		            </p>
+		          </div>
+		          {/* <div className="card-wrap">
+		            <TestCard
+		              test="Criminal Law"
+		              start_time="10:00 AM"
+		              year={2012}
+		              participants={6}
+		            />
+		            <TestCard
+		              test="Criminal Law"
+		              start_time="10:00 AM"
+		              year={2012}
+		              participants={6}
+		            />
+		            <TestCard
+		              test="Criminal Law"
+		              start_time="10:00 AM"
+		              year={2012}
+		              participants={6}
+		            />
+		            <TestCard
+		              test="Criminal Law"
+		              start_time="10:00 AM"
+		              year={2012}
+		              participants={6}
+		            />
+		            <TestCard
+		              test="Criminal Law"
+		              start_time="10:00 AM"
+		              year={2012}
+		              participants={6}
+		            />
+		            <TestCard
+		              test="Criminal Law"
+		              start_time="10:00 AM"
+		              year={2012}
+		              participants={6}
+		            />
+		          </div> */}
+		          {this.renderCategory()}
+		        </OTContent>
+			</section>
       </div>
     );
   }
@@ -151,7 +153,7 @@ const OTContent = styled.div`
     display: flex;
     border-bottom: 1px solid #979797;
     padding-left: 10px;
-    width: 25%;
+    width: 40%;
     justify-content: space-between;
     margin-bottom: 20px;
   }
@@ -165,9 +167,10 @@ const OTContent = styled.div`
     color: #1c2d41;
     text-transform: capitalize;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: bold;
     border-bottom: 6px solid transparent;
-    padding-bottom: 11px;
+    padding-bottom: 11px; 
+    padding: 10px 20px;
 
     &.active {
       border-bottom-color: #50e3c2;

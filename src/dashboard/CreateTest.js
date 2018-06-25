@@ -51,6 +51,7 @@ export default class CreateTest extends Component {
 			headers: { 'Authorization' : 'Bearer '+store.getState().state.token },
 			body: formData
 		}).then(res => res.json()).then(res => {
+			console.log(res);
 			if(res.data) { 
 				this.setState({uploading: false, showUploadModal: false, loadComplete: false });
 				this.getCourse();
@@ -58,7 +59,7 @@ export default class CreateTest extends Component {
 				this.setState({uploading: false, uploadError: res.message });
 				setTimeout(()=>{ this.setState({uploadError: undefined}); }, 4000);
 			}
-		});
+		}).catch(err => console.log(err));
 	}
 	setFile(e) {
 		e.preventDefault();

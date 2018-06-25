@@ -31,10 +31,10 @@ export default class Nav extends Component {
 		)
 	}
 	componentDidMount() {
-		this.setState({active: window.localStorage.getItem("la_active_nav")});
-	}
-	componentDidUpdate() {
-		window.localStorage.setItem("la_active_nav", this.state.active);
+		var url = window.location.href.replace(window.location.origin, "");
+		var route = url.split("/")[2]
+		if(route) this.setState({active: route});
+		else { this.setState({ active: '' }); }
 	}
 }
 

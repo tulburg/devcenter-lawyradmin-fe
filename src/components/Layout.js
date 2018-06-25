@@ -65,6 +65,7 @@ export const Content = styled.div`
         line-height: 1.22;
         color: #1c2d41;
         margin-top: 15px;
+        cursor: pointer;
 
         span:first-child {
           margin-right: 10px;
@@ -171,7 +172,7 @@ export const SendInvite = styled.div`
     background-color: #f5f6fa;
     border: solid 1px #979797;
     font-size: 18px;
-    color: #9b9b9b;
+    color: #000;
     padding-left: 15px;
     margin-top: 25px;
     margin-bottom: 35px;

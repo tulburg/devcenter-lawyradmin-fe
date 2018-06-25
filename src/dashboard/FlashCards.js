@@ -102,7 +102,7 @@ class CourseFlashCards extends Component {
 	sortBy(type) {
 		let tests = this.state.flashcards;
 		if(type === 'cost') {
-			tests.sort(function(a,b){ return (a.cost > b.cost) ? 1 : (b.cost > a.cost) ? -1 : 0; }); 
+			tests.sort(function(a, b){ return (a.cost > b.cost) ? 1 : (b.cost > a.cost) ? -1 : 0; }); 
 		}else if(type === 'date') {
 			tests.sort(function(a,b){ let c = new Date(a.created_at.replace(" ", "T")), d = new Date(b.created_at.replace(" ", "T")); return (c > d) ? 1 : (d > c) ? -1 : 0; });
 		}
@@ -202,7 +202,7 @@ class CourseFlashCards extends Component {
 										<div className="title">Sort by:</div>
 										<Select classNames="" name="filter" onChange={(v) => { this.sortBy(v)}} options={[
 											{ title: "Date Created", value: "date" },
-											{ title: "Cost", value: "time" }
+											{ title: "Cost", value: "cost" }
 										]}/>
 									</div>
 								</div>
@@ -341,7 +341,6 @@ class CreateFlashCards extends Component {
 									</li>
 									<li>
 										<div className="gray-box">
-											<div className="title">A. Shareholder interploader</div>
 											{ card.answer }
 										</div>
 									</li>
@@ -389,7 +388,6 @@ class CreateFlashCards extends Component {
 											</li>
 											<li>
 												<div className="info-box">
-													<div className="title">A. Shareholder interploader</div>
 													<textarea onChange={(e) => this.textAreaChange(e, 'answer') } defaultValue="Some description you are"></textarea>
 												</div>
 											</li>

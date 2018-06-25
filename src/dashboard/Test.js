@@ -23,7 +23,12 @@ export class TestView extends Component {
 			var self = this;
 			setTimeout(function(){
 				if(self.state.test !== undefined) {
-					store.dispatch({ type: 'SHOW_QUESTION_NAV', payload: self.state.test.questions.length });
+					var qs = self.state.test.questions;
+					var count = 0;
+					for(var i = 0; i<qs.length; i++) {
+						if(qs[i].answer.title !== "") count++;
+					}
+					store.dispatch({ type: 'SHOW_QUESTION_NAV', payload: count });
 					self.setState({ loadComplete: true });
 				}else { self.setState({goHome: true}); }
 			}, 1000);
@@ -46,8 +51,8 @@ export class TestView extends Component {
 			let mappedQuestions = this.state.test.questions.map(function(question) {
 				return (
 					<div className="question-pane edit-question" key={question.serial_no} id={`question-${question.serial_no}`}>
-						<div className="question">
-							<div className="number">{ question.serial_no }</div>
+						<div className="question" style={(question.answer.title === "") ? { marginBottom: '0px' } : {}}>
+							<div className="number" style={(question.answer.title === "") ? { visibility: 'hidden' } : {}}>{ question.serial_no }</div>
 							<div className="details">
 								<div className="action-pane">
 									<div className="title sparse">QUESTION</div>
@@ -60,10 +65,10 @@ export class TestView extends Component {
 								</div>
 							</div>
 						</div>
-						<div className="option-heading">
+						<div className="option-heading" style={(question.answer.title === "") ? { display: 'none' } : {}}>
 							<ul className="grid grid-2"><li className="sparse">ANSWERS</li><li className="sparse"></li></ul>
 						</div>
-						<div className="options">
+						<div className="options" style={(question.answer.title === "") ? { display: 'none' } : {}}>
 							<div className="tab"></div>
 							<div className="option-pane">
 								<ul className="grid grid-2">
@@ -82,7 +87,7 @@ export class TestView extends Component {
 								</ul>
 							</div>
 						</div>
-						<div className="options">
+						<div className="options" style={(question.answer.title === "") ? { display: 'none' } : {}}>
 							<div className="tab"></div>
 							<div className="option-pane">
 								<ul className="grid grid-2">
@@ -184,7 +189,12 @@ export default class Test extends Component {
 			var self = this;
 			setTimeout(function(){
 				if(self.state.test !== undefined) {
-					store.dispatch({ type: 'SHOW_QUESTION_NAV', payload: self.state.test.questions.length });
+					var qs = self.state.test.questions;
+					var count = 0;
+					for(var q = 0; q<qs.length; q++) {
+						if(qs[q].answer.title !== "") count++;
+					}
+					store.dispatch({ type: 'SHOW_QUESTION_NAV', payload: count });
 					self.setState({ loadComplete: true });
 				}else { self.setState({goHome: true}); }
 				let textareas = document.getElementsByTagName("textarea");
@@ -218,6 +228,7 @@ export default class Test extends Component {
 		let question = this.values[id];
 		this.setState({ linkQuestion: question, showModal: true });
 		setTimeout(function() {
+			console.log(JSON.stringify(question));
 			for(var i=0;i<question.linked_to.length;i++) {
 				var label = document.getElementById("link-option-"+question.linked_to[i]);
 				label.getElementsByTagName("input")[0].setAttribute('checked', 'checked');
@@ -277,7 +288,7 @@ export default class Test extends Component {
 		}else {
 			var self = this;
 			const mappedLinkOptions = this.state.test.questions.map(function(question) {
-				return (<label id={`link-option-${question.serial_no}`} className="link-inputs" onClick={(e) =>{ self.chooseLink(question.id)}}><input type="checkbox" /> { question.serial_no }</label>);
+				return (question.answer.title!=="") ? (<label id={`link-option-${question.serial_no}`} className="link-inputs" onClick={(e) =>{ self.chooseLink(question.id)}}><input type="checkbox" /> { question.serial_no }</label>) : "" ;
 			})
 			const mappedQuestions = this.state.test.questions.map(function(question) {
 				// const mappedAnswerOptions = ["A", "B", "C", "D"].map(function(option) {
@@ -289,7 +300,7 @@ export default class Test extends Component {
 						<div className="question-pane">
 							<div className="question-overlay" id={`overlay-${question.id}`}><i className="ic-spinner animate-spin"></i></div>
 							<div className="question">
-								<div className="number">{question.serial_no}</div>
+								<div className="number" style={(question.answer.title === "") ? { visibility: 'hidden' } : {}}>{question.serial_no}</div>
 								<div className="details">
 									<div className="action-pane">
 										<div className="title sparse">QUESTION</div>
@@ -304,10 +315,10 @@ export default class Test extends Component {
 									</div>
 								</div>
 							</div>
-							<div className="option-heading">
+							<div className="option-heading" style={(question.answer.title === "") ? { display: 'none' } : {}}>
 								<ul className="grid grid-2"><li className="sparse">OPTIONS</li><li className="sparse">MORE INFO</li></ul>
 							</div>
-							<div className="options">
+							<div className="options" style={(question.answer.title === '') ? { display: 'none' } : {} }>
 								{ (question.answer.title === "A") ? <div className="number">A</div> : <div className="number bordered">A</div> }
 								<div className="option-pane">
 									<ul className="grid grid-2">
@@ -316,7 +327,7 @@ export default class Test extends Component {
 									</ul>
 								</div>
 							</div>
-							<div className="options">
+							<div className="options" style={(question.answer.title === "") ? { display: 'none' } : {}}>
 								{ (question.answer.title === "B") ? <div className="number">B</div> : <div className="number bordered">B</div> }
 								<div className="option-pane">
 									<ul className="grid grid-2">
@@ -325,7 +336,7 @@ export default class Test extends Component {
 									</ul>
 								</div>
 							</div>
-							<div className="options">
+							<div className="options" style={(question.answer.title === "") ? { display: 'none' } : {}}>
 								{ (question.answer.title === "C") ? <div className="number">C</div> : <div className="number bordered">C</div> }
 								<div className="option-pane">
 									<ul className="grid grid-2">
@@ -334,7 +345,7 @@ export default class Test extends Component {
 									</ul>
 								</div>
 							</div>
-							<div className="options">
+							<div className="options" style={(question.answer.title === "") ? { display: 'none' } : {}}>
 								{ (question.answer.title === "D") ? <div className="number">D</div> : <div className="number bordered">D</div> }
 								<div className="option-pane">
 									<ul className="grid grid-2">
@@ -344,7 +355,7 @@ export default class Test extends Component {
 								</div>
 							</div>
 						</div>
-						<div className="answer-pane">
+						<div className="answer-pane" style={(question.answer.title === "") ? { display: 'none' } : {}}>
 							<div className="title">Set an Option</div>
 							{/*<select>{ mappedAnswerOptions }</select>*/}
 							<Select classNames="" name={'filter'+question.id} onChange={(v) => { self.setAnswer(v, question.id)}} options={[

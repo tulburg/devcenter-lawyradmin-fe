@@ -34,17 +34,37 @@ function QuestionNav(props) {
     </div>);
 }
 export default class Dashboard extends Component {
-  	state = {
-    	showModal: false,
-    	showDoneModal: false,
-    	showQuestionNav: false,
-    	questions: 0
-  	};
+  	state = { showModal: false, showDoneModal: false, showQuestionNav: false, questions: 0, inviteEmail: '', 
+	  	hasInviteError: false, inviteError: '', inviteLoading: false, sentEmail: undefined
+	};
 
   	onCloseModal = () => {
     	this.setState({ showModal: false, showDoneModal: false });
   	};
 
+  	inviteUser() {
+  		this.setState({ inviteLoading: true });
+  		let param = JSON.stringify({ "email": this.state.inviteEmail });
+  		var self = this;
+  		fetch(store.getState().state.api.dev+"users/invite", {
+  			method: 'POST',
+  			headers: { 'Authorization': 'Bearer '+store.getState().state.token, 'content-type': 'application/json'},
+  			body: param
+  		}).then(res => res.json()).then(res => {
+  			console.log(res);
+  			this.setState({ inviteLoading: false });
+  			if(res.status === true) {
+  				self.setState({ showDoneModal: true, showModal: false, hasInviteError: false, sentEmail: self.state.inviteEmail });
+  				setTimeout(() => { self.setState({ sentEmail: undefined }) }, 5000);
+  			}else { 
+  				self.setState({ inviteError: res.message, hasInviteError: true });
+  				setTimeout(() => { self.setState({ hasInviteError: false }) }, 5000);
+  			}
+  		}).catch(err => { console.log(err.message); });
+  	}
+  	setValue(e, key) {
+  		if(key === 'invite') { this.setState({ inviteEmail: e.target.value })}
+  	}
 	render() {
 	  	const nav = [
 	  		{ url: "", title: "Home", icon: "ic-home" },
@@ -74,30 +94,28 @@ export default class Dashboard extends Component {
 	          		<div className="main-section">
 	            		<Modal closeModal={this.onCloseModal} visible={this.state.showModal}>
 	                  		<SendInvite>
-	                    		<h4 className="header">Invite users</h4>
+	                    		<h4 className="header" style={ (this.state.hasInviteError&&!this.state.inviteLoading) ? { color: '#c00' } : {}}>{ (this.state.inviteLoading) ? <i className="ic-spinner animate-spin"></i> : (this.state.hasInviteError) ? this.state.inviteError : 'Invite users' }</h4>
 			                    <span className="subtext">
 			                      	Enter an Email Address to Continue
 			                    </span>
-	                    		<input className="textbox" placeholder="Email Address" />
-	                    		<button onClick={() => this.setState({ showDoneModal: true, showModal: false }) }>Invite</button>
+	                    		<input className="textbox" placeholder="Email Address" onChange={(e) => { this.setValue(e, 'invite') }} />
+	                    		<button onClick={() => { this.inviteUser(); }}>Invite</button>
 	                  		</SendInvite>
 	                	</Modal>
 	                	<Modal closeModal={this.onCloseModal} visible={this.state.showDoneModal}>
 		                  	<SendInvite>
 		                    	<h1 className="header--large">Done!</h1>
-			                    <h4 className="header uppercase">
-			                      	Invite more users to use lawyr
-			                    </h4>
+			                    <h4 className="header uppercase" style={ (this.state.hasInviteError&&!this.state.inviteLoading) ? { color: '#c00' } : {}}>{ (this.state.inviteLoading) ? <i className="ic-spinner animate-spin"></i> : (this.state.hasInviteError) ? this.state.inviteError : 'Invite more users to use lawyr' }</h4>
 			                    <span className="subtext">
 			                      	Enter another Email Address to Continue
 			                    </span>
 			                    <div className="input-wrap">
-			                      	<input className="textbox" placeholder="Email Address" />
-			                      	<div type="button" className="input-wrap__btn">
+			                      	<input className="textbox" placeholder="Email Address" onChange={(e) => { this.setValue(e, 'invite') }} />
+			                      	<div type="button" className="input-wrap__btn" onClick={() => { this.inviteUser(); }}>
 			                        	<i className="ic-plus" />
 			                      	</div>
 			                    </div>
-		                    	<span className="invite-sent">Invitation Email to user@devcenter.co sent{' '}</span>
+		                    	{ (this.state.sentEmail) ? <span className="invite-sent">Invitation Email to { this.state.sentEmail } sent</span> : '' }
 		                  	</SendInvite>
 		                </Modal>
 	                	<h2 className="main-section__header">Overview</h2>
@@ -119,25 +137,25 @@ export default class Dashboard extends Component {
 	                	<div className="card-wrap">
 		                  	<FlashCard>
 		                    	<p className="flashcard__text">Create a Flash card</p>
-			                    <span className="flashcard__icon">
+			                    <span className="flashcard__icon" onClick={() => { window.location.href = this.props.match.url+"/flashcards" }}>
 			                      	<i className="ic-right" />
 			                    </span>
 		                  	</FlashCard>
 		                 	<FlashCard>
 		                    	<p className="flashcard__text">Create a Test</p>
-			                    <span className="flashcard__icon">
+			                    <span className="flashcard__icon" onClick={() => { window.location.href = this.props.match.url+"/tests" }}>
 			                      	<i className="ic-right" />
 			                    </span>
 		                  	</FlashCard>
 		                  	<div className="quick-links">
 			                    <p className="quick-links__header">quick links</p>
-			                    <p className="quick-links__link">
+			                    <p className="quick-links__link" onClick={() => { window.location.href = this.props.match.url+"/flashcards" }}>
 			                      	<span>Edit Flashcards</span>
 			                      	<span>
 			                        	<i className="ic-right" />
 			                      	</span>
 			                    </p>
-		                    	<p className="quick-links__link">
+		                    	<p className="quick-links__link" onClick={() => { window.location.href = this.props.match.url+"/tests" }}>
 			                      	<span>Edit Courses</span>
 			                      	<span>
 			                        	<i className="ic-right" />
@@ -197,5 +215,6 @@ const FlashCard = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
 `;
