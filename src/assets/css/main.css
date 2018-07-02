@@ -358,6 +358,30 @@ section.create-test {
   .excel-upload i.ic-spinner {
     font-size: 30px; }
 
+.table .tbody {
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.15); }
+  .table .tbody li {
+    padding: 10px 20px; }
+  .table .tbody ul {
+    border-bottom: 1px solid #dddddd;
+    margin: 0px;
+    padding: 0px 20px; }
+    .table .tbody ul:first-child {
+      border-radius: 5px 5px 0px 0px; }
+    .table .tbody ul:last-child {
+      border-radius: 0px 0px 5px 5px;
+      border: 0px; }
+    .table .tbody ul:hover {
+      background-color: #f6f6f6; }
+.table .thead {
+  margin: 0px;
+  color: #909090;
+  padding: 0px 20px; }
+  .table .thead li {
+    padding: 5px 20px; }
+
 /* Test questions definition  */
 section.test-questions {
   padding-left: 40px; }
@@ -1001,6 +1025,280 @@ div.input-wrapper {
     white-space: nowrap;
     overflow: hidden; }
 
+section.all-users .sign-up-users {
+  background-color: #37e3c4;
+  color: #1c2d41; }
+  section.all-users .sign-up-users i {
+    color: #ffffff; }
+section.all-users .test-tab, section.all-users .search-box {
+  margin-top: 60px; }
+section.all-users .search-box {
+  display: inline-flex;
+  float: right;
+  background-color: #ffffff;
+  box-shadow: 0px 3px 2px rgba(40, 40, 40, 0.1);
+  border-radius: 6px; }
+  section.all-users .search-box input {
+    padding: 5px;
+    border: 0px;
+    background-color: transparent;
+    padding-left: 15px;
+    width: 220px; }
+  section.all-users .search-box button {
+    background-color: #37e3c4;
+    padding: 10px 15px;
+    border-radius: 0px 6px 6px 0px;
+    font-weight: bold;
+    font-size: 12px; }
+    section.all-users .search-box button:hover {
+      background-color: #1ccbab; }
+section.all-users .name {
+  cursor: pointer;
+  white-space: nowrap; }
+section.all-users main {
+  padding: 0px; }
+section.all-users .user-modal {
+  width: 760px; }
+  section.all-users .user-modal label {
+    font-size: 10px;
+    color: #909090;
+    font-weight: bold; }
+  section.all-users .user-modal li.profile-holder {
+    width: 45%;
+    border-right: 1px solid #d0d0d0;
+    padding-right: 0px;
+    padding-bottom: 40px; }
+    section.all-users .user-modal li.profile-holder ul.stats {
+      padding: 0px 20px 20px 40px; }
+      section.all-users .user-modal li.profile-holder ul.stats label {
+        display: block;
+        margin-bottom: 4px; }
+  section.all-users .user-modal li.activity-holder {
+    width: 50%;
+    padding-top: 40px; }
+    section.all-users .user-modal li.activity-holder ul.activity-list {
+      margin-top: 20px; }
+      section.all-users .user-modal li.activity-holder ul.activity-list li:first-child {
+        width: 70%;
+        padding-right: 0px;
+        font-size: 10px; }
+      section.all-users .user-modal li.activity-holder ul.activity-list li:last-child {
+        width: 20%;
+        color: #909090; }
+  section.all-users .user-modal .user-profile {
+    border-bottom: 1px solid #dddddd;
+    padding-top: 40px;
+    padding-right: 40px;
+    margin-left: 40px;
+    margin-bottom: 30px; }
+    section.all-users .user-modal .user-profile .profile {
+      display: flex;
+      padding-bottom: 15px;
+      padding-top: 5px; }
+
+section.payment ul.top li:first-child {
+  width: 60%; }
+section.payment ul.top li:last-child {
+  width: 40%; }
+section.payment .top-action {
+  margin-top: 30%;
+  background: linear-gradient(60deg, #193c4a 0%, #37e3c4 100%);
+  display: inline-block;
+  padding: 15px 24px;
+  border-radius: 5px;
+  color: #ffffff; }
+section.payment hr {
+  border: 0px;
+  background-color: #dddddd;
+  height: 1px; }
+section.payment .card-holder {
+  margin-top: 20px;
+  margin-bottom: 20px; }
+  section.payment .card-holder li {
+    padding-right: 0px; }
+    section.payment .card-holder li a {
+      color: #1c2d41;
+      font-weight: bold;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      padding: 10px; }
+  section.payment .card-holder .card {
+    padding: 20px;
+    background-color: #1c2d41;
+    color: #ffffff; }
+    section.payment .card-holder .card .head {
+      display: flex;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #2b4665; }
+      section.payment .card-holder .card .head p {
+        font-size: 12px; }
+    section.payment .card-holder .card i {
+      color: #37e3c4;
+      font-size: 32px;
+      margin-right: 10px; }
+    section.payment .card-holder .card .total {
+      text-align: center; }
+section.payment .purchase-history .tbody {
+  padding: 10px 40px; }
+  section.payment .purchase-history .tbody li:first-child {
+    padding-left: 0px;
+    margin-left: -20px; }
+section.payment .purchase-history .tbody li, section.payment .purchase-history .thead li {
+  width: 20%; }
+section.payment .purchase-history .tbody li:first-child, section.payment .purchase-history .thead li:first-child {
+  width: 60%; }
+section.payment .purchase-history h2 {
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px; }
+
+section.payment-flashcards {
+  padding-left: 40px; }
+  section.payment-flashcards h1.heading {
+    display: inline-block;
+    vertical-align: middle; }
+  section.payment-flashcards .card-holder {
+    margin-top: 20px; }
+    section.payment-flashcards .card-holder .action {
+      padding-bottom: 15px !important;
+      background: linear-gradient(60deg, #193c4a 0%, #37e3c4 100%);
+      color: #ffffff; }
+      section.payment-flashcards .card-holder .action p {
+        font-size: 12px; }
+      section.payment-flashcards .card-holder .action h1 {
+        font-size: 28px; }
+    section.payment-flashcards .card-holder li {
+      padding-right: 0px;
+      padding-left: 20px; }
+      section.payment-flashcards .card-holder li .card {
+        padding: 20px; }
+        section.payment-flashcards .card-holder li .card .head {
+          display: flex; }
+          section.payment-flashcards .card-holder li .card .head i {
+            font-size: 22px;
+            margin-right: 10px;
+            color: #37e3c4; }
+          section.payment-flashcards .card-holder li .card .head p {
+            font-size: 12px; }
+          section.payment-flashcards .card-holder li .card .head h1 {
+            font-size: 26px;
+            margin-top: -4px; }
+      section.payment-flashcards .card-holder li .stat {
+        padding: 20px 0px 0px 20px; }
+        section.payment-flashcards .card-holder li .stat p {
+          font-size: 12px;
+          color: #909090; }
+    section.payment-flashcards .card-holder li:first-child {
+      padding-left: 40px; }
+    section.payment-flashcards .card-holder li:last-child {
+      padding-right: 40px; }
+  section.payment-flashcards hr {
+    border: 0px;
+    background-color: #dddddd;
+    height: 1px;
+    margin: 20px auto; }
+  section.payment-flashcards .test-courses {
+    padding-top: 40px; }
+    section.payment-flashcards .test-courses ul.grid li {
+      padding: 10px !important; }
+      section.payment-flashcards .test-courses ul.grid li .ball {
+        height: 120px;
+        width: 120px;
+        background-color: #8c939a; }
+      section.payment-flashcards .test-courses ul.grid li span {
+        display: block;
+        text-center: center;
+        padding: 6px; }
+      section.payment-flashcards .test-courses ul.grid li p {
+        font-size: 10px;
+        text-align: center;
+        color: #777777; }
+
+section.payment-access {
+  padding-left: 40px; }
+  section.payment-access h1.heading {
+    display: inline-block;
+    vertical-align: middle; }
+  section.payment-access .card-holder {
+    margin-top: 20px; }
+    section.payment-access .card-holder .action {
+      padding-bottom: 15px !important;
+      background: linear-gradient(60deg, #193c4a 0%, #37e3c4 100%);
+      color: #ffffff; }
+      section.payment-access .card-holder .action p {
+        font-size: 12px; }
+      section.payment-access .card-holder .action h1 {
+        font-size: 28px; }
+    section.payment-access .card-holder li {
+      padding-right: 0px;
+      padding-left: 20px;
+      width: 30%; }
+      section.payment-access .card-holder li .card {
+        padding: 20px; }
+        section.payment-access .card-holder li .card .head {
+          display: flex; }
+          section.payment-access .card-holder li .card .head i {
+            font-size: 22px;
+            margin-right: 10px;
+            color: #37e3c4; }
+          section.payment-access .card-holder li .card .head p {
+            font-size: 12px; }
+          section.payment-access .card-holder li .card .head h1 {
+            font-size: 26px;
+            margin-top: -4px; }
+    section.payment-access .card-holder li {
+      width: 30%; }
+    section.payment-access .card-holder li:first-child {
+      padding-left: 40px;
+      width: 30%; }
+    section.payment-access .card-holder li:last-child {
+      width: 10%; }
+  section.payment-access hr {
+    border: 0px;
+    background-color: #dddddd;
+    height: 1px;
+    margin: 20px auto; }
+
+.test-tab {
+  display: inline-flex;
+  border-bottom: 1px solid #979797;
+  padding-left: 10px;
+  justify-content: space-between;
+  margin-bottom: 20px; }
+
+.card-wrap {
+  display: inline-flex;
+  flex-wrap: wrap; }
+
+.tab-item {
+  color: #1c2d41;
+  text-transform: capitalize;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 6px solid transparent;
+  padding-bottom: 11px;
+  padding: 10px 20px;
+  white-space: nowrap; }
+  .tab-item.active {
+    border-bottom-color: #50e3c2; }
+  .tab-item:hover {
+    border-bottom-color: #50e3c2;
+    cursor: pointer; }
+
+.avatar-placeholder {
+  font-weight: bold;
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  background-color: #d0d0d0;
+  border-radius: 20px;
+  align-items: center;
+  margin-right: 15px;
+  color: #ffffff;
+  justify-content: center; }
+
 /* --- globals --- */
 textarea {
   transition: all .3s ease-in-out; }
@@ -1026,7 +1324,7 @@ textarea {
 
 .card {
   background-color: #ffffff;
-  box-shadow: 0px 20px 25px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 18px 29px 0 rgba(132, 140, 163, 0.44);
   border-radius: 10px;
   border: 1px solid #e4e4e4;
   padding: 30px;

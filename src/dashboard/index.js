@@ -12,6 +12,8 @@ import OngoingTests from './OngoingTests';
 import CreateTest from './CreateTest';
 import Test, { TestView } from './Test';
 import FlashCards from './FlashCards';
+import AllUsers from './AllUsers';
+import { Payment, PaymentFlashcards, PaymentAccess } from './Payment';
 import store from '../store';
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 
@@ -184,6 +186,10 @@ export default class Dashboard extends Component {
 				<Route exact path={`${this.props.match.url}/test/:course_id/:test_id`} component={TestView} />
 				<Route path={`${this.props.match.url}/test/:course_id/:test_id/edit`} component={Test} />
 				<Route path={`${this.props.match.url}/flashcards`} component={FlashCards} />
+				<Route path={`${this.props.match.url}/users`} component={AllUsers} />
+				<Route exact path={`${this.props.match.url}/payments`} component={Payment} />
+				<Route exact path={`${this.props.match.url}/payments/flashcards`} component={PaymentFlashcards} />
+				<Route exact path={`${this.props.match.url}/payments/access`} component={PaymentAccess} />
 	    	</Content>
 	  	</div>
 	)}

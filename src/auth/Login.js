@@ -40,7 +40,7 @@ class Login extends Component {
 	          		</div>
 
 	          		<form className="login-form" onSubmit={this.handleLogin}>
-	            		<h6 className="form__header">{this.state.loading ? 'Loading...' : [(this.state.hasError ? `${this.state.error}` : 'Login to continue')]}</h6>
+	            		<h6 className="form__header">{this.state.loading ? <i className="ic-spinner animate-spin"></i> : [(this.state.hasError ? `${this.state.error}` : 'Login to continue')]}</h6>
 	            		<div className="form__input-wrap">
 	              			<input className="form__input" type="text" placeholder="Email" value={this.state.email} onChange={e => this.setState({ email: e.target.value })} />
 	              			<input className="form__input" type="password" placeholder="Password" value={this.state.password} onChange={e => this.setState({ password: e.target.value })} />

@@ -58,8 +58,8 @@ const CardStyle = styled.div`
  * @param {string} icon font-awesome icon
  */
 const Card = ({ title, number, bg, children, icon, classNames }) => (
-  <CardStyle bg={bg}>
-    <div className={`top ${classNames}`}>
+  <CardStyle bg={bg} className={classNames}>
+    <div className={`top`}>
       <div className="icon">
         <i className={icon} />
       </div>

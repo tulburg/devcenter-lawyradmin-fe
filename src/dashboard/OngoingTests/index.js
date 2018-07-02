@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import TestCard from '../../components/TestCard';
 
 class OngoingTests extends React.Component {
@@ -82,12 +81,12 @@ class OngoingTests extends React.Component {
     const { group, individual } = this.state;
     return (
       <div className="main-section">
-			<section class="ongoing-test">
+			<section className="ongoing-test">
 				<span className="back-arrow" onClick={() => window.history.go(-1) }>
 				  	<i className="ic-back" />
 				</span>
 				<h1 className="heading">Ongoing Tests</h1>
-		        <OTContent>
+		        <div>
 		          <div className="test-tab">
 		            <p
 		              onClick={this.showIndividualTests}
@@ -141,46 +140,11 @@ class OngoingTests extends React.Component {
 		            />
 		          </div> */}
 		          {this.renderCategory()}
-		        </OTContent>
+		        </div>
 			</section>
       </div>
     );
   }
 }
-
-const OTContent = styled.div`
-  .test-tab {
-    display: flex;
-    border-bottom: 1px solid #979797;
-    padding-left: 10px;
-    width: 40%;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-
-  .card-wrap {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .tab-item {
-    color: #1c2d41;
-    text-transform: capitalize;
-    font-size: 18px;
-    font-weight: bold;
-    border-bottom: 6px solid transparent;
-    padding-bottom: 11px; 
-    padding: 10px 20px;
-
-    &.active {
-      border-bottom-color: #50e3c2;
-    }
-
-    &:hover {
-      border-bottom-color: #50e3c2;
-      cursor: pointer;
-    }
-  }
-`;
 
 export default OngoingTests;
