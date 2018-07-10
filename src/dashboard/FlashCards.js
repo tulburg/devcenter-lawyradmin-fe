@@ -110,7 +110,7 @@ class CourseFlashCards extends Component {
 	}
 	getFlashcards(complete) {
 		let course_id = this.props.match.params.course_id;
-		fetch(store.getState().state.api.dev+"courses/"+course_id+"/flashcards", {
+		fetch(store.getState().state.api.dev+"courses/"+course_id+"/flashcards/default", {
 			method: 'GET',
 			headers: { 'Authorization' : 'Bearer '+store.getState().state.token }
 		}).then(res => res.json()).then(res => {

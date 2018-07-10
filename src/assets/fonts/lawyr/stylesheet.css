@@ -62,9 +62,10 @@
 	THE CONFIG AND THE SVG
 ******/
 
+
 .ic-spinner:before { content: '\e800'; } /* '' */
 .ic-plus:before { content: '\e801'; } /* '' */
-.ic-caret:before { content: '\eb1c'; } /* '' */
+.ic-menu-2:before { content: '\e802'; } /* '' */
 .ic-olive:before { content: '\eb1e'; } /* '' */
 .ic-university:before { content: '\eb1f'; } /* '' */
 .ic-group:before { content: '\eb28'; } /* '' */
@@ -76,6 +77,7 @@
 .ic-list:before { content: '\eb30'; } /* '' */
 .ic-calendar:before { content: '\eb32'; } /* '' */
 .ic-bar-graph:before { content: '\eb33'; } /* '' */
+.ic-menu-3:before { content: '\f008'; } /* '' */
 .ic-back:before { content: '\f100'; } /* '' */
 .ic-menu:before { content: '\f102'; } /* '' */
 .ic-checkboard:before { content: '\f106'; } /* '' */

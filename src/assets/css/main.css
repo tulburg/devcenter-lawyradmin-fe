@@ -19,6 +19,99 @@ html, body {
   height: 100vh;
   width: 100vw; }
 
+.navigation {
+  width: 17.5%; }
+
+.main {
+  background-color: #f6f6f6;
+  display: flex;
+  justify-content: space-between;
+  padding: 78px 94px;
+  height: calc(100% - 80px);
+  position: relative;
+  top: 80px; }
+
+.main-section {
+  width: 75%;
+  margin-left: 25%; }
+  .main-section .main-section__header {
+    margin-bottom: 10px; }
+  .main-section .main-section__sub-header {
+    margin-bottom: 25px;
+    color: #9b9b9b;
+    font-size: 16px; }
+  .main-section .card-wrap {
+    display: flex;
+    justify-content: space-between; }
+  .main-section .main-section__separator {
+    opacity: 0.2;
+    border-bottom: solid 1px #979797;
+    margin-top: 62px;
+    margin-bottom: 42px; }
+  .main-section .quick-links {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    justify-content: space-around; }
+    .main-section .quick-links__header {
+      color: red;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 2.3px;
+      color: #9b9b9b; }
+    .main-section .quick-links__link {
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 1.22;
+      color: #1c2d41;
+      margin-top: 15px;
+      cursor: pointer; }
+      .main-section .quick-links__link span:first-child {
+        margin-right: 10px; }
+  .main-section .invite-users {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .main-section .invite-users__header {
+      margin-bottom: 34px;
+      font-size: 24px; }
+    .main-section .invite-users__input-wrap {
+      position: relative; }
+      .main-section .invite-users__input-wrap input {
+        width: 487px;
+        height: 68px;
+        border-radius: 9px;
+        box-shadow: 0 8px 17px 0 rgba(153, 160, 169, 0.23);
+        background-color: #ffffff;
+        border: solid 1px rgba(179, 179, 179, 0.3);
+        font-size: 20px;
+        padding-left: 40px;
+        font-family: inherit; }
+      .main-section .invite-users__input-wrap button {
+        height: 53px;
+        border: 0;
+        border-radius: 9px;
+        background-color: #50e3c2;
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #1c2d41;
+        padding-right: 15px;
+        padding-left: 15px; }
+    .main-section .invite-users__link {
+      margin-top: 25px; }
+      .main-section .invite-users__link a {
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        color: #1c2d41; }
+
 .button, button {
   cursor: pointer;
   font-size: 16px;
@@ -235,10 +328,34 @@ header {
         background-color: #dddddd; }
   header div.right-action {
     flex-grow: 1; }
+  header .res-menu {
+    font-size: 30px;
+    color: #37e3c4;
+    padding: 5px;
+    cursor: pointer;
+    display: none; }
 
 div.navigation {
   position: fixed;
   width: 15%; }
+
+.res-navigation {
+  display: none;
+  z-index: 1;
+  padding: 140px 0px 0px 0px;
+  position: fixed;
+  width: 80%;
+  max-width: 230px;
+  background-color: #ffffff;
+  height: 100vh;
+  top: 0px;
+  left: -100%;
+  box-shadow: 15px 0px 15px rgba(80, 80, 80, 0.1);
+  transition: ease-in-out .3s all; }
+  .res-navigation nav {
+    box-shadow: none; }
+  .res-navigation.active {
+    left: 0px; }
 
 .create-test-link {
   text-decoration: none;
@@ -1491,5 +1608,26 @@ div.cs-select:focus {
 
 .cs-select.default:disabled {
   background-color: #b6b6b6; }
+
+@media (max-width: 65em) {
+  .navigation {
+    display: none; }
+
+  .main-section {
+    width: 100%;
+    margin-left: 0px; }
+
+  .main {
+    padding-left: 40px;
+    padding-right: 40px; }
+
+  header {
+    padding-left: 20px;
+    padding-right: 20px; }
+    header .res-menu {
+      display: block; }
+
+  .res-navigation {
+    display: block; } }
 
 /*# sourceMappingURL=main.css.map */

@@ -38,7 +38,7 @@ class Payment extends Component {
 					<ul className="grid grid-3 card-holder">
 						<li>
 							<div className="card">
-								<div class="head">
+								<div className="head">
 									<i className="ic-checkboard"></i>
 									<div><h1>200</h1><p>Purchased Flashcards</p></div>
 								</div>
@@ -48,7 +48,7 @@ class Payment extends Component {
 						</li>
 						<li>
 							<div className="card">
-								<div class="head">
+								<div className="head">
 									<i className="ic-card"></i>
 									<div><h1>200</h1><p>Paid Access</p></div>
 								</div>

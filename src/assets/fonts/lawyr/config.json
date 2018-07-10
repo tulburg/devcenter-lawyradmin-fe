@@ -635,6 +635,18 @@
       ]
     },
     {
+      "uid": "2cfb3f2b46b34a1790aec0aa846297b6",
+      "css": "menu-2",
+      "code": 59394,
+      "src": "entypo"
+    },
+    {
+      "uid": "c55fdf978f617992b43ee7cbaa6ef87e",
+      "css": "menu-3",
+      "code": 61448,
+      "src": "mfglabs"
+    },
+    {
       "uid": "e9708aa5c88ff93e4816112ec0c8a9c8",
       "css": ".notdef",
       "code": 59392,

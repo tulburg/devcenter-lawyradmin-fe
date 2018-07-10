@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Route, Redirect } from 'react-router-dom';
 import Modal from '../components/Modal';
 import Header from '../components/Header';
-import { Content, SendInvite } from '../components/Layout';
+import { SendInvite } from '../components/Layout';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Nav from '../components/Nav';
@@ -37,12 +37,20 @@ function QuestionNav(props) {
 }
 export default class Dashboard extends Component {
   	state = { showModal: false, showDoneModal: false, showQuestionNav: false, questions: 0, inviteEmail: '', 
-	  	hasInviteError: false, inviteError: '', inviteLoading: false, sentEmail: undefined
+	  	hasInviteError: false, inviteError: '', inviteLoading: false, sentEmail: undefined, showingResMenu: false
 	};
 
   	onCloseModal = () => {
     	this.setState({ showModal: false, showDoneModal: false });
   	};
+
+  	toggleResMenu(e) {
+  		if(e.target.className && e.target.className.match('res-menu')) {
+  			this.setState({ showingResMenu: !this.state.showingResMenu }) 
+  		}else {
+  			this.setState({ showingResMenu: false });
+  		}
+  	}
 
   	inviteUser() {
   		this.setState({ inviteLoading: true });
@@ -85,12 +93,16 @@ export default class Dashboard extends Component {
 	  	});
 	  	
 	return (
-	    <div>
+	    <div onClick={ (e) => { this.toggleResMenu(e) } }>
 	        <Header />
-	    	<Content>
+	    	<div className="main">
 	          	<div className="navigation">
 		            <Nav items={ nav } url={this.props.match.url}/>
 		            <QuestionNav questions={this.state.questions} showQuestionNav={this.state.showQuestionNav} />
+	          	</div>
+	          	<div className={ (this.state.showingResMenu) ? 'res-navigation active' : 'res-navigation' }>
+	          		<Nav items={ nav } url={this.props.match.url}/>
+	          		<QuestionNav questions={this.state.questions} showQuestionNav={this.state.showQuestionNav} />
 	          	</div>
 				<Route exact path="/dashboard" render={() => (
 	          		<div className="main-section">
@@ -190,7 +202,7 @@ export default class Dashboard extends Component {
 				<Route exact path={`${this.props.match.url}/payments`} component={Payment} />
 				<Route exact path={`${this.props.match.url}/payments/flashcards`} component={PaymentFlashcards} />
 				<Route exact path={`${this.props.match.url}/payments/access`} component={PaymentAccess} />
-	    	</Content>
+	    	</div>
 	  	</div>
 	)}
   	componentDidMount() {
