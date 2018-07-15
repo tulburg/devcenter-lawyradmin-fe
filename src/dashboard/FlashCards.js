@@ -19,7 +19,7 @@ export default class FlashCards extends Component {
 }
 
 class FlashCardsIndex extends Component {
-	state = { loadComplete: false };
+	state = { loadComplete: false, metrics: undefined };
 	loadCourses() {
 		fetch(store.getState().state.api.dev+"courses", {
 			method: 'GET',
@@ -33,6 +33,20 @@ class FlashCardsIndex extends Component {
 				console.error("Unable to load courses ", res);
 			}
 		});
+	}
+	fetchMetrics() {
+		let param = [
+			"total_signed_up_users", "total_active_users", "total_paid_users", "total_unpaid_users", "total_ongoing_tests",
+			"total_purchased_flashcards", "total_custom_flashcards", "total_revenue", "total_revenue_on_flashcards", "total_revenue_on_subscriptions",
+			"most_answered_quiz", "least_answered_quiz"
+		];
+		fetch(store.getState().state.api.dev+"admin/metrics?fields[]="+param.join("&fields[]="), {
+			method: 'GET',
+			headers: { 'Authorization': 'Bearer '+store.getState().state.token, 'content-type': 'application/json'}
+		}).then(res => res.json()).then(res => {
+			console.log(res);
+			store.dispatch({ type: "SAVE_METRICS", payload: res.data })
+		}).catch(err => { console.log(err.message) });
 	}
 	render() {
   		if(this.state.loadComplete===false) {
@@ -58,7 +72,7 @@ class FlashCardsIndex extends Component {
 								<div className="card">
 									<i className="ic-cards-3"></i>
 									<div className="content">
-										<h2>200</h2>
+										<h2>{(this.state.metrics!==undefined) ? this.state.metrics.total_purchased_flashcards.toLocaleString() : 0}</h2>
 										<p>Purcharsed Flashcards</p>
 									</div>
 								</div>
@@ -67,7 +81,7 @@ class FlashCardsIndex extends Component {
 								<div className="card">
 									<i className="ic-flipcards"></i>
 									<div className="content">
-										<h2>500</h2>
+										<h2>{(this.state.metrics!==undefined) ? this.state.metrics.total_custom_flashcards.toLocaleString() : 0}</h2>
 										<p>Custom Flashcards Created</p>
 									</div>
 								</div>
@@ -92,6 +106,11 @@ class FlashCardsIndex extends Component {
 		if(store.getState().state.courses === undefined) {
   			this.loadCourses();
   		}else { this.setState({ loadComplete: true })}
+  		if(!store.getState().state.metrics) { 
+  			this.fetchMetrics();
+  		}else {
+  			this.setState({ metrics: store.getState().state.metrics });
+  		}
 	}
 }
 
@@ -272,7 +291,7 @@ class CourseFlashCards extends Component {
 }
 
 class CreateFlashCards extends Component {
-	state = { loadComplete: false, course: { title: "Criminal Law"}, questions: ["h"], flashcard: undefined,
+	state = { loadComplete: false, goHome: false, course: { title: "Criminal Law"}, questions: ["h"], flashcard: undefined,
 		question: '', answer: '' }
 	textAreaChange(e, type) {
 		e.target.style.height = 'auto';
@@ -311,6 +330,7 @@ class CreateFlashCards extends Component {
 	}
 	render() {
 		if(this.state.gotoEdit){ return (<Redirect to={`${this.props.match.url}/edit`} />); }
+		if(this.state.goHome){ return (<Redirect to="/dashboard/flashcards" />); }
 		if(this.state.loadComplete === false) {
 			return (
 				<div className="load-pane">
@@ -383,12 +403,12 @@ class CreateFlashCards extends Component {
 										<ul className="grid grid-2">
 											<li>
 												<div className="info-box">
-													<textarea onChange={(e) => this.textAreaChange(e, 'question') } defaultValue="Some description you are"></textarea>
+													<textarea onChange={(e) => this.textAreaChange(e, 'question') } defaultValue="" placeholder="Enter question"></textarea>
 												</div>
 											</li>
 											<li>
 												<div className="info-box">
-													<textarea onChange={(e) => this.textAreaChange(e, 'answer') } defaultValue="Some description you are"></textarea>
+													<textarea onChange={(e) => this.textAreaChange(e, 'answer') } defaultValue="" placeholder="Enter answer"></textarea>
 												</div>
 											</li>
 										</ul>

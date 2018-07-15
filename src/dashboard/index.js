@@ -37,7 +37,7 @@ function QuestionNav(props) {
 }
 export default class Dashboard extends Component {
   	state = { showModal: false, showDoneModal: false, showQuestionNav: false, questions: 0, inviteEmail: '', 
-	  	hasInviteError: false, inviteError: '', inviteLoading: false, sentEmail: undefined, showingResMenu: false
+	  	hasInviteError: false, inviteError: '', inviteLoading: false, sentEmail: undefined, showingResMenu: false, metrics: undefined
 	};
 
   	onCloseModal = () => {
@@ -50,6 +50,21 @@ export default class Dashboard extends Component {
   		}else {
   			this.setState({ showingResMenu: false });
   		}
+  	}
+
+  	fetchMetrics() {
+  		let param = [
+  			"total_signed_up_users", "total_active_users", "total_paid_users", "total_unpaid_users", "total_ongoing_tests",
+  			"total_purchased_flashcards", "total_custom_flashcards", "total_revenue", "total_revenue_on_flashcards", "total_revenue_on_subscriptions",
+  			"most_answered_quiz", "least_answered_quiz"
+  		];
+  		fetch(store.getState().state.api.dev+"admin/metrics?fields[]="+param.join("&fields[]="), {
+  			method: 'GET',
+  			headers: { 'Authorization': 'Bearer '+store.getState().state.token, 'content-type': 'application/json'}
+  		}).then(res => res.json()).then(res => {
+  			console.log(res);
+  			store.dispatch({ type: "SAVE_METRICS", payload: res.data })
+  		}).catch(err => { console.log(err.message) });
   	}
 
   	inviteUser() {
@@ -92,121 +107,127 @@ export default class Dashboard extends Component {
 	  		}
 	  	});
 	  	
-	return (
-	    <div onClick={ (e) => { this.toggleResMenu(e) } }>
-	        <Header />
-	    	<div className="main">
-	          	<div className="navigation">
-		            <Nav items={ nav } url={this.props.match.url}/>
-		            <QuestionNav questions={this.state.questions} showQuestionNav={this.state.showQuestionNav} />
-	          	</div>
-	          	<div className={ (this.state.showingResMenu) ? 'res-navigation active' : 'res-navigation' }>
-	          		<Nav items={ nav } url={this.props.match.url}/>
-	          		<QuestionNav questions={this.state.questions} showQuestionNav={this.state.showQuestionNav} />
-	          	</div>
-				<Route exact path="/dashboard" render={() => (
-	          		<div className="main-section">
-	            		<Modal closeModal={this.onCloseModal} visible={this.state.showModal}>
-	                  		<SendInvite>
-	                    		<h4 className="header" style={ (this.state.hasInviteError&&!this.state.inviteLoading) ? { color: '#c00' } : {}}>{ (this.state.inviteLoading) ? <i className="ic-spinner animate-spin"></i> : (this.state.hasInviteError) ? this.state.inviteError : 'Invite users' }</h4>
-			                    <span className="subtext">
-			                      	Enter an Email Address to Continue
-			                    </span>
-	                    		<input className="textbox" placeholder="Email Address" onChange={(e) => { this.setValue(e, 'invite') }} />
-	                    		<button onClick={() => { this.inviteUser(); }}>Invite</button>
-	                  		</SendInvite>
-	                	</Modal>
-	                	<Modal closeModal={this.onCloseModal} visible={this.state.showDoneModal}>
-		                  	<SendInvite>
-		                    	<h1 className="header--large">Done!</h1>
-			                    <h4 className="header uppercase" style={ (this.state.hasInviteError&&!this.state.inviteLoading) ? { color: '#c00' } : {}}>{ (this.state.inviteLoading) ? <i className="ic-spinner animate-spin"></i> : (this.state.hasInviteError) ? this.state.inviteError : 'Invite more users to use lawyr' }</h4>
-			                    <span className="subtext">
-			                      	Enter another Email Address to Continue
-			                    </span>
-			                    <div className="input-wrap">
-			                      	<input className="textbox" placeholder="Email Address" onChange={(e) => { this.setValue(e, 'invite') }} />
-			                      	<div type="button" className="input-wrap__btn" onClick={() => { this.inviteUser(); }}>
-			                        	<i className="ic-plus" />
-			                      	</div>
-			                    </div>
-		                    	{ (this.state.sentEmail) ? <span className="invite-sent">Invitation Email to { this.state.sentEmail } sent</span> : '' }
-		                  	</SendInvite>
-		                </Modal>
-	                	<h2 className="main-section__header">Overview</h2>
-	                	<div className="card-wrap">
-		                  	<Card bg="invert" icon="ic-uniF11E" number={3600} title="signed up users" classNames="signed-up">
-		                    	<Button onClick={() => this.setState({ showModal: true })} color="#000" text="Invite Users" bg="#50e3c2" />
-		                  	</Card>
-		                  	<Card icon="ic-group-2" number={400} title="Active users" classNames="active-users">
-		                    	<Button text="View Ongoing Tests" bg="#1c2d41" className="card-button" />
-		                  	</Card>
-		                  	<Card icon="ic-card" number={1000} title="Paid users" classNames="paid-users">
-		                    	<Button text="View purchases" bg="#1c2d41" />
-		                  	</Card>
-	                	</div>
+		return (
+		    <div onClick={ (e) => { this.toggleResMenu(e) } }>
+		        <Header />
+		    	<div className="main">
+		          	<div className="navigation">
+			            <Nav items={ nav } url={this.props.match.url}/>
+			            <QuestionNav questions={this.state.questions} showQuestionNav={this.state.showQuestionNav} />
+		          	</div>
+		          	<div className={ (this.state.showingResMenu) ? 'res-navigation active' : 'res-navigation' }>
+		          		<Nav items={ nav } url={this.props.match.url}/>
+		          		<QuestionNav questions={this.state.questions} showQuestionNav={this.state.showQuestionNav} />
+		          	</div>
+					<Route exact path="/dashboard" render={() => (
+		          		<div className="main-section">
+		            		<Modal closeModal={this.onCloseModal} visible={this.state.showModal}>
+		                  		<SendInvite>
+		                    		<h4 className="header" style={ (this.state.hasInviteError&&!this.state.inviteLoading) ? { color: '#c00' } : {}}>{ (this.state.inviteLoading) ? <i className="ic-spinner animate-spin"></i> : (this.state.hasInviteError) ? this.state.inviteError : 'Invite users' }</h4>
+				                    <span className="subtext">
+				                      	Enter an Email Address to Continue
+				                    </span>
+		                    		<input className="textbox" placeholder="Email Address" onChange={(e) => { this.setValue(e, 'invite') }} />
+		                    		<button onClick={() => { this.inviteUser(); }}>Invite</button>
+		                  		</SendInvite>
+		                	</Modal>
+		                	<Modal closeModal={this.onCloseModal} visible={this.state.showDoneModal}>
+			                  	<SendInvite>
+			                    	<h1 className="header--large">Done!</h1>
+				                    <h4 className="header uppercase" style={ (this.state.hasInviteError&&!this.state.inviteLoading) ? { color: '#c00' } : {}}>{ (this.state.inviteLoading) ? <i className="ic-spinner animate-spin"></i> : (this.state.hasInviteError) ? this.state.inviteError : 'Invite more users to use lawyr' }</h4>
+				                    <span className="subtext">
+				                      	Enter another Email Address to Continue
+				                    </span>
+				                    <div className="input-wrap">
+				                      	<input className="textbox" placeholder="Email Address" onChange={(e) => { this.setValue(e, 'invite') }} />
+				                      	<div type="button" className="input-wrap__btn" onClick={() => { this.inviteUser(); }}>
+				                        	<i className="ic-plus" />
+				                      	</div>
+				                    </div>
+			                    	{ (this.state.sentEmail) ? <span className="invite-sent">Invitation Email to { this.state.sentEmail } sent</span> : '' }
+			                  	</SendInvite>
+			                </Modal>
+		                	<h2 className="main-section__header">Overview</h2>
+		                	<div className="card-wrap">
+			                  	<Card bg="invert" icon="ic-uniF11E" number={(this.state.metrics!==undefined) ? this.state.metrics.total_signed_up_users.toLocaleString() : 0} title="signed up users" classNames="signed-up">
+			                    	<Button onClick={() => this.setState({ showModal: true })} color="#000" text="Invite Users" bg="#50e3c2" />
+			                  	</Card>
+			                  	<Card icon="ic-group-2" number={(this.state.metrics!==undefined) ? this.state.metrics.total_active_users.toLocaleString() : 0} title="Active users" classNames="active-users">
+			                    	<Button text="View Ongoing Tests" bg="#1c2d41" className="card-button" />
+			                  	</Card>
+			                  	<Card icon="ic-card" number={(this.state.metrics!==undefined) ? this.state.metrics.total_paid_users.toLocaleString() : 0} title="Paid users" classNames="paid-users">
+			                    	<Button text="View purchases" bg="#1c2d41" />
+			                  	</Card>
+		                	</div>
 
-	                	<div className="main-section__separator" />
+		                	<div className="main-section__separator" />
 
-	                	<h2 className="main-section__header">Content</h2>
-	                	<div className="card-wrap">
-		                  	<FlashCard>
-		                    	<p className="flashcard__text">Create a Flash card</p>
-			                    <span className="flashcard__icon" onClick={() => { window.location.href = this.props.match.url+"/flashcards" }}>
-			                      	<i className="ic-right" />
-			                    </span>
-		                  	</FlashCard>
-		                 	<FlashCard>
-		                    	<p className="flashcard__text">Create a Test</p>
-			                    <span className="flashcard__icon" onClick={() => { window.location.href = this.props.match.url+"/tests" }}>
-			                      	<i className="ic-right" />
-			                    </span>
-		                  	</FlashCard>
-		                  	<div className="quick-links">
-			                    <p className="quick-links__header">quick links</p>
-			                    <p className="quick-links__link" onClick={() => { window.location.href = this.props.match.url+"/flashcards" }}>
-			                      	<span>Edit Flashcards</span>
-			                      	<span>
-			                        	<i className="ic-right" />
-			                      	</span>
-			                    </p>
-		                    	<p className="quick-links__link" onClick={() => { window.location.href = this.props.match.url+"/tests" }}>
-			                      	<span>Edit Courses</span>
-			                      	<span>
-			                        	<i className="ic-right" />
-			                      	</span>
-		                    	</p>
-		                  	</div>
-		                </div>
+		                	<h2 className="main-section__header">Content</h2>
+		                	<div className="card-wrap">
+			                  	<FlashCard>
+			                    	<p className="flashcard__text">Create a Flash card</p>
+				                    <span className="flashcard__icon" onClick={() => { window.location.href = this.props.match.url+"/flashcards" }}>
+				                      	<i className="ic-right" />
+				                    </span>
+			                  	</FlashCard>
+			                 	<FlashCard>
+			                    	<p className="flashcard__text">Create a Test</p>
+				                    <span className="flashcard__icon" onClick={() => { window.location.href = this.props.match.url+"/tests" }}>
+				                      	<i className="ic-right" />
+				                    </span>
+			                  	</FlashCard>
+			                  	<div className="quick-links">
+				                    <p className="quick-links__header">quick links</p>
+				                    <p className="quick-links__link" onClick={() => { window.location.href = this.props.match.url+"/flashcards" }}>
+				                      	<span>Edit Flashcards</span>
+				                      	<span>
+				                        	<i className="ic-right" />
+				                      	</span>
+				                    </p>
+			                    	<p className="quick-links__link" onClick={() => { window.location.href = this.props.match.url+"/tests" }}>
+				                      	<span>Edit Courses</span>
+				                      	<span>
+				                        	<i className="ic-right" />
+				                      	</span>
+			                    	</p>
+			                  	</div>
+			                </div>
 
-	                	<div className="main-section__separator" />
+		                	<div className="main-section__separator" />
 
-		                <div className="invite-users">
-		                  	<h2 className="invite-users__header">Invite users</h2>
-		                  	<div className="invite-users__input-wrap">
-			                    <input />
-			                    <button>invite</button>
-		                  	</div>
-		                  	<p className="invite-users__link">
-		                    	<a href="/">GO TO USERS PAGE</a>
-		                  	</p>
-		                </div>
-	              	</div>
-	        	)}/>
-	      		<Route path={`${this.props.match.url}/tests`} component={Tests} />
-	      		<Route path={`${this.props.match.url}/ongoing`} component={OngoingTests} />
-				<Route path={`${this.props.match.url}/create-test/:course_id`} component={CreateTest} />
-				<Route exact path={`${this.props.match.url}/test/:course_id/:test_id`} component={TestView} />
-				<Route path={`${this.props.match.url}/test/:course_id/:test_id/edit`} component={Test} />
-				<Route path={`${this.props.match.url}/flashcards`} component={FlashCards} />
-				<Route path={`${this.props.match.url}/users`} component={AllUsers} />
-				<Route exact path={`${this.props.match.url}/payments`} component={Payment} />
-				<Route exact path={`${this.props.match.url}/payments/flashcards`} component={PaymentFlashcards} />
-				<Route exact path={`${this.props.match.url}/payments/access`} component={PaymentAccess} />
-	    	</div>
-	  	</div>
-	)}
+			                <div className="invite-users">
+			                  	<h2 className="invite-users__header">Invite users</h2>
+			                  	<div className="invite-users__input-wrap">
+				                    <input />
+				                    <button>invite</button>
+			                  	</div>
+			                  	<p className="invite-users__link">
+			                    	<a href="/">GO TO USERS PAGE</a>
+			                  	</p>
+			                </div>
+		              	</div>
+		        	)}/>
+		      		<Route path={`${this.props.match.url}/tests`} component={Tests} />
+		      		<Route path={`${this.props.match.url}/ongoing`} component={OngoingTests} />
+					<Route path={`${this.props.match.url}/create-test/:course_id`} component={CreateTest} />
+					<Route exact path={`${this.props.match.url}/test/:course_id/:test_id`} component={TestView} />
+					<Route path={`${this.props.match.url}/test/:course_id/:test_id/edit`} component={Test} />
+					<Route path={`${this.props.match.url}/flashcards`} component={FlashCards} />
+					<Route path={`${this.props.match.url}/users`} component={AllUsers} />
+					<Route exact path={`${this.props.match.url}/payments`} component={Payment} />
+					<Route exact path={`${this.props.match.url}/payments/flashcards`} component={PaymentFlashcards} />
+					<Route exact path={`${this.props.match.url}/payments/access`} component={PaymentAccess} />
+		    	</div>
+		  	</div>
+		)
+	}
   	componentDidMount() {
   		console.log(store.getState().state);
+  		if(!store.getState().state.metrics) { 
+  			this.fetchMetrics();
+  		}else {
+  			this.setState({ metrics: store.getState().state.metrics });
+  		}
   	}
 }
 

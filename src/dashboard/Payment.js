@@ -5,19 +5,36 @@ import store from '../store';
 
 class Payment extends Component {
 	state = { rows: [
-				        ['Sept 29', 0], ['Sept 30', 5], ['Nov 1', 15], ['Nov 2', 9], ['Nov 3', 10], ['Nov 4', 5], ['Nov 5', 0]
-			      	], columns: [
-			      		{ type: 'string' },
-			      		{ type: 'number', label: 'Dogs'}
-			      	], options : {
-				        hAxis: { type: 'number', title: '', baselineColor: '#aaa', gridlines: { count: 0} },
-				        vAxis: { type: 'number', title: 'GOAT', baselineColor: '#aaa', gridlines: { count: 0}, color:'red' },
-				        series: { 0: { curveType: 'function' } },
-				        animation: { startup: true, duration: 300, easing: 'inAndOut' },
-				        backgroundColor: { fill: 'transparent', stroke: '#c00' },
-				        colors: ['#ccc', 'black'],
-				        chartArea: { left: 0, width: '100%', height: 100 }
-			      	} }
+	        ['Sept 29', 0], ['Sept 30', 5], ['Nov 1', 15], ['Nov 2', 9], ['Nov 3', 10], ['Nov 4', 5], ['Nov 5', 0]
+		], 
+		columns: [
+      		{ type: 'string' },
+      		{ type: 'number', label: 'Dogs'}
+      	], 
+      	options : {
+	        hAxis: { type: 'number', title: '', baselineColor: '#aaa', gridlines: { count: 0} },
+	        vAxis: { type: 'number', title: 'GOAT', baselineColor: '#aaa', gridlines: { count: 0}, color:'red' },
+	        series: { 0: { curveType: 'function' } },
+	        animation: { startup: true, duration: 300, easing: 'inAndOut' },
+	        backgroundColor: { fill: 'transparent', stroke: '#c00' },
+	        colors: ['#ccc', 'black'],
+	        chartArea: { left: 0, width: '100%', height: 100 }
+      	}, metrics: undefined 
+	}
+	fetchMetrics() {
+		let param = [
+			"total_signed_up_users", "total_active_users", "total_paid_users", "total_unpaid_users", "total_ongoing_tests",
+			"total_purchased_flashcards", "total_custom_flashcards", "total_revenue", "total_revenue_on_flashcards", "total_revenue_on_subscriptions",
+			"most_answered_quiz", "least_answered_quiz"
+		];
+		fetch(store.getState().state.api.dev+"admin/metrics?fields[]="+param.join("&fields[]="), {
+			method: 'GET',
+			headers: { 'Authorization': 'Bearer '+store.getState().state.token, 'content-type': 'application/json'}
+		}).then(res => res.json()).then(res => {
+			console.log(res);
+			store.dispatch({ type: "SAVE_METRICS", payload: res.data })
+		}).catch(err => { console.log(err.message) });
+	}
 	render() {
 		const renderedPurchaseHistory = [1,2,3,4,5,6].map(function(item) {
 			return (<ul className="grid grid-3" key={item}><li className="name">@Username just purchased 'Criminal Law Flashcard'</li><li>22-Nov-2018</li><li>20 mins ago</li></ul>);
@@ -30,7 +47,7 @@ class Payment extends Component {
 					<li>
 						<div className="top-action">
 							<label>TOTAL REVENUE</label>
-							<h1>N500,000.00</h1>
+							<h1>N{(this.state.metrics!==undefined) ? this.state.metrics.total_revenue.toLocaleString() : 0}</h1>
 						</div>
 					</li>
 				</ul>
@@ -40,9 +57,9 @@ class Payment extends Component {
 							<div className="card">
 								<div className="head">
 									<i className="ic-checkboard"></i>
-									<div><h1>200</h1><p>Purchased Flashcards</p></div>
+									<div><h1>{(this.state.metrics!==undefined) ? this.state.metrics.total_purchased_flashcards.toLocaleString() : 0}</h1><p>Purchased Flashcards</p></div>
 								</div>
-								<div className="total">N100,000</div>
+								<div className="total">N{(this.state.metrics!==undefined) ? this.state.metrics.total_revenue_on_flashcards.toLocaleString() : 0}</div>
 							</div>
 							<Link to="payments/flashcards">Flashcard Purchases <i className="ic-right"></i></Link>
 						</li>
@@ -50,9 +67,9 @@ class Payment extends Component {
 							<div className="card">
 								<div className="head">
 									<i className="ic-card"></i>
-									<div><h1>200</h1><p>Paid Access</p></div>
+									<div><h1>{(this.state.metrics!==undefined) ? this.state.metrics.total_paid_users.toLocaleString() : 0}</h1><p>Paid Access</p></div>
 								</div>
-								<div className="total">N400,000</div>
+								<div className="total">N{(this.state.metrics!==undefined) ? this.state.metrics.total_revenue_on_subscriptions.toLocaleString() : 0}</div>
 							</div>
 							<Link to="payments/access">Flashcard Access <i className="ic-right"></i></Link>
 						</li>
@@ -72,6 +89,13 @@ class Payment extends Component {
 				</div>
 			</section>
 		</div>);
+	}
+	componentDidMount() {
+		if(!store.getState().state.metrics) { 
+			this.fetchMetrics();
+		}else {
+			this.setState({ metrics: store.getState().state.metrics });
+		}
 	}
 }
 

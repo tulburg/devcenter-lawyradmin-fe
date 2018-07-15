@@ -1,11 +1,11 @@
 import { createStore, combineReducers } from 'redux';
-import Cookies from 'js-cookie';
+
 
 const api = { prod: "not ready", dev: "https://lawyr.herokuapp.com/api/v1/" }
 const session = { active: false }
 let set_state = { api: api, session: session, token: null }
-if(Cookies.get("lawyr") !== undefined) {
-	set_state = Cookies.getJSON("lawyr");
+if(localStorage.getItem("lawyr")) {
+	set_state = JSON.parse(localStorage.getItem("lawyr"));
 }
 function mainReducer(state={}, action) {
 	switch(action.type) {
@@ -15,7 +15,7 @@ function mainReducer(state={}, action) {
 		break;
 		case 'LOGOUT_ACTION' :
 			set_state.session.active = false;
-			Cookies.remove("lawyr");
+			localStorage.removeItem("lawyr");
 			set_state = { api: api, session: session, token: null }
 		break;
 		case 'SHOW_QUESTION_NAV':
@@ -33,8 +33,8 @@ function mainReducer(state={}, action) {
 		let key = action.type.toString().substring(action.type.toString().split("_")[0].length+1)
 		set_state[key.toString().toLowerCase()] = action.payload
 	}
+	localStorage.setItem("lawyr", JSON.stringify(set_state));
 
-	Cookies.set("lawyr", set_state, { expires: 7, path: '/' });
 	return state;
 }
 

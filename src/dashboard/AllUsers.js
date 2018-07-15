@@ -4,13 +4,26 @@ import Modal from '../components/Modal';
 import store from '../store';
 
 export default class AllUsers extends Component {
-	state = { activity: true, userDirectory: false, loadComplete: false, users: undefined, showModal: false }
+	state = { activity: true, userDirectory: false, loadComplete: false, users: undefined, showModal: false, metrics: undefined }
 	showActivity() { this.setState({ activity: true, userDirectory: false }); }
 	showUserDirectory() { this.setState({ activity: false, userDirectory: true }); }
 	showUserModal(user) {
 		this.setState({ showModal: true });
 	}
-
+	fetchMetrics() {
+		let param = [
+			"total_signed_up_users", "total_active_users", "total_paid_users", "total_unpaid_users", "total_ongoing_tests",
+			"total_purchased_flashcards", "total_custom_flashcards", "total_revenue", "total_revenue_on_flashcards", "total_revenue_on_subscriptions",
+			"most_answered_quiz", "least_answered_quiz"
+		];
+		fetch(store.getState().state.api.dev+"admin/metrics?fields[]="+param.join("&fields[]="), {
+			method: 'GET',
+			headers: { 'Authorization': 'Bearer '+store.getState().state.token, 'content-type': 'application/json'}
+		}).then(res => res.json()).then(res => {
+			console.log(res);
+			store.dispatch({ type: "SAVE_METRICS", payload: res.data })
+		}).catch(err => { console.log(err.message) });
+	}
 	render() {
 		const { activity, userDirectory, loadComplete, users, showModal } = this.state;
 		if(loadComplete === false) {
@@ -53,9 +66,9 @@ export default class AllUsers extends Component {
 			return( <div className="main-section">
 				<section className="all-users">
 					<div className="card-wrap">
-						<Card bg="invert" icon="ic-group-2" number={2000} title="Signed Up Users" classNames="sign-up-users" />
-						<Card icon="ic-card" number={500} title="Paid Users" classNames="paid-users" />
-						<Card icon="ic-user" number={500} title="Active Users" classNames="active-users" />
+						<Card bg="invert" icon="ic-group-2" number={(this.state.metrics!==undefined) ? this.state.metrics.total_signed_up_users.toLocaleString() : 0} title="Signed Up Users" classNames="sign-up-users" />
+						<Card icon="ic-card" number={(this.state.metrics!==undefined) ? this.state.metrics.total_paid_users.toLocaleString() : 0} title="Paid Users" classNames="paid-users" />
+						<Card icon="ic-user" number={(this.state.metrics!==undefined) ? this.state.metrics.total_active_users.toLocaleString() : 0} title="Active Users" classNames="active-users" />
 					</div>
 					<ul className="grid grid-2">
 						<li>
@@ -124,5 +137,10 @@ export default class AllUsers extends Component {
 			console.log(res);
 			this.setState({ users: res.data, loadComplete: true });
 		}).catch(err => console.log(err));
+		if(!store.getState().state.metrics) { 
+			this.fetchMetrics();
+		}else {
+			this.setState({ metrics: store.getState().state.metrics });
+		}
 	}
 }
