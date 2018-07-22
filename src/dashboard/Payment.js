@@ -100,7 +100,7 @@ class Payment extends Component {
 }
 
 class PaymentFlashcards extends Component {
-	state = { loadComplete: false }
+	state = { loadComplete: false,  metrics: undefined }
 	loadCourses() {
 		fetch(store.getState().state.api.dev+"courses", {
 			method: 'GET',
@@ -114,6 +114,20 @@ class PaymentFlashcards extends Component {
 				console.error("Unable to load courses ", res);
 			}
 		});
+	}
+	fetchMetrics() {
+		let param = [
+			"total_signed_up_users", "total_active_users", "total_paid_users", "total_unpaid_users", "total_ongoing_tests",
+			"total_purchased_flashcards", "total_custom_flashcards", "total_revenue", "total_revenue_on_flashcards", "total_revenue_on_subscriptions",
+			"most_answered_quiz", "least_answered_quiz"
+		];
+		fetch(store.getState().state.api.dev+"admin/metrics?fields[]="+param.join("&fields[]="), {
+			method: 'GET',
+			headers: { 'Authorization': 'Bearer '+store.getState().state.token, 'content-type': 'application/json'}
+		}).then(res => res.json()).then(res => {
+			console.log(res);
+			store.dispatch({ type: "SAVE_METRICS", payload: res.data })
+		}).catch(err => { console.log(err.message) });
 	}
 	render() {
   		if(this.state.loadComplete===false) {
@@ -140,22 +154,22 @@ class PaymentFlashcards extends Component {
 						<li>
 							<div className="card action">
 								<p>FLASHCARD REVENUE</p>
-								<h1>N50,000</h1>
+								<h1>N{(this.state.metrics!==undefined) ? this.state.metrics.total_revenue_on_flashcards.toLocaleString() : 0}</h1>
 							</div>
 						</li>
 						<li>
 							<div className="card">
-								<div class="head">
+								<div className="head">
 									<i className="ic-checklist"></i>
-									<div><h1>500</h1><p>Purchased Flashcards</p></div>
+									<div><h1>{(this.state.metrics!==undefined) ? this.state.metrics.total_purchased_flashcards.toLocaleString() : 0}</h1><p>Purchased Flashcards</p></div>
 								</div>
 							</div>
 						</li>
 						<li>
 							<div className="card">
-								<div class="head">
+								<div className="head">
 									<i className="ic-list"></i>
-									<div><h1>500</h1><p>Custom Flashcards</p></div>
+									<div><h1>{(this.state.metrics!==undefined) ? this.state.metrics.total_custom_flashcards.toLocaleString() : 0}</h1><p>Custom Flashcards</p></div>
 								</div>
 							</div>
 						</li>
@@ -180,12 +194,58 @@ class PaymentFlashcards extends Component {
 		if(store.getState().state.courses === undefined) {
 			this.loadCourses();
 		}else { this.setState({ loadComplete: true })}
+		if(!store.getState().state.metrics) { 
+			this.fetchMetrics();
+		}else {
+			this.setState({ metrics: store.getState().state.metrics });
+		}
 	}
 }
 
 class PaymentAccess extends Component {
-	state = { loadComplete: true }
-
+	state = { loadComplete: false, metrics: undefined, users: []  }
+	fetchMetrics() {
+		let param = [
+			"total_signed_up_users", "total_active_users", "total_paid_users", "total_unpaid_users", "total_ongoing_tests",
+			"total_purchased_flashcards", "total_custom_flashcards", "total_revenue", "total_revenue_on_flashcards", "total_revenue_on_subscriptions",
+			"most_answered_quiz", "least_answered_quiz"
+		];
+		fetch(store.getState().state.api.dev+"admin/metrics?fields[]="+param.join("&fields[]="), {
+			method: 'GET',
+			headers: { 'Authorization': 'Bearer '+store.getState().state.token, 'content-type': 'application/json'}
+		}).then(res => res.json()).then(res => {
+			console.log(res);
+			store.dispatch({ type: "SAVE_METRICS", payload: res.data })
+		}).catch(err => { console.log(err.message) });
+	}
+	fetchPaidUsers() {
+		var self = this;
+		fetch(store.getState().state.api.dev+"users/clients/paid", {
+			method: 'GET',
+			headers: { 'Authorization': 'Bearer '+store.getState().state.token, 'content-type': 'application/json'}
+		}).then(res => res.json()).then(res => {
+			console.log(res);
+			self.setState({ loadComplete: true, users: res.data });
+		}).catch(err => { console.log(err.message) });
+	}
+	timeSince(date) {
+		var seconds = Math.floor((new Date() - date) / 1000);
+		var interval = Math.floor(seconds / 31536000);
+		if (interval > 1) { return interval + " years"; }
+		interval = Math.floor(seconds / 2592000);
+		if (interval > 1) { return interval + " months"; }
+		interval = Math.floor(seconds / 86400);
+		if (interval > 1) { return interval + " days"; }
+		interval = Math.floor(seconds / 3600);
+		if (interval > 1) { return interval + " hours"; }
+		interval = Math.floor(seconds / 60);
+		if (interval > 1) { return interval + " minutes"; }
+		return Math.floor(seconds) + " seconds";
+	}
+	dateFormat(date) {
+		var months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEPT", "OCT", "NOV", "DEC"]
+		return date.getDate()+"-"+months[date.getMonth()]+"-"+date.getFullYear();
+	}
 	render() {
   		if(this.state.loadComplete===false) {
   			return (
@@ -196,6 +256,9 @@ class PaymentAccess extends Component {
 				</div>
   			);
   		}else {
+  			var renderedUsers = this.state.users.map((u) => {
+  				return (<ul className="grid grid-4" key={ u.id }><li>{ u.username }</li><li>{ this.dateFormat(new Date(u.created_at.replace(" ", "T"))) }</li><li>{ this.timeSince(new Date(u.created_at.replace(" ", "T")))+" ago" }</li><li>{ u.platform }</li></ul>);
+  			})
 			return (<div className="main-section">
 				<section className="payment-access">
 					<span className="back-arrow" onClick={() => window.history.go(-1) }>
@@ -206,14 +269,14 @@ class PaymentAccess extends Component {
 						<li>
 							<div className="card action">
 								<p>PAID ACCESS REVENUE</p>
-								<h1>N50,000</h1>
+								<h1>N{(this.state.metrics!==undefined) ? this.state.metrics.total_revenue_on_subscriptions.toLocaleString() : 0}</h1>
 							</div>
 						</li>
 						<li>
 							<div className="card">
 								<div className="head">
 									<i className="ic-group-2"></i>
-									<div><h1>500</h1><p>Paid Users</p></div>
+									<div><h1>{(this.state.metrics!==undefined) ? this.state.metrics.total_paid_users.toLocaleString() : 0}</h1><p>Paid Users</p></div>
 								</div>
 							</div>
 						</li>
@@ -221,7 +284,7 @@ class PaymentAccess extends Component {
 							<div className="card">
 								<div className="head">
 									<i className="ic-user"></i>
-									<div><h1>500</h1><p>Users on Free Trials</p></div>
+									<div><h1>{(this.state.metrics!==undefined) ? this.state.metrics.total_unpaid_users.toLocaleString() : 0}</h1><p>Users on Free Trials</p></div>
 								</div>
 							</div>
 						</li>
@@ -230,15 +293,22 @@ class PaymentAccess extends Component {
 					</ul>
 					<hr />
 					<div className="table">
-						<ul className="grid grid-4 thead"><li>NAME</li><li>DAY</li><li>TIME</li><li>PLATFORM</li></ul>
+						<ul className="grid grid-4 thead"><li>USERNAME</li><li>DAY</li><li>TIME</li><li>PLATFORM</li></ul>
 						<div className="tbody">
-							<ul className="grid grid-4"><li>Tolu Oluwagbemi</li><li>22-Nov-2018</li><li>24mins ago</li><li>Android</li></ul>
-							<ul className="grid grid-4"><li>Tolu Oluwagbemi</li><li>22-Nov-2018</li><li>24mins ago</li><li>Android</li></ul>
+							{ renderedUsers }
 						</div>
 					</div>
 				</section>
 			</div>);
 		}
+	}
+	componentDidMount() {
+		if(!store.getState().state.metrics) { 
+			this.fetchMetrics();
+		}else {
+			this.setState({ metrics: store.getState().state.metrics });
+		}
+		this.fetchPaidUsers();
 	}
 }
 
