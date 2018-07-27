@@ -753,6 +753,29 @@ section.test-questions {
     text-decoration: none;
     color: #1c2d41; }
 
+ul.pagination {
+  padding: 4px 0px 4px 8px;
+  display: inline-block;
+  margin: auto;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(40, 40, 40, 0.15);
+  list-style: none;
+  margin-top: 60px;
+  margin-bottom: 40px; }
+  ul.pagination li {
+    display: inline-block;
+    border-radius: 5px; }
+    ul.pagination li.active, ul.pagination li.prev, ul.pagination li.next {
+      margin-right: 8px;
+      background-color: #37e3c4; }
+      ul.pagination li.active a, ul.pagination li.prev a, ul.pagination li.next a {
+        font-weight: bold; }
+    ul.pagination li a {
+      padding: 8px 14px;
+      display: block;
+      text-decoration: none; }
+
 /* Test View Definitions */
 section.test-edit textarea {
   resize: none;

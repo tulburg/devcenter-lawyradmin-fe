@@ -1,14 +1,24 @@
 import React, { Component } from "react";
 import Card from '../components/Card';
 import Modal from '../components/Modal';
+import Pagination from '../components/Pagination';
 import store from '../store';
 
 export default class AllUsers extends Component {
-	state = { activity: true, userDirectory: false, loadComplete: false, users: undefined, showModal: false, metrics: undefined }
+	state = { activity: true, userDirectory: false, loadComplete: false, users: undefined, showModal: false, metrics: undefined, pagination: [], page: 0 }
 	showActivity() { this.setState({ activity: true, userDirectory: false }); }
 	showUserDirectory() { this.setState({ activity: false, userDirectory: true }); }
 	showUserModal(user) {
 		this.setState({ showModal: true });
+	}
+	fetchUsers() {
+		fetch(store.getState().state.api.dev+"users?page="+this.state.page, {
+			method: 'GET',
+			headers: { 'Authorization' : 'Bearer '+store.getState().state.token }
+		}).then(res => res.json()).then(res => {
+			console.log(res);
+			this.setState({ users: res.data, loadComplete: true, pagination: res.meta.pagination });
+		}).catch(err => console.log(err));
 	}
 	fetchMetrics() {
 		let param = [
@@ -87,6 +97,7 @@ export default class AllUsers extends Component {
 					<div className="cool">
 						{ renderTabContent }
 					</div>	
+					<Pagination config={this.state.pagination} load={(v) => { this.setState({ page: v }); this.fetchUsers(); }} />
 					<Modal closeModal={() => { this.setState({showModal: false }) }} visible={showModal}>
 				      	<ul className="grid grid-2 user-modal">
 				      		<li className="profile-holder">
@@ -130,13 +141,7 @@ export default class AllUsers extends Component {
 		}
 	}
 	componentDidMount() {
-		fetch(store.getState().state.api.dev+"users", {
-			method: 'GET',
-			headers: { 'Authorization' : 'Bearer '+store.getState().state.token }
-		}).then(res => res.json()).then(res => {
-			console.log(res);
-			this.setState({ users: res.data, loadComplete: true });
-		}).catch(err => console.log(err));
+		this.fetchUsers();
 		if(!store.getState().state.metrics) { 
 			this.fetchMetrics();
 		}else {
