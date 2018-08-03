@@ -61,6 +61,16 @@ export default class CreateTest extends Component {
 			}
 		}).catch(err => console.log(err));
 	}
+	deleteTest(id) {
+		if(window.confirm("Are you sure you want to delete this test?")) {
+			fetch(store.getState().state.api.dev+"quizs/"+id, {
+				method: 'DELETE',
+				headers: { 'Authorization' : 'Bearer '+store.getState().state.token }
+			}).then(res => res.json()).then(res => {
+				console.log(res);
+			}).catch(err => console.log(err));
+		}
+	}
 	setFile(e) {
 		e.preventDefault();
 		var files = (e.dataTransfer) ? e.dataTransfer.files : e.target.files;
@@ -87,7 +97,7 @@ export default class CreateTest extends Component {
 			let id = this.props.match.params.course_id;
 			var self = this;
 			const renderedTests = this.state.tests.map(function(test) {
-				return (<ul className="grid grid-5" key={test.id}><li><Link to={`/dashboard/test/${id}/${test.id}`} className="no-decoration">{ self.state.course.title }</Link></li><li>{ test.year }</li><li>{ self.simpleDate(test.created_at) }</li><li>{ self.simpleDate(test.updated_at) }</li><li><b>{test.choice}</b></li></ul>);
+				return (<ul className="grid grid-6" key={test.id}><li><Link to={`/dashboard/test/${id}/${test.id}`} className="no-decoration">{ self.state.course.title }</Link></li><li>{ test.year }</li><li>{ self.simpleDate(test.created_at) }</li><li>{ self.simpleDate(test.updated_at) }</li><li><b>{test.choice}</b></li><li><i className="ic-trash" onClick={()=> { self.deleteTest(test.id) } }></i></li></ul>);
 			})
 			return(
 			<div className="main-section">
@@ -122,8 +132,8 @@ export default class CreateTest extends Component {
 					<br/><br/>
 					<div>Click a test to View & Edit</div><br/>
 					<div className="table test-list">
-						<ul className="grid grid-5 thead">
-							<li>NAME</li><li>YEAR</li><li>CREATED</li><li>EDITED</li><li>TIMES TAKEN</li>
+						<ul className="grid grid-6 thead">
+							<li>NAME</li><li>YEAR</li><li>CREATED</li><li>EDITED</li><li>TIMES TAKEN</li><li>DELETE</li>
 						</ul>
 						<div className="tbody">
 							{ renderedTests }

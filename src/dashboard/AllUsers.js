@@ -5,7 +5,7 @@ import Pagination from '../components/Pagination';
 import store from '../store';
 
 export default class AllUsers extends Component {
-	state = { activity: true, userDirectory: false, loadComplete: false, users: undefined, showModal: false, metrics: undefined, pagination: [], page: 0 }
+	state = { activity: true, userDirectory: false, loadComplete: false, users: undefined, showModal: false, metrics: undefined, pagination: [], page: 1 }
 	showActivity() { this.setState({ activity: true, userDirectory: false }); }
 	showUserDirectory() { this.setState({ activity: false, userDirectory: true }); }
 	showUserModal(user) {

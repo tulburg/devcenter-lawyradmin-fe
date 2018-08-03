@@ -9,7 +9,7 @@ class Payment extends Component {
 		], 
 		columns: [
       		{ type: 'string' },
-      		{ type: 'number', label: 'Dogs'}
+      		{ type: 'number', label: 'Payments'}
       	], 
       	options : {
 	        hAxis: { type: 'number', title: '', baselineColor: '#aaa', gridlines: { count: 0} },

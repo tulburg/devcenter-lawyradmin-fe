@@ -37,7 +37,8 @@ function QuestionNav(props) {
 }
 export default class Dashboard extends Component {
   	state = { showModal: false, showDoneModal: false, showQuestionNav: false, questions: 0, inviteEmail: '', 
-	  	hasInviteError: false, inviteError: '', inviteLoading: false, sentEmail: undefined, showingResMenu: false, metrics: undefined
+	  	hasInviteError: false, inviteError: '', inviteLoading: false, sentEmail: undefined, showingResMenu: false, metrics: undefined,
+	  	gotoOngoing: false, gotoPurchases: false, invitationLoading: false, gotoUsers: false
 	};
 
   	onCloseModal = () => {
@@ -68,7 +69,7 @@ export default class Dashboard extends Component {
   	}
 
   	inviteUser() {
-  		this.setState({ inviteLoading: true });
+  		this.setState({ inviteLoading: true, invitationLoading: true });
   		let param = JSON.stringify({ "email": this.state.inviteEmail });
   		var self = this;
   		fetch(store.getState().state.api.dev+"users/invite", {
@@ -77,9 +78,9 @@ export default class Dashboard extends Component {
   			body: param
   		}).then(res => res.json()).then(res => {
   			console.log(res);
-  			this.setState({ inviteLoading: false });
+  			this.setState({ inviteLoading: false, invitationLoading: false });
   			if(res.status === true) {
-  				self.setState({ showDoneModal: true, showModal: false, hasInviteError: false, sentEmail: self.state.inviteEmail });
+  				self.setState({ showDoneModal: true, showModal: false, hasInviteError: false, sentEmail: self.state.inviteEmail, inviteEmail: '' });
   				setTimeout(() => { self.setState({ sentEmail: undefined }) }, 5000);
   			}else { 
   				self.setState({ inviteError: res.message, hasInviteError: true });
@@ -99,6 +100,9 @@ export default class Dashboard extends Component {
 	  		{ url: "payments", title: "Payments", icon: "ic-card" },
 	  		{ url: "users", title: "All Users", icon: "ic-user" }
 	  	]
+	  	if(this.state.gotoOngoing) { window.location.href=`${this.props.match.url}/ongoing`; }
+	  	if(this.state.gotoPurchases) { window.location.href=`${this.props.match.url}/payments/flashcards`; }
+	  	if(this.state.gotoUsers) { window.location.href=`${this.props.match.url}/users`; }
 	  	if(!store.getState().state.session.active) { return (<Redirect to="/"/>); }
 	  	let self = this;
 	  	store.subscribe(function() {
@@ -106,7 +110,6 @@ export default class Dashboard extends Component {
 	  			self.setState({showQuestionNav: store.getState().main.show_question_nav, questions: store.getState().main.questions});
 	  		}
 	  	});
-	  	
 		return (
 		    <div onClick={ (e) => { this.toggleResMenu(e) } }>
 		        <Header />
@@ -153,10 +156,10 @@ export default class Dashboard extends Component {
 			                    	<Button onClick={() => this.setState({ showModal: true })} color="#000" text="Invite Users" bg="#50e3c2" />
 			                  	</Card>
 			                  	<Card icon="ic-group-2" number={(this.state.metrics!==undefined) ? this.state.metrics.total_active_users.toLocaleString() : 0} title="Active users" classNames="active-users">
-			                    	<Button text="View Ongoing Tests" bg="#1c2d41" className="card-button" />
+			                    	<Button onClick={() => this.setState({ gotoOngoing: true })} text="View Ongoing Tests" bg="#1c2d41" className="card-button" />
 			                  	</Card>
 			                  	<Card icon="ic-card" number={(this.state.metrics!==undefined) ? this.state.metrics.total_paid_users.toLocaleString() : 0} title="Paid users" classNames="paid-users">
-			                    	<Button text="View purchases" bg="#1c2d41" />
+			                    	<Button onClick={() => this.setState({ gotoPurchases: true })} text="View purchases" bg="#1c2d41" />
 			                  	</Card>
 		                	</div>
 
@@ -198,11 +201,11 @@ export default class Dashboard extends Component {
 			                <div className="invite-users">
 			                  	<h2 className="invite-users__header">Invite users</h2>
 			                  	<div className="invite-users__input-wrap">
-				                    <input />
-				                    <button>invite</button>
+				                    <input onChange={(e) => { this.setValue(e, 'invite') }} value={this.state.inviteEmail} />
+				                    <button onClick={ () => { this.inviteUser() }}>{ (this.state.invitationLoading) ? <i className="ic-spinner animate-spin"></i> : "invite" }</button>
 			                  	</div>
 			                  	<p className="invite-users__link">
-			                    	<a href="/">GO TO USERS PAGE</a>
+			                    	<a href="/" onClick={(e) => { this.setState({ gotoUsers: true }); e.preventDefault(); }} >GO TO USERS PAGE</a>
 			                  	</p>
 			                </div>
 		              	</div>

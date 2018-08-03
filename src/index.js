@@ -19,6 +19,14 @@ window.Array.prototype.where = function(obj) {
 	}
 	return undefined;
 }
+window.Array.prototype.replace = function(obj, replace) {
+	for(var i=0;i<this.length;i++) {
+		for(var v in obj) {
+			if(this[i][v] && this[i][v] === obj[v]) this[i] = replace;
+		}
+	}
+	return this;
+}
 window.Element.prototype.$ = window.$ = function(id) {
 	if(id[0] === ".") return (this && this instanceof Element) ? (this.getElementsByClassName(id.substring(1)).length === 1) ? this.getElementsByClassName(id.substring(1))[0] : this.getElementsByClassName(id.substring(1)) : (document.getElementsByClassName(id.substring(1)).length === 1) ? document.getElementsByClassName(id.substring(1))[0] : document.getElementsByClassName(id.substring(1));
 	if(id[0] === "#") return (this && this instanceof Element) ? this.getElementById(id.substring(1)) : document.getElementById(id.substring(1));

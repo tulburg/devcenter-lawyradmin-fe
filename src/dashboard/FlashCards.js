@@ -73,7 +73,7 @@ class FlashCardsIndex extends Component {
 									<i className="ic-cards-3"></i>
 									<div className="content">
 										<h2>{(this.state.metrics!==undefined) ? this.state.metrics.total_purchased_flashcards.toLocaleString() : 0}</h2>
-										<p>Purcharsed Flashcards</p>
+										<p>Purchased Flashcards</p>
 									</div>
 								</div>
 							</li>
@@ -134,10 +134,23 @@ class CourseFlashCards extends Component {
 			headers: { 'Authorization' : 'Bearer '+store.getState().state.token }
 		}).then(res => res.json()).then(res => {
 			console.log(res);
+			res.data.sort((a,b) => { return a.serial_no > b.serial_no });
 			this.setState({ loadComplete: true, flashcards: res.data });
 			store.dispatch({ type: "SAVE_COURSE_FLASHCARD_"+course_id,  payload: res.data });
 			if(complete) { complete() }
 		}).catch(err => console.log(err));
+	}
+	deleteFlashcard(id) {
+		if(window.confirm("Are you sure you want to delete this flashcard?")) {
+			fetch(store.getState().state.api.dev+"quizs/"+id, {
+				method: 'DELETE',
+				headers: { 'Authorization' : 'Bearer '+store.getState().state.token }
+			}).then(res => res.json()).then(res => {
+				window.$('#'+id+"-card").style.display = "none";
+			}).catch(err => {
+				console.log(err);
+			});
+		}
 	}
 	simpleDate(value) {
 		let date = value.split(" ")[0]
@@ -196,7 +209,7 @@ class CourseFlashCards extends Component {
 			let id = this.props.match.params.course_id;
 			var self = this;
 			const renderedTests = this.state.flashcards.map(function(flashcard) {
-				return (<ul className="grid grid-5" key={flashcard.id}><li><Link to={`/dashboard/flashcards/${id}/${flashcard.id}`} className="no-decoration">{flashcard.title }</Link></li><li>{ flashcard.description }</li><li>{ self.simpleDate(flashcard.created_at) }</li><li>{ self.simpleDate(flashcard.updated_at) }</li><li><b>{flashcard.currency+" "+flashcard.cost}</b></li></ul>);
+				return (<ul className="grid grid-6" key={flashcard.id} id={`${flashcard.id}-card`}><li><Link to={`/dashboard/flashcards/${id}/${flashcard.id}`} className="no-decoration">{flashcard.title }</Link></li><li>{ flashcard.description }</li><li>{ self.simpleDate(flashcard.created_at) }</li><li>{ self.simpleDate(flashcard.updated_at) }</li><li><b>{flashcard.currency+" "+flashcard.cost}</b></li><li><i className="ic-trash" onClick={() => { self.deleteFlashcard(flashcard.id)}}></i></li></ul>);
 			})
 			return(
 				<div>
@@ -230,8 +243,8 @@ class CourseFlashCards extends Component {
 						<br/><br/>
 						<div>Click a Flashcard to View & Edit</div><br/>
 						<div className="table test-list">
-							<ul className="grid grid-5 thead">
-								<li>TITLE</li><li>DESCRIPTION</li><li>CREATED</li><li>EDITED</li><li>COST</li>
+							<ul className="grid grid-6 thead">
+								<li>TITLE</li><li>DESCRIPTION</li><li>CREATED</li><li>EDITED</li><li>COST</li><li>DELETE</li>
 							</ul>
 							<div className="tbody">
 								{ renderedTests }
@@ -304,6 +317,7 @@ class CreateFlashCards extends Component {
 		let flashcard_id = this.props.match.params.flashcard_id;
 		let courseFlashcards = store.getState().state['course_flashcard_'+course_id];
 		let flashcard = courseFlashcards.where({ id: flashcard_id});
+		flashcard.cards.sort((a,b) => { return a.serial_no > b.serial_no });
 		this.setState({ flashcard: flashcard, loadComplete: true })
 	}	
 	createCard(serial_no) {
@@ -442,7 +456,7 @@ class CreateFlashCards extends Component {
 }
 
 class EditFlashCards extends Component {
-	state = { loadComplete: false, course: undefined, values: [], flashcard: undefined }
+	state = { loadComplete: false, course: undefined, values: [], flashcard: undefined, showModal: false, selectedCard: undefined }
 	textAreaChange(e, id) {
 		if(e.target.tagName.match('TEXTAREA')) {
 			e.target.style.height = 'auto';
@@ -461,6 +475,7 @@ class EditFlashCards extends Component {
 		let flashcard_id = this.props.match.params.flashcard_id;
 		let courseFlashcards = store.getState().state['course_flashcard_'+course_id];
 		let flashcard = courseFlashcards.where({ id: flashcard_id});
+		flashcard.cards.sort((a,b) => { return a.serial_no > b.serial_no });
 		this.setState({ flashcard: flashcard, loadComplete: true, values: flashcard.cards })
 	}	
 	saveCard(id) {
@@ -500,6 +515,23 @@ class EditFlashCards extends Component {
 			console.log(res);
 		});
 	}
+	chooseOrder(serial_no) {
+		this.setState({ showModal: false });
+		let oldCard = this.state.flashcard.cards.where({serial_no: serial_no});
+		let card = this.state.flashcard.cards.where({id: this.state.selectedCard.id});
+		oldCard.serial_no = card.serial_no;
+		card.serial_no = serial_no;
+		this.saveCard(this.state.selectedCard.id);
+		this.saveCard(oldCard.id);
+		this.state.flashcard.cards.sort((a,b) => { return a.serial_no > b.serial_no });
+		this.setState({flashcard: this.state.flashcard});
+		let course_id = this.props.match.params.course_id;
+		let flashcard_id = this.props.match.params.flashcard_id;
+		let courseFlashcards = store.getState().state['course_flashcard_'+course_id];
+		courseFlashcards.replace({ id: flashcard_id}, this.state.flashcard);
+		store.dispatch({type: 'SAVE_COURSE_FLASHCARD_'+course_id, payload: courseFlashcards});
+		// this.state.flashcard.cards.replace({id: this.state.selectedCard.id}, this.state.selectedCard);
+	}
 	render() {
 		if(this.state.loadComplete === false) {
 			return (
@@ -509,6 +541,9 @@ class EditFlashCards extends Component {
 			);
 		}else {
 			var self = this;
+			const mappedReorderOptions = this.state.flashcard.cards.map(function(card) {
+				return (<label key={card.id} id={`order-option-${card.id}`} className="order-inputs" onClick={(e) =>{ self.chooseOrder(card.serial_no)}}><input type="checkbox" /> { card.serial_no }</label>);
+			})
 			const renderedCards = this.state.flashcard.cards.map(function(card) {
 				return (
 					<div className="question-pane edit-question board" key={card.id} id={card.id}>
@@ -516,7 +551,7 @@ class EditFlashCards extends Component {
 						<div className="menu">
 							<i className="ic-menu" onClick={(e) => {var s = e.target.parentNode.getElementsByTagName("div")[0]; if(s !== undefined) { (s.style.display === 'block') ? s.style.display = 'none' : s.style.display ='block'; }} }></i>
 							<div className="dropmenu">
-								<a href="#more">Re-order</a>
+								<a href="#more" onClick={(e) => { e.preventDefault(); self.setState({ showModal: true, selectedCard: card }) }}>Re-order</a>
 								<a href="#select" onClick={(e) => { e.preventDefault(); self.deleteCard(card.id); }} className="danger">Delete Flashcard</a>
 							</div>
 						</div>
@@ -598,6 +633,13 @@ class EditFlashCards extends Component {
 						</div>
 
 						<button className="alt bar compact create-btn" onClick={() => window.history.go(-1) }>Create a new Flashcard</button>
+
+						<Modal visible={this.state.showModal} closeModal={() => this.setState({showModal: false})}>
+							<div className="card-reorder">
+								<h1>Select number to move to</h1>
+								{ mappedReorderOptions }
+							</div>
+						</Modal>
 					</div>
 				</section>
 			);
