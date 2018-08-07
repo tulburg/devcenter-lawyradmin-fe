@@ -152,7 +152,7 @@ export default class CreateTest extends Component {
 							<div className="filepicker-label">{ (this.state.file) ? this.state.file.name : "UPLOAD FROM COMPUTER" }</div>
 							{ (this.state.uploadError !== undefined) ? this.state.uploadError : (this.state.uploading) ? <i className="ic-spinner animate-spin"></i> : <button className="clear">SUBMIT</button> }
 						</form>
-						
+
 					</div>
 				</Modal>
 			</div>

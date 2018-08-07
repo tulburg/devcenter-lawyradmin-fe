@@ -206,6 +206,7 @@ export default class Test extends Component {
 	}
 	saveQuestion(id) {
 		var question = this.values[id];
+		console.log("Working...");
 		document.getElementById("overlay-"+question.id).style = "display: block;";
 		if(question !== undefined) {
 			var param = {
@@ -288,7 +289,7 @@ export default class Test extends Component {
 		}else {
 			var self = this;
 			const mappedLinkOptions = this.state.test.questions.map(function(question) {
-				return (question.answer.title!=="") ? (<label id={`link-option-${question.serial_no}`} className="link-inputs" onClick={(e) =>{ self.chooseLink(question.id)}}><input type="checkbox" /> { question.serial_no }</label>) : "" ;
+				return (question.answer.title!=="") ? (<label id={`link-option-${question.serial_no}`} key={question.serial_no} className="link-inputs" onClick={(e) =>{ self.chooseLink(question.id)}}><input type="checkbox" /> { question.serial_no }</label>) : "" ;
 			})
 			const mappedQuestions = this.state.test.questions.map(function(question) {
 				// const mappedAnswerOptions = ["A", "B", "C", "D"].map(function(option) {
@@ -313,6 +314,7 @@ export default class Test extends Component {
 									<div className="edit-question-box">
 										<textarea onChange={(e) => self.textAreaChange("question-"+question.id, e)} defaultValue={question.question} />
 									</div>
+									{ (question.answer.title === "") ? <div align="center" className="answer-pane" onClick={ () => self.saveQuestion(question.id) }><button className="sparse">SAVE</button></div> : '' }
 								</div>
 							</div>
 							<div className="option-heading" style={(question.answer.title === "") ? { display: 'none' } : {}}>
