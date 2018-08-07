@@ -48,7 +48,7 @@ export default class AllUsers extends Component {
 				return (<ul className="grid grid-3" key={user.id}><li className="name" onClick={() => self.showUserModal(user)}><div className="avatar-placeholder">UO</div>@ { user.username }</li><li>22-Nov-2018</li><li>20 mins ago</li></ul>);
 			})
 			const renderedUsersDirectory = users.map(function(user) {
-				return (<ul className="grid grid-3" key={user.id}><li className="name" onClick={() => self.showUserModal(user)}><div className="avatar-placeholder">{(user.first_name&&user.last_name) ? user.first_name[0]+""+user.last_name[0] : 'UN'}</div>{ user.first_name+" "+user.last_name }</li><li>Saturday 22 Nov, 2018</li><li>5min ago</li></ul>);
+				return (<ul className="grid grid-4" key={user.id}><li className="name" onClick={() => self.showUserModal(user)}>{ user.email }</li><li>{ user.username } </li><li>Saturday 22 Nov, 2018</li><li>5min ago</li></ul>);
 			})
 			const renderTabContent = [1].map(function(item) {
 				if(activity){ return (
@@ -63,8 +63,8 @@ export default class AllUsers extends Component {
 				)}
 				if(userDirectory){ return (
 					<div className="table test-list" key={item}>
-						<ul className="grid grid-3 thead">
-							<li>NAME</li><li>DAY</li><li>TIME</li>
+						<ul className="grid grid-4 thead">
+							<li>EMAIL</li><li>USERNAME</li><li>DAY</li><li>TIME</li>
 						</ul>
 						<div className="tbody">
 							{ renderedUsersDirectory }

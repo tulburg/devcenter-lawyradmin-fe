@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { Chart } from 'react-google-charts';
 import store from '../store';
+import Pagination from '../components/Pagination';
 
 class Payment extends Component {
 	state = { rows: [
@@ -203,7 +204,7 @@ class PaymentFlashcards extends Component {
 }
 
 class PaymentAccess extends Component {
-	state = { loadComplete: false, metrics: undefined, users: []  }
+	state = { loadComplete: false, metrics: undefined, users: [], pagination: [], page: 1  }
 	fetchMetrics() {
 		let param = [
 			"total_signed_up_users", "total_active_users", "total_paid_users", "total_unpaid_users", "total_ongoing_tests",
@@ -220,12 +221,13 @@ class PaymentAccess extends Component {
 	}
 	fetchPaidUsers() {
 		var self = this;
+		this.setState({ loadComplete: false });
 		fetch(store.getState().state.api.dev+"users/clients/paid", {
 			method: 'GET',
 			headers: { 'Authorization': 'Bearer '+store.getState().state.token, 'content-type': 'application/json'}
 		}).then(res => res.json()).then(res => {
 			console.log(res);
-			self.setState({ loadComplete: true, users: res.data });
+			self.setState({ loadComplete: true, users: res.data, pagination: res.meta.pagination });
 		}).catch(err => { console.log(err.message) });
 	}
 	timeSince(date) {
@@ -299,6 +301,7 @@ class PaymentAccess extends Component {
 						</div>
 					</div>
 				</section>
+				<Pagination config={this.state.pagination} load={(v) => { this.setState({ page: v }); this.fetchPaidUsers(); }} />
 			</div>);
 		}
 	}
