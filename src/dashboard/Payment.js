@@ -38,7 +38,7 @@ class Payment extends Component {
 	}
 	render() {
 		const renderedPurchaseHistory = [1,2,3,4,5,6].map(function(item) {
-			return (<ul className="grid grid-3" key={item}><li className="name">@Username just purchased 'Criminal Law Flashcard'</li><li>22-Nov-2018</li><li>20 mins ago</li></ul>);
+			return (<ul className="grid grid-3" key={item}><li className="name">@Username just purchased 'Criminal Litigation Flashcard'</li><li>22-Nov-2018</li><li>20 mins ago</li></ul>);
 		})
 		return (<div className="main-section">
 			<section className="payment">
@@ -177,7 +177,7 @@ class PaymentFlashcards extends Component {
 						<li>
 							<div className="stat">
 								<p>MOST PURCHASED</p>
-								<h1>Criminal Law</h1>
+								<h1>Criminal Litigation</h1>
 							</div>
 						</li>
 					</ul>

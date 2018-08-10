@@ -64,12 +64,12 @@ export default class Dashboard extends Component {
 
 			          	<AnsweredStyle>
 				            <p className="title">Most Answered</p>
-				            <h2>Criminal Law</h2>
+				            <h2>Criminal Litigation</h2>
 				            <span className="subtext">Year 2012</span>
 			          	</AnsweredStyle>
 			          	<AnsweredStyle>
 				            <p className="title">Least Answered</p>
-				            <h2>Criminal Law</h2>
+				            <h2>Criminal Litigation</h2>
 				            <span className="subtext">Year 2012</span>
 			          	</AnsweredStyle>
 			        </div>

@@ -12,37 +12,37 @@ class OngoingTests extends React.Component {
       return (
         <div className="card-wrap">
           <TestCard
-            test="Criminal Law"
+            test="Criminal Litigation"
             start_time="10:00 AM"
             year={2012}
             participants={6}
           />
           <TestCard
-            test="Criminal Law"
+            test="Criminal Litigation"
             start_time="10:00 AM"
             year={2012}
             participants={6}
           />
           <TestCard
-            test="Criminal Law"
+            test="Criminal Litigation"
             start_time="10:00 AM"
             year={2012}
             participants={6}
           />
           <TestCard
-            test="Criminal Law"
+            test="Criminal Litigation"
             start_time="10:00 AM"
             year={2012}
             participants={6}
           />
           <TestCard
-            test="Criminal Law"
+            test="Criminal Litigation"
             start_time="10:00 AM"
             year={2012}
             participants={6}
           />
           <TestCard
-            test="Criminal Law"
+            test="Criminal Litigation"
             start_time="10:00 AM"
             year={2012}
             participants={6}
@@ -54,12 +54,12 @@ class OngoingTests extends React.Component {
     if (this.state.individual) {
       return (
         <div className="card-wrap">
-          <TestCard test="Criminal Law" start_time="10:00 AM" year={2012} />
-          <TestCard test="Criminal Law" start_time="10:00 AM" year={2012} />
-          <TestCard test="Criminal Law" start_time="10:00 AM" year={2012} />
-          <TestCard test="Criminal Law" start_time="10:00 AM" year={2012} />
-          <TestCard test="Criminal Law" start_time="10:00 AM" year={2012} />
-          <TestCard test="Criminal Law" start_time="10:00 AM" year={2012} />
+          <TestCard test="Criminal Litigation" start_time="10:00 AM" year={2012} />
+          <TestCard test="Criminal Litigation" start_time="10:00 AM" year={2012} />
+          <TestCard test="Criminal Litigation" start_time="10:00 AM" year={2012} />
+          <TestCard test="Criminal Litigation" start_time="10:00 AM" year={2012} />
+          <TestCard test="Criminal Litigation" start_time="10:00 AM" year={2012} />
+          <TestCard test="Criminal Litigation" start_time="10:00 AM" year={2012} />
         </div>
       );
     }
@@ -103,37 +103,37 @@ class OngoingTests extends React.Component {
 		          </div>
 		          {/* <div className="card-wrap">
 		            <TestCard
-		              test="Criminal Law"
+		              test="Criminal Litigation"
 		              start_time="10:00 AM"
 		              year={2012}
 		              participants={6}
 		            />
 		            <TestCard
-		              test="Criminal Law"
+		              test="Criminal Litigation"
 		              start_time="10:00 AM"
 		              year={2012}
 		              participants={6}
 		            />
 		            <TestCard
-		              test="Criminal Law"
+		              test="Criminal Litigation"
 		              start_time="10:00 AM"
 		              year={2012}
 		              participants={6}
 		            />
 		            <TestCard
-		              test="Criminal Law"
+		              test="Criminal Litigation"
 		              start_time="10:00 AM"
 		              year={2012}
 		              participants={6}
 		            />
 		            <TestCard
-		              test="Criminal Law"
+		              test="Criminal Litigation"
 		              start_time="10:00 AM"
 		              year={2012}
 		              participants={6}
 		            />
 		            <TestCard
-		              test="Criminal Law"
+		              test="Criminal Litigation"
 		              start_time="10:00 AM"
 		              year={2012}
 		              participants={6}
