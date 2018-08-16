@@ -235,8 +235,8 @@ export default class Test extends Component {
 				label.getElementsByTagName("input")[0].setAttribute('checked', 'checked');
 			}
 			var linkLabel = document.getElementById("link-option-"+question.serial_no);
-			linkLabel.style = "opacity:0.5"
-			linkLabel.getElementsByTagName("input")[0].setAttribute('disabled', 'disabled');
+			if(linkLabel){ linkLabel.style = "opacity:0.5" };
+			if(linkLabel){ linkLabel.getElementsByTagName("input")[0].setAttribute('disabled', 'disabled') };
 		}, 1000);
 	}
 	deleteQuestion(id) {
