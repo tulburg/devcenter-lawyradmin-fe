@@ -1,41 +1,41 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const TestCard = ({ start_time, test, year, participants }) => (
-  <TestCardStyle>
-    <div className="top">
-      <span className="top-header">hosted by</span>
-      <div className="inner-wrap">
-        <div className="avatar">UO</div>
-        <p className="user-details">
-          <span className="name">Name Username</span>
-          <span className="username">@username</span>
-        </p>
-      </div>
-    </div>
-    <div className="bottom">
-      <div className="item">
-        <span className="header">Started</span>
-        <p>{start_time}</p>
-      </div>
-      <div className="item">
-        <span className="header">Test</span>
-        <p>{test}</p>
-      </div>
-      <div className="item">
-        <span className="header">Year</span>
-        <p>{year}</p>
-      </div>
-      {participants && (
-        <div className="item">
-          <span className="header">participants</span>
-          <p>
-            {participants} <a href="/">View All</a>{' '}
-          </p>
-        </div>
-      )}
-    </div>
-  </TestCardStyle>
+	<TestCardStyle>
+		<div className="top">
+			<span className="top-header">hosted by</span>
+			<div className="inner-wrap">
+				<div className="avatar">UO</div>
+				<p className="user-details">
+					<span className="name">Name Username</span>
+					<span className="username">@username</span>
+				</p>
+			</div>
+		</div>
+		<div className="bottom">
+			<div className="item">
+				<span className="header">Started</span>
+				<p>{start_time}</p>
+			</div>
+			<div className="item">
+				<span className="header">Test</span>
+				<p>{test}</p>
+			</div>
+			<div className="item">
+				<span className="header">Year</span>
+				<p>{year}</p>
+			</div>
+			{participants && (
+				<div className="item">
+					<span className="header">participants</span>
+					<p>
+						{participants} <a href="/">View All</a>
+					</p>
+				</div>
+			)}
+		</div>
+	</TestCardStyle>
 );
 
 const TestCardStyle = styled.div`
