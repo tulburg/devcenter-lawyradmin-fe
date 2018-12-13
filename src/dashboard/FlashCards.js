@@ -161,7 +161,7 @@ class FlashCardsIndex extends Component {
 
 					<div className="courses">
 						<h2 className="main-section__header">
-							Create/Edit Flashcards
+							Create/Edit Flashcard
 						</h2>
 						<p className="main-section__sub-header">
 							Choose a Course

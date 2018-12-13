@@ -160,7 +160,7 @@ export default class Dashboard extends Component {
 			this.setState({ inviteEmail: e.target.value });
 		}
 	}
-	
+
 	render() {
 		const nav = [
 			{ url: "", title: "Home", icon: "ic-home" },
