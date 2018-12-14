@@ -7,6 +7,7 @@ import { SendInvite } from "../components/Layout";
 import Card from "../components/Card";
 import Button from "../components/Button";
 import Nav from "../components/Nav";
+import Notification from "./Notification";
 import Tests from "./Tests";
 import OngoingTests from "./OngoingTests";
 import CreateTest from "./CreateTest";
@@ -163,11 +164,15 @@ export default class Dashboard extends Component {
 
 	render() {
 		const nav = [
-			{ url: "", title: "Home", icon: "ic-home" },
+			// { url: "", title: "Home", icon: "ic-home" },
 			{ url: "tests", title: "Tests", icon: "ic-o-list" },
 			{ url: "flashcards", title: "Flashcards", icon: "ic-card-4" },
 			{ separator: true },
-			// { url: "payments", title: "Payments", icon: "ic-card" },
+			// {
+			// 	url: "notification",
+			// 	title: "Notification",
+			// 	icon: "ic-badge"
+			// },
 			{ url: "users", title: "All Users", icon: "ic-user" }
 		];
 		if (this.state.gotoOngoing) {
@@ -509,6 +514,10 @@ export default class Dashboard extends Component {
 					<Route
 						path={`${this.props.match.url}/ongoing`}
 						component={OngoingTests}
+					/>
+					<Route
+						path={`${this.props.match.url}/notifications`}
+						component={Notification}
 					/>
 					<Route
 						path={`${this.props.match.url}/create-test/:course_id`}
