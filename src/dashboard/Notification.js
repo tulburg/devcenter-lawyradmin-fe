@@ -25,6 +25,11 @@ export class Notification extends Component {
 						rows="10"
 						onChange={this.onChange}
 					/>
+					<select name="send-options">
+						<option value="all">All Users</option>
+						<option value="paid">Paid Users</option>
+						<option value="unpaid">Unpaid Users</option>
+					</select>
 					<button type="submit">Submit</button>
 				</form>
 			</div>
