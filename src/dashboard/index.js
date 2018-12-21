@@ -172,11 +172,11 @@ export default class Dashboard extends Component {
 			{ url: "tests", title: "Tests", icon: "ic-o-list" },
 			{ url: "flashcards", title: "Flashcards", icon: "ic-card-4" },
 			{ separator: true },
-			// {
-			// 	url: "notification",
-			// 	title: "Notification",
-			// 	icon: "ic-badge"
-			// },
+			{
+				url: "notification",
+				title: "Notification",
+				icon: "ic-badge"
+			},
 			{ url: "users", title: "All Users", icon: "ic-user" }
 		];
 		if (this.state.gotoOngoing) {
