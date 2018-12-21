@@ -21,7 +21,8 @@ export default class Dashboard extends Component {
 				} else {
 					console.error("Unable to load courses ", res);
 				}
-			});
+			})
+			.catch(err => console.log(err.message));
 	}
 
 	fetchMetrics() {
@@ -47,14 +48,18 @@ export default class Dashboard extends Component {
 				method: "GET",
 				headers: {
 					Authorization: "Bearer " + store.getState().state.token,
-					"content-type": "application/json"
+					"content-type": "application/json",
+					Accept: "application/json"
 				}
 			}
 		)
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
-				store.dispatch({ type: "SAVE_METRICS", payload: res.data });
+				// console.log(res);
+				store.dispatch({
+					type: "SAVE_METRICS",
+					payload: res.data
+				});
 			})
 			.catch(err => {
 				console.log(err.message);
@@ -72,9 +77,7 @@ export default class Dashboard extends Component {
 			);
 		} else {
 			var c = 0;
-			const renderedCourses = store
-				.getState()
-				.state.courses.map(function(course) {
+			const renderedCourses = store.getState().state.courses.map(function(course) {
 					c++;
 					let icons = [
 						"ic-handcuffs",

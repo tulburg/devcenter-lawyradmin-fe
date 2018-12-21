@@ -97,14 +97,18 @@ export default class Dashboard extends Component {
 				method: "GET",
 				headers: {
 					Authorization: "Bearer " + store.getState().state.token,
-					"content-type": "application/json"
+					"Content-type": "application/json",
+					Accept: "application/json"
 				}
 			}
 		)
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
-				store.dispatch({ type: "SAVE_METRICS", payload: res.data });
+				// console.log(res);
+				store.dispatch({
+					type: "SAVE_METRICS",
+					payload: res.data
+				});
 			})
 			.catch(err => {
 				console.log(err.message);
@@ -125,7 +129,7 @@ export default class Dashboard extends Component {
 		})
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
+				// console.log(res);
 				this.setState({
 					inviteLoading: false,
 					invitationLoading: false
@@ -565,7 +569,7 @@ export default class Dashboard extends Component {
 	}
 
 	componentDidMount() {
-		console.log(store.getState().state);
+		// console.log(store.getState().state);
 		if (!store.getState().state.metrics) {
 			this.fetchMetrics();
 		} else {

@@ -40,7 +40,7 @@ export default class AllUsers extends Component {
 		)
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
+				// console.log(res);
 				this.setState({
 					users: res.data,
 					loadComplete: true,
@@ -80,7 +80,7 @@ export default class AllUsers extends Component {
 		)
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
+				// console.log(res);
 				store.dispatch({ type: "SAVE_METRICS", payload: res.data });
 			})
 			.catch(err => {

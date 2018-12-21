@@ -43,15 +43,17 @@ class FlashCardsIndex extends Component {
 		})
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
+				// console.log(res);
 				if (res.data) {
 					store.dispatch({ type: "SAVE_COURSES", payload: res.data });
 					this.setState({ loadComplete: true });
 				} else {
 					console.error("Unable to load courses ", res);
 				}
-			});
+			})
+			.catch(err => console.log(err.message));
 	}
+
 	fetchMetrics() {
 		let param = [
 			"total_signed_up_users",
@@ -75,19 +77,24 @@ class FlashCardsIndex extends Component {
 				method: "GET",
 				headers: {
 					Authorization: "Bearer " + store.getState().state.token,
-					"content-type": "application/json"
+					"content-type": "application/json",
+					Accept: "application/json"
 				}
 			}
 		)
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
-				store.dispatch({ type: "SAVE_METRICS", payload: res.data });
+				// console.log(res);
+				store.dispatch({
+					type: "SAVE_METRICS",
+					payload: res.data
+				});
 			})
 			.catch(err => {
 				console.log(err.message);
 			});
 	}
+
 	render() {
 		if (this.state.loadComplete === false) {
 			return (
@@ -232,7 +239,7 @@ class CourseFlashCards extends Component {
 		)
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
+				// console.log(res);
 				res.data.sort((a, b) => {
 					return a.serial_no > b.serial_no;
 				});
@@ -245,7 +252,7 @@ class CourseFlashCards extends Component {
 					complete();
 				}
 			})
-			.catch(err => console.log(err));
+			.catch(err => console.log(err.message));
 	}
 	deleteFlashcard(id) {
 		if (window.confirm("Are you sure you want to delete this flashcard?")) {
@@ -260,7 +267,7 @@ class CourseFlashCards extends Component {
 					window.$("#" + id + "-card").style.display = "none";
 				})
 				.catch(err => {
-					console.log(err);
+					console.log(err.message);
 				});
 		}
 	}
@@ -315,7 +322,7 @@ class CourseFlashCards extends Component {
 		})
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
+				// console.log(res);
 				var self = this;
 				if (res.data) {
 					console.log(res.data);
@@ -916,7 +923,7 @@ class EditFlashCards extends Component {
 			.then(res => res.json())
 			.then(res => {
 				this.$("#overlay-" + id).style = "display: none";
-				console.log(res);
+				// console.log(res);
 			});
 	}
 	deleteCard(id) {
@@ -953,7 +960,7 @@ class EditFlashCards extends Component {
 			.then(res => res.json())
 			.then(res => {
 				this.$("#overlay-" + id).style = "display: none";
-				console.log(res);
+				// console.log(res);
 			});
 	}
 	chooseOrder(serial_no) {

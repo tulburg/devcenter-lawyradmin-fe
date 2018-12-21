@@ -53,13 +53,16 @@ export default class CreateTest extends Component {
 			.then(res => res.json())
 			.then(res => {
 				let id = this.props.match.params.course_id;
-				console.log(res.data);
+				// console.log(res.data);
 				if (res.data) {
 					store.dispatch({
 						type: "SAVE_COURSE_TESTS_" + id,
 						payload: res.data
 					});
-					this.setState({ loadComplete: true, tests: res.data });
+					this.setState({
+						loadComplete: true,
+						tests: res.data
+					});
 				} else {
 					console.error("Couldnt fetch course test");
 				}
@@ -98,7 +101,8 @@ export default class CreateTest extends Component {
 		fetch(store.getState().state.api.dev + "quizs/upload", {
 			method: "POST",
 			headers: {
-				Authorization: "Bearer " + store.getState().state.token
+				Authorization: "Bearer " + store.getState().state.token,
+				Accept: "application/json"
 			},
 			body: formData
 		})
@@ -122,7 +126,7 @@ export default class CreateTest extends Component {
 					}, 4000);
 				}
 			})
-			.catch(err => console.log(err));
+			.catch(err => console.log(err.message));
 	}
 
 	deleteTest(id) {
@@ -137,7 +141,7 @@ export default class CreateTest extends Component {
 				.then(res => {
 					// console.log(res);
 				})
-				.catch(err => console.log(err));
+				.catch(err => console.log(err.message));
 		}
 	}
 

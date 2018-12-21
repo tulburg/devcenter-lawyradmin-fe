@@ -358,7 +358,7 @@ export default class Test extends Component {
 		} else {
 			this.setState({ goHome: true });
 		}
-		console.log(this.values);
+		// console.log(this.values);
 	}
 	saveQuestion(id) {
 		var question = this.values[id];
@@ -399,7 +399,7 @@ export default class Test extends Component {
 		let question = this.values[id];
 		this.setState({ linkQuestion: question, showModal: true });
 		setTimeout(function() {
-			console.log(JSON.stringify(question));
+			// console.log(JSON.stringify(question));
 			for (var i = 0; i < question.linked_to.length; i++) {
 				var label = document.getElementById(
 					"link-option-" + question.linked_to[i]

@@ -60,15 +60,20 @@ class Payment extends Component {
 			{
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + store.getState().state.token,
-					"content-type": "application/json"
+					Authorization:
+						"Bearer " + store.getState().state.token,
+					"content-type": "application/json",
+					Accept: "application/json"
 				}
 			}
 		)
 			.then(res => res.json())
 			.then(res => {
 				console.log(res);
-				store.dispatch({ type: "SAVE_METRICS", payload: res.data });
+				store.dispatch({
+					type: "SAVE_METRICS",
+					payload: res.data
+				});
 			})
 			.catch(err => {
 				console.log(err.message);
@@ -233,15 +238,20 @@ class PaymentFlashcards extends Component {
 			{
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + store.getState().state.token,
-					"content-type": "application/json"
+					Authorization:
+						"Bearer " + store.getState().state.token,
+					"content-type": "application/json",
+					Accept: "application/json"
 				}
 			}
 		)
 			.then(res => res.json())
 			.then(res => {
 				console.log(res);
-				store.dispatch({ type: "SAVE_METRICS", payload: res.data });
+				store.dispatch({
+					type: "SAVE_METRICS",
+					payload: res.data
+				});
 			})
 			.catch(err => {
 				console.log(err.message);
